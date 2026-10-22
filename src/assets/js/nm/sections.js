@@ -1,4 +1,4 @@
-/** Home sections with behaviour: cinematic scenes, shop tabs, flavour picker, bundle builder. */
+/** Home sections with behaviour: banner slider, cinematic scenes, shop tabs, flavour picker, bundle builder. */
 import * as store from './store.js';
 import { addOne, openDrawer } from './cart-ui.js';
 import { reveals } from './motion.js';
@@ -7,7 +7,62 @@ const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-export { scenes as hero } from './scenes.js';
+import { scenes } from './scenes.js';
+
+/* ---------- main banner slider ---------- */
+function slider() {
+  $$('[data-nm-slider]').forEach((root) => {
+    const slides = $$('[data-nm-slide]', root);
+    const dots = $$('[data-nm-dot]', root);
+    if (slides.length < 2) return;
+    const ms = (Number(root.dataset.delay) || 5) * 1000;
+    root.style.setProperty('--nm-slide-ms', `${ms}ms`);
+    const auto = root.dataset.autoplay !== 'false' && !reduced();
+    let i = 0;
+    let timer;
+    const show = (n) => {
+      i = (n + slides.length) % slides.length;
+      slides.forEach((s, k) => {
+        const on = k === i;
+        s.classList.toggle('is-active', on);
+        s.setAttribute('aria-hidden', on ? 'false' : 'true');
+        $$('a, button', s).forEach((a) => (on ? a.removeAttribute('tabindex') : a.setAttribute('tabindex', '-1')));
+        const v = $('video', s);
+        if (v && !on) v.pause();
+      });
+      dots.forEach((d, k) => {
+        d.classList.remove('is-active');
+        d.setAttribute('aria-selected', k === i ? 'true' : 'false');
+        if (k === i) { void d.offsetWidth; d.classList.add('is-active'); }
+      });
+      root.classList.toggle('is-static', !auto);
+      schedule();
+    };
+    const schedule = () => {
+      clearTimeout(timer);
+      if (auto && !root.classList.contains('is-paused')) timer = setTimeout(() => show(i + 1), ms);
+    };
+    dots.forEach((d) => d.addEventListener('click', () => show(Number(d.dataset.nmDot))));
+    const rtl = document.dir === 'rtl' || document.documentElement.dir === 'rtl';
+    $('[data-nm-slide-next]', root)?.addEventListener('click', () => show(i + 1));
+    $('[data-nm-slide-prev]', root)?.addEventListener('click', () => show(i - 1));
+    const pause = (on) => { root.classList.toggle('is-paused', on); if (on) clearTimeout(timer); else schedule(); };
+    root.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') pause(true); });
+    root.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') pause(false); });
+    new IntersectionObserver(([e]) => pause(!e.isIntersecting)).observe(root);
+    let x0 = null;
+    root.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    root.addEventListener('touchend', (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 45) show(i + ((dx < 0) !== rtl ? 1 : -1));
+      x0 = null;
+    });
+    show(0);
+  });
+}
+
+export function hero() { scenes(); slider(); }
 
 /* ---------- shop tabs ---------- */
 export function shop() {

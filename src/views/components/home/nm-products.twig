@@ -1,0 +1,22 @@
+{#
+| component.eyebrow, title, accent, more_label | string |
+| component.products | Product[] |
+| component.more_url | link |
+A titled grid of product cards (like Salla's "fixed products").
+#}
+{% import 'components.nm.macros' as nm %}
+{% if component.products|length %}
+<section class="nm-section nm-section--products" component-id="{{ componentId }}">
+    <div class="nm-container">
+        <div class="nm-head nm-head--row">
+            {% include 'components.nm.head' with {c: component} %}
+            {% if component.more_label and nm.href(component.more_url)|trim != '#' %}<a class="nm-link" href="{{ nm.href(component.more_url) }}">{{ component.more_label }}{% include 'components.nm.icon' with {name: 'arrow', size: 16} %}</a>{% endif %}
+        </div>
+        <div class="nm-grid {{ component.products|length == 3 ? 'nm-grid--3' : '' }}">
+            {% for p in component.products %}
+                {% include 'components.product.nm-card' with {product: p, eager: false} %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}

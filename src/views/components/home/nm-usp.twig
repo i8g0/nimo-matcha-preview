@@ -1,12 +1,15 @@
-{# | component.items[] | icon, title, text | — quiet trust chips (the text shows as a tooltip) #}
+{# | component.eyebrow, title, accent, description | string | component.items[] | icon, title, text | — the store's promises #}
 {% if component.items|length %}
-<section class="nm-trust-row" component-id="{{ componentId }}" aria-label="{{ trans('nm.why_nimo') }}">
+<section class="nm-section nm-features" component-id="{{ componentId }}" aria-label="{{ component.title }} {{ component.accent }}">
     <div class="nm-container">
-        <ul>
+        {% include 'components.nm.head' with {c: component, modifier: 'center'} %}
+        <ul class="nm-features__grid">
             {% for item in component.items %}
                 {% set icon = include('components.nm.pick', {v: item.icon})|trim ?: 'leaf' %}
-                <li data-reveal style="--i: {{ loop.index0 }}" {% if item.text %}title="{{ item.text }}"{% endif %}>
-                    {% include 'components.nm.icon' with {name: icon, size: 18} %}{{ item.title }}
+                <li class="nm-feature" data-reveal style="--i: {{ loop.index0 }}">
+                    <span class="nm-feature__icon">{% include 'components.nm.icon' with {name: icon, size: 24} %}</span>
+                    <h3>{{ item.title }}</h3>
+                    {% if item.text %}<p>{{ item.text }}</p>{% endif %}
                 </li>
             {% endfor %}
         </ul>

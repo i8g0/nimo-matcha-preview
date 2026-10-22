@@ -1,0 +1,64 @@
+{#
+  Cinematic scenes: full-screen photos or films stacked on the scroll. Each next scene is uncovered
+  from beneath the current one; titles rise word by word as a scene takes the stage.
+| component.slides[]    | image, image_mobile, video, video_mobile, tone (dark|light), eyebrow, title, accent, button, url |
+| component.rating_text | string, shown under the button of the first scene (empty hides it)                            |
+#}
+{% import 'components.nm.macros' as nm %}
+{% set slides = component.slides|default([]) %}
+{% set total = slides|length %}
+{% if total %}
+<section class="nm-scenes" component-id="{{ componentId }}" data-nm-scenes aria-label="{{ store.name }}">
+    {% for slide in slides %}
+        {% set tone = include('components.nm.pick', {v: slide.tone})|trim ?: 'dark' %}
+        <article class="nm-scene nm-scene--{{ tone }}{{ loop.first ? ' is-current' : '' }}" data-scene="{{ loop.index0 }}" data-tone="{{ tone }}">
+            <div class="nm-scene__media">
+                <div class="nm-scene__drift">
+                    {% if slide.image %}
+                        <picture>
+                            {% if slide.image_mobile %}<source media="(orientation: portrait)" srcset="{{ slide.image_mobile }}">{% endif %}
+                            <img class="nm-scene__img" src="{{ slide.image }}" alt="{{ slide.title }} {{ slide.accent }}" {{ loop.first ? 'fetchpriority="high"' : 'loading="lazy"' }} decoding="async">
+                        </picture>
+                    {% endif %}
+                    {% if slide.video %}
+                        <video class="nm-scene__video" muted playsinline loop preload="none" aria-hidden="true"
+                               data-src="{{ slide.video }}" data-src-mobile="{{ slide.video_mobile }}"
+                               data-poster="{{ slide.image }}" data-poster-mobile="{{ slide.image_mobile }}"></video>
+                    {% endif %}
+                </div>
+            </div>
+            <span class="nm-scene__shade" aria-hidden="true"></span>
+            <span class="nm-scene__sweep" aria-hidden="true"></span>
+            {% if loop.first %}<canvas class="nm-dust" data-nm-dust aria-hidden="true"></canvas>{% endif %}
+
+            <div class="nm-scene__copy">
+                {% if total > 1 %}<span class="nm-scene__count" aria-hidden="true"><b>{{ '%02d'|format(loop.index) }}</b><i></i>{{ '%02d'|format(total) }}</span>{% endif %}
+                {% if slide.eyebrow %}<span class="nm-eyebrow">{{ slide.eyebrow }}</span>{% endif %}
+                {% if loop.first %}<h1 class="nm-scene__title">{% else %}<h2 class="nm-scene__title">{% endif %}
+                    <span class="nm-scene__line" data-words>{{ slide.title }}</span>
+                    {% if slide.accent %}<span class="nm-scene__line nm-scene__line--accent" data-words>{{ slide.accent }}</span>{% endif %}
+                {% if loop.first %}</h1>{% else %}</h2>{% endif %}
+                {% if slide.button %}
+                    <a class="nm-btn nm-btn--lg {{ tone == 'light' ? 'nm-btn--ink' : '' }} nm-scene__cta" href="{{ nm.href(slide.url) }}">
+                        <span>{{ slide.button }}</span>{% include 'components.nm.icon' with {name: 'arrow', size: 18} %}
+                    </a>
+                {% endif %}
+                {% if loop.first and component.rating_text %}
+                    <div class="nm-scene__proof"><span class="nm-stars" style="--s:5" aria-hidden="true">★★★★★</span><span>{{ component.rating_text }}</span></div>
+                {% endif %}
+            </div>
+        </article>
+    {% endfor %}
+
+    {% if total > 1 %}
+        <nav class="nm-scenes__dots" data-scene-dots aria-label="{{ trans('nm.slides') }}">
+            <span class="nm-scenes__rail" aria-hidden="true"><span data-scene-progress></span></span>
+            {% for slide in slides %}
+                <button type="button" class="nm-scenes__dot{{ loop.first ? ' is-active' : '' }}" data-scene-go="{{ loop.index0 }}" aria-label="{{ slide.title }} {{ slide.accent }}" aria-current="{{ loop.first ? 'true' : 'false' }}">
+                    <span class="nm-scenes__label">{{ slide.title }}</span>
+                </button>
+            {% endfor %}
+        </nav>
+    {% endif %}
+</section>
+{% endif %}
