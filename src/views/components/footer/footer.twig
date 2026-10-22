@@ -1,0 +1,41 @@
+{# Footer: brand, Salla footer menu, contact & social, payments, legal. #}
+<footer class="nm-footer">
+    <div class="nm-container nm-footer__grid">
+        <div class="nm-footer__brand" data-reveal>
+            <span class="nm-footer__logo"><img src="{{ store.logo }}" alt="{{ store.name }}" width="70" height="70" loading="lazy"></span>
+            <p>{{ theme.settings.get('footer_about') }}</p>
+            {% if store.social %}
+                <div class="nm-footer__social">
+                    {% for name, url in store.social %}
+                        {% if url %}
+                            <a href="{{ url }}" target="_blank" rel="noopener" aria-label="{{ name }}">
+                                {% include 'components.nm.icon' with {name: name, size: 20} %}
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                    {% if theme.settings.get('whatsapp') %}
+                        <a href="{{ theme.settings.get('whatsapp') }}" target="_blank" rel="noopener" aria-label="WhatsApp">
+                            {% include 'components.nm.icon' with {name: 'whatsapp', size: 20} %}
+                        </a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+        <nav data-reveal aria-label="{{ trans('nm.important_links') }}">
+            <h3>{{ trans('nm.important_links') }}</h3>
+            <salla-menu source="footer"></salla-menu>
+        </nav>
+        <div data-reveal>
+            <h3>{{ trans('nm.shop') }}</h3>
+            <salla-menu source="header"></salla-menu>
+            <div class="nm-footer__pay" aria-label="{{ trans('nm.payment_methods') }}">
+                {% for m in theme.settings.get('payment_line')|split('·') %}{% if m|trim %}<span>{{ m|trim }}</span>{% endif %}{% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="nm-footer__word" aria-hidden="true">NIMO MATCHA</div>
+    <div class="nm-container nm-footer__legal">
+        <span>© {{ 'now'|date('Y') }} {{ store.name }}</span>
+        {% if store.settings.tax.number %}<span>{{ trans('nm.tax_number') }} {{ store.settings.tax.number }}</span>{% endif %}
+    </div>
+</footer>

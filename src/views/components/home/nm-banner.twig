@@ -1,0 +1,15 @@
+{# | component.image, image_mobile, alt | string | component.url | link | — a designed promo banner, never cropped #}
+{% import 'components.nm.macros' as nm %}
+{% if component.image or component.image_mobile %}
+<section class="nm-section--tight nm-banner" component-id="{{ componentId }}">
+    <div class="nm-container" data-reveal>
+        {% set href = nm.href(component.url)|trim %}
+        {% if href and href != '#' %}<a href="{{ href }}">{% else %}<div>{% endif %}
+            <picture>
+                {% if component.image_mobile %}<source media="(max-width: 767px)" srcset="{{ component.image_mobile }}">{% endif %}
+                <img src="{{ component.image ?: component.image_mobile }}" alt="{{ component.alt }}" loading="lazy" decoding="async">
+            </picture>
+        {% if href and href != '#' %}</a>{% else %}</div>{% endif %}
+    </div>
+</section>
+{% endif %}

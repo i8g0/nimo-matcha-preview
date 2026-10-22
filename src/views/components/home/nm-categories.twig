@@ -1,0 +1,15 @@
+{# | component.items[] | image, title, url, tone | — round shortcuts to each part of the store #}
+{% import 'components.nm.macros' as nm %}
+{% if component.items|length %}
+<section class="nm-cats" component-id="{{ componentId }}" aria-label="{{ trans('nm.categories') }}">
+    <div class="nm-cats__track">
+        {% for item in component.items %}
+            {% set tone = include('components.nm.pick', {v: item.tone})|trim ?: 'cream' %}
+            <a class="nm-cat" href="{{ nm.href(item.url) }}" data-tone="{{ tone }}" data-reveal style="--i: {{ loop.index0 }}">
+                <span class="nm-cat__img">{% if item.image %}<img src="{{ item.image }}" alt="" loading="lazy" decoding="async" width="200" height="200">{% endif %}</span>
+                <span class="nm-cat__name">{{ item.title }}</span>
+            </a>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}

@@ -1,0 +1,36 @@
+{#
+| component.eyebrow, title, accent, description, all_label, more_label | string |
+| component.products  | Product[] — tabs are built from each product's category |
+| component.more_url  | link |
+#}
+{% import 'components.nm.macros' as nm %}
+{% set cats = [] %}
+{% for p in component.products %}
+    {% if p.category and p.category.name not in cats %}{% set cats = cats|merge([p.category.name]) %}{% endif %}
+{% endfor %}
+{% if component.products|length %}
+<section class="nm-section nm-shop" id="shop" data-nm-shop component-id="{{ componentId }}">
+    <div class="nm-container">
+        {% include 'components.nm.head' with {c: component} %}
+        {% if cats|length > 1 %}
+            <div class="nm-shop__bar">
+                <div class="nm-pills" role="tablist" aria-label="{{ trans('nm.categories') }}">
+                    <button class="nm-pill is-active" type="button" role="tab" aria-selected="true" data-nm-filter="*">{{ component.all_label ?: trans('nm.all') }} <small>{{ component.products|length }}</small></button>
+                    {% for c in cats %}
+                        {% set n = 0 %}{% for p in component.products %}{% if p.category and p.category.name == c %}{% set n = n + 1 %}{% endif %}{% endfor %}
+                        <button class="nm-pill" type="button" role="tab" aria-selected="false" data-nm-filter="{{ c }}">{{ c }} <small>{{ n }}</small></button>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        <div class="nm-grid nm-shop__grid" data-nm-shop-grid>
+            {% for p in component.products %}
+                {% include 'components.product.nm-card' with {product: p, eager: false} %}
+            {% endfor %}
+        </div>
+        {% if component.more_label %}
+            <div class="nm-shop__more"><a class="nm-btn nm-btn--ghost" href="{{ nm.href(component.more_url) }}">{{ component.more_label }}{% include 'components.nm.icon' with {name: 'arrow', size: 18} %}</a></div>
+        {% endif %}
+    </div>
+</section>
+{% endif %}

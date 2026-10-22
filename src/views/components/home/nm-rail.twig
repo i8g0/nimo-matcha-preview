@@ -1,0 +1,32 @@
+{#
+| component.eyebrow, title, accent, more_label | string |
+| component.tone | brand tone |
+| component.products | Product[] |
+| component.more_url | link |
+A swipeable row of product cards; arrows on desktop (motion.js rails).
+#}
+{% import 'components.nm.macros' as nm %}
+{% set tone = include('components.nm.pick', {v: component.tone})|trim ?: 'cream' %}
+{% if component.products|length %}
+<section class="nm-section nm-railsec" data-tone="{{ tone }}" component-id="{{ componentId }}">
+    <div class="nm-container">
+        <div class="nm-head nm-head--row">
+            {% include 'components.nm.head' with {c: component} %}
+            <div style="display:flex;align-items:center;gap:16px">
+                {% if component.more_label %}<a class="nm-link" href="{{ nm.href(component.more_url) }}">{{ component.more_label }}{% include 'components.nm.icon' with {name: 'arrow', size: 16} %}</a>{% endif %}
+                <div class="nm-rail__arrows">
+                    <button class="nm-arrow" type="button" data-nm-rail-prev aria-label="{{ trans('nm.previous') }}">{% include 'components.nm.icon' with {name: 'prev', size: 20} %}</button>
+                    <button class="nm-arrow" type="button" data-nm-rail-next aria-label="{{ trans('nm.next') }}">{% include 'components.nm.icon' with {name: 'next', size: 20} %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="nm-rail" data-nm-rail>
+        <div class="nm-rail__track" data-nm-rail-track>
+            {% for p in component.products %}
+                {% include 'components.product.nm-card' with {product: p, eager: false} %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}

@@ -1,0 +1,31 @@
+{# Shared helpers. Import with: {% import 'components.nm.macros' as nm %} #}
+
+{# Data every add-to-cart button carries, so the drawer and toast show the product instantly. #}
+{% macro add_attrs(product) %}
+    data-nm-add="{{ product.id }}" data-name="{{ product.name }}" data-image="{{ product.image.url }}" data-url="{{ product.url }}" data-price="{{ product.price }}"
+{% endmacro %}
+
+{# Discount percent (whole number) or empty. #}
+{% macro off(product) -%}
+    {%- if product.is_on_sale and product.regular_price > 0 and product.sale_price < product.regular_price -%}
+        {{- ((1 - product.sale_price / product.regular_price) * 100)|round -}}
+    {%- endif -%}
+{%- endmacro %}
+
+{# Price block used on cards, the spotlight and the product page. #}
+{% macro price(product) %}
+    {% if product.is_on_sale %}
+        <strong class="nm-price nm-price--sale">{{ product.sale_price|money }}</strong>
+        <del class="nm-price-old">{{ product.regular_price|money }}</del>
+    {% else %}
+        <strong class="nm-price">{{ product.price|money }}</strong>
+    {% endif %}
+{% endmacro %}
+
+{# Resolves a Salla link field (variable-list) to a URL: a string, {url}, or [{url}]. #}
+{% macro href(v) -%}
+    {%- if v.url is defined -%}{{- v.url -}}
+    {%- elseif v is iterable and v|length and (v|first).url is defined -%}{{- (v|first).url -}}
+    {%- elseif v is not iterable and v -%}{{- v -}}
+    {%- else -%}#{%- endif -%}
+{%- endmacro %}

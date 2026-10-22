@@ -1,0 +1,31 @@
+{#
+| component.eyebrow, title, accent, button, button_url | string |
+| component.images[] | image, caption, url |
+A slow, endless strip of lifestyle photos (pauses on hover/focus; static for reduced motion).
+#}
+{% import 'components.nm.macros' as nm %}
+{% set imgs = [] %}
+{% for m in component.images %}{% if m.image %}{% set imgs = imgs|merge([m]) %}{% endif %}{% endfor %}
+{% if imgs|length %}
+<section class="nm-section nm-moments" component-id="{{ componentId }}">
+    <div class="nm-container">
+        {% include 'components.nm.head' with {c: component, modifier: 'center'} %}
+    </div>
+    <div class="nm-moments__track" style="--dur: {{ imgs|length * 7 }}s">
+        {% for round in [1, 2] %}
+            {% for m in imgs %}
+                {% set href = nm.href(m.url)|trim %}
+                <a class="nm-moment" href="{{ href != '#' ? href : (component.button_url ?: '#') }}" {{ round == 2 ? 'aria-hidden="true" tabindex="-1"' : '' }}>
+                    <span class="nm-moment__img"><img src="{{ m.image }}" alt="{{ round == 1 ? m.caption : '' }}" loading="lazy" decoding="async" width="400" height="500"></span>
+                    {% if m.caption %}<span>{{ m.caption }}</span>{% endif %}
+                </a>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    {% if component.button %}
+        <div class="nm-container nm-moments__cta">
+            <a class="nm-btn nm-btn--ghost" href="{{ component.button_url ?: '#' }}" target="_blank" rel="noopener">{% include 'components.nm.icon' with {name: 'instagram', size: 20} %}{{ component.button }}</a>
+        </div>
+    {% endif %}
+</section>
+{% endif %}

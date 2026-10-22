@@ -1,0 +1,154 @@
+{#
+  Product page. Variables: product.* (see Raed's pages/product/single.twig).
+  - "Cups / price per cup" is computed by product-page.js from the weight in the name (toggle in theme settings).
+  - Products with options (size, flavour) use Salla's own options form + add button so every variant is handled by Salla.
+#}
+{% extends "layouts.master" %}
+{% import 'components.nm.macros' as nm %}
+
+{% set gallery = product.images|length ? product.images : [product.image] %}
+{% set off = nm.off(product)|trim %}
+{% set has_options = product.options is defined and product.options|length %}
+
+{% block content %}
+<div class="nm-pdp" data-nm-product data-name="{{ product.name }}" data-price="{{ product.price }}">
+    <div class="nm-container">
+        <nav class="nm-crumbs" aria-label="breadcrumb">
+            <a href="{{ store.url }}">{{ trans('nm.home') }}</a>
+            {% if product.category %}<span aria-hidden="true">/</span><a href="{{ product.category.url }}">{{ product.category.name }}</a>{% endif %}
+            <span aria-hidden="true">/</span><span aria-current="page">{{ product.name }}</span>
+        </nav>
+
+        <div class="nm-pdp__grid">
+            <div class="nm-gallery" data-nm-gallery>
+                <div class="nm-gallery__main" data-nm-gallery-track tabindex="0" aria-label="{{ trans('nm.photos') }}">
+                    {% for img in gallery %}
+                        <figure class="nm-gallery__slide">
+                            <img src="{{ img.url }}" alt="{{ img.alt ?: product.name }}" width="1000" height="1000" {{ loop.first ? 'fetchpriority="high" data-nm-fly-src' : 'loading="lazy"' }} decoding="async">
+                        </figure>
+                    {% endfor %}
+                </div>
+                {% if gallery|length > 1 %}
+                    <div class="nm-gallery__thumbs">
+                        {% for img in gallery %}
+                            <button type="button" class="nm-gallery__thumb {{ loop.first ? 'is-active' : '' }}" data-nm-thumb="{{ loop.index0 }}" aria-label="{{ trans('nm.photo') }} {{ loop.index }}">
+                                <img src="{{ img.url }}" alt="" loading="lazy" width="80" height="80">
+                            </button>
+                        {% endfor %}
+                    </div>
+                    <div class="nm-gallery__dots" aria-hidden="true">{% for img in gallery %}<i class="{{ loop.first ? 'is-active' : '' }}"></i>{% endfor %}</div>
+                {% endif %}
+            </div>
+
+            <div class="nm-buy">
+                {% if product.category %}<a class="nm-chip nm-buy__cat" href="{{ product.category.url }}">{{ product.category.name }}</a>{% endif %}
+                <h1 class="nm-buy__name">{{ product.name }}</h1>
+                {% if product.subtitle %}<p style="color:var(--nm-muted)">{{ product.subtitle }}</p>{% endif %}
+                {% if product.rating and product.rating.count %}
+                    <a class="nm-buy__rating" href="#reviews">
+                        <span class="nm-stars" style="--s: {{ product.rating.stars }}" aria-hidden="true">★★★★★</span>
+                        <span>{{ product.rating.stars }} · {{ product.rating.count }} {{ trans('nm.reviews_count') }}</span>
+                    </a>
+                {% endif %}
+
+                <div class="nm-buy__price">
+                    {{ nm.price(product) }}
+                    {% if off %}<span class="nm-chip nm-chip--pink">{{ trans('nm.save') }} {{ off }}٪</span>{% endif %}
+                    {% if product.promotion_title %}<span class="nm-chip nm-chip--green">{{ product.promotion_title }}</span>{% endif %}
+                    <small>{{ trans('nm.tax_included') }}</small>
+                </div>
+                <salla-installment price="{{ product.price }}"></salla-installment>
+
+                <div class="nm-value" data-nm-value hidden>
+                    <div><b data-nm-value-cups></b><span>{{ trans('nm.cups_long') }}</span></div>
+                    <div><b data-nm-value-per></b><span>{{ trans('nm.per_cup_long') }}</span></div>
+                </div>
+
+                {% if product.is_available %}
+                    <div class="nm-buy__actions">
+                        {% if has_options %}
+                            <form onsubmit="return salla.form.onSubmit('cart.addItem', event)" class="nm-options">
+                                <input type="hidden" name="id" value="{{ product.id }}">
+                                {% include 'pages.partials.product.options' %}
+                                <salla-add-product-button product-id="{{ product.id }}" product-status="{{ product.status }}" product-type="{{ product.type }}" width="wide"></salla-add-product-button>
+                            </form>
+                        {% else %}
+                            <div class="nm-buy__row">
+                                <div class="nm-qty" data-nm-qty>
+                                    <button type="button" data-step="1" aria-label="{{ trans('nm.increase') }}">+</button>
+                                    <input type="number" value="1" min="1" max="{{ product.max_quantity ?: 10 }}" inputmode="numeric" aria-label="{{ trans('nm.quantity') }}" data-nm-qty-input>
+                                    <button type="button" data-step="-1" aria-label="{{ trans('nm.decrease') }}">−</button>
+                                </div>
+                                <button type="button" class="nm-btn nm-btn--green nm-btn--lg" {{ nm.add_attrs(product) }} data-nm-with-qty data-nm-main-add>
+                                    {{ trans('nm.add_to_cart') }}
+                                </button>
+                            </div>
+                            <button type="button" class="nm-btn nm-btn--pink nm-btn--lg nm-btn--block" {{ nm.add_attrs(product) }} data-nm-with-qty data-nm-buy-now>{{ trans('nm.buy_now') }}</button>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <p class="nm-buy__out">{{ trans('nm.sold_out') }}</p>
+                    {% if __preview is not defined %}<salla-product-availability product-id="{{ product.id }}"></salla-product-availability>{% endif %}
+                {% endif %}
+
+                <ul class="nm-trust">
+                    <li>{% include 'components.nm.icon' with {name: 'truck', size: 22} %}{{ trans('nm.fast_delivery') }}</li>
+                    <li>{% include 'components.nm.icon' with {name: 'shield', size: 22} %}{{ trans('nm.secure_payment') }}</li>
+                    <li>{% include 'components.nm.icon' with {name: 'leaf', size: 22} %}{{ trans('nm.japanese_matcha') }}</li>
+                </ul>
+
+                <div class="nm-acc">
+                    <details open>
+                        <summary>{{ trans('nm.details') }}</summary>
+                        <div class="nm-acc__body nm-desc">{{ product.description|raw ?: trans('nm.no_description') }}</div>
+                    </details>
+                    <details>
+                        <summary>{{ trans('nm.how_to_prepare') }}</summary>
+                        <div class="nm-acc__body">
+                            <ol class="nm-mini-steps">
+                                <li>{{ trans('nm.prep_1') }}</li>
+                                <li>{{ trans('nm.prep_2') }}</li>
+                                <li>{{ trans('nm.prep_3') }}</li>
+                                <li>{{ trans('nm.prep_4') }}</li>
+                            </ol>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>{{ trans('nm.shipping_returns') }}</summary>
+                        <div class="nm-acc__body">{{ trans('nm.shipping_returns_text') }}</div>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="nm-pdp__more" id="reviews">
+        <div class="nm-container">
+            <div class="nm-head"><span class="nm-eyebrow">{{ trans('nm.reviews_eyebrow') }}</span><h2 class="nm-head__title">{{ trans('nm.reviews') }}</h2></div>
+            <salla-comments item-id="{{ product.id }}" type="product"></salla-comments>
+        </div>
+    </section>
+
+    <section class="nm-pdp__more">
+        <div class="nm-container">
+            <div class="nm-head nm-head--row">
+                <div class="nm-head" style="margin:0"><span class="nm-eyebrow">{{ trans('nm.complete_cup') }}</span><h2 class="nm-head__title">{{ trans('nm.you_may_like') }}</h2></div>
+                {% if product.category %}<a class="nm-link" href="{{ product.category.url }}">{{ trans('nm.more_from') }} {{ product.category.name }}{% include 'components.nm.icon' with {name: 'arrow', size: 16} %}</a>{% endif %}
+            </div>
+        </div>
+        <salla-products-slider source="related" source-value="{{ product.id }}" product-card-component="nm-product-card"></salla-products-slider>
+    </section>
+
+    {% if product.is_available and not has_options %}
+        <div class="nm-buybar" data-nm-buybar aria-hidden="true">
+            <img src="{{ product.image.url }}" alt="" width="48" height="48">
+            <span class="nm-buybar__txt"><strong>{{ product.name }}</strong><span>{{ product.price|money }}</span></span>
+            <button type="button" class="nm-btn nm-btn--green" {{ nm.add_attrs(product) }} data-nm-with-qty tabindex="-1">{{ trans('nm.add_to_cart') }}</button>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script defer src="{{ 'nm-product.js' | asset }}"></script>
+{% endblock %}

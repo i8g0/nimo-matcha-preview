@@ -1,0 +1,19 @@
+{# | component.image, eyebrow, title, accent, text, button | string | component.facts[] value, label | component.url link | #}
+{% import 'components.nm.macros' as nm %}
+<section class="nm-section nm-toned" data-tone="leaf" id="about" component-id="{{ componentId }}">
+    <div class="nm-container nm-story__grid">
+        <div class="nm-story__img" data-reveal>
+            {% if component.image %}<img src="{{ component.image }}" alt="{{ component.title }} {{ component.accent }}" loading="lazy" decoding="async">{% endif %}
+        </div>
+        <div style="display:flex;flex-direction:column;gap:18px">
+            {% include 'components.nm.head' with {c: component} %}
+            {% if component.text %}<p class="nm-story__text" data-reveal>{{ component.text|nl2br }}</p>{% endif %}
+            {% if component.facts|length %}
+                <div class="nm-facts">
+                    {% for f in component.facts %}<div class="nm-fact" data-reveal style="--i: {{ loop.index0 }}"><b>{{ f.value }}</b><span>{{ f.label }}</span></div>{% endfor %}
+                </div>
+            {% endif %}
+            {% if component.button %}<div><a class="nm-btn" href="{{ nm.href(component.url) }}">{{ component.button }}</a></div>{% endif %}
+        </div>
+    </div>
+</section>

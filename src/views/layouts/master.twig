@@ -1,0 +1,117 @@
+{#
+  Nimo Matcha — master layout (Salla Twilight, built on Raed).
+  Shared variables: store, theme, user, page, language (see Raed's documentation table).
+  Raed's assets stay loaded so every page this theme doesn't redesign (account, orders, blog, brands,
+  thank-you…) keeps working; the Nimo shell (nm-app.css / nm-app.js) sits on top.
+#}
+<!DOCTYPE html>
+<html lang="{{ language.code }}" dir="{{ theme.is_rtl ? 'rtl' : 'ltr' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#12493A">
+    {{ theme.settings.set('placeholder', 'images/placeholder.png') }}
+
+    {% if __preview is not defined %}
+        {# Raed's web components used across the store's other pages #}
+        <script defer data-cfasync="false" crossorigin="anonymous" src="{{ 'product-card.js'|asset }}"></script>
+        <script defer src="{{ 'main-menu.js'|asset }}"></script>
+    {% endif %}
+
+    {% block head_scripts %}{% endblock %}
+
+    <script data-cfasync="false">
+        {# globals Raed's app.js reads #}
+        window.header_is_sticky = "";
+        window.imageZoom = "{{ theme.settings.get('imageZoom') }}";
+        window.can_access_wallet = {{ user.can_access_wallet ? 'true' : 'false' }};
+        window.enable_more_menu = "";
+        window.enable_add_product_toast = "";
+        window.notify_when_available_in_card = "{{ theme.settings.get('notify_when_available_in_card', true) }}";
+
+        window.NM_SETTINGS = {
+            sound: {{ theme.settings.get('enable_sound', true) ? 'true' : 'false' }},
+            cups: {{ theme.settings.get('show_cost_per_cup', true) ? 'true' : 'false' }},
+            gramsPerCup: {{ theme.settings.get('grams_per_cup', 2) ?: 2 }},
+            cartUrl: "{{ link('cart') }}",
+            i18n: {
+                added: "{{ trans('nm.added') }}",
+                viewCart: "{{ trans('nm.view_cart') }}",
+                remove: "{{ trans('nm.remove') }}",
+                increase: "{{ trans('nm.increase') }}",
+                decrease: "{{ trans('nm.decrease') }}",
+                add: "{{ trans('nm.add') }}",
+                addToCart: "{{ trans('nm.add_to_cart') }}",
+                soldOut: "{{ trans('nm.sold_out') }}",
+                save: "{{ trans('nm.save') }}",
+                cups: "{{ trans('nm.cups_short') }}",
+                perCup: "{{ trans('nm.per_cup') }}",
+                freeLeft: "{{ trans('nm.free_shipping_left') }}",
+                freeDone: "{{ trans('nm.free_shipping_done') }}",
+                couponOk: "{{ trans('nm.coupon_ok') }}",
+                couponErr: "{{ trans('nm.coupon_err') }}"
+            }
+        };
+        document.documentElement.classList.add('js');
+    </script>
+
+    {% hook 'head:start' %}
+    {% hook head %}
+    {% block styles %}{% endblock %}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800&display=swap">
+    {# Raed's styles first (other pages, Salla components), Nimo on top #}
+    <link rel="stylesheet" href="{{ 'app.css' | asset }}">
+    {% if __preview is not defined %}
+        <link rel="stylesheet" href="{{ 'fonts/sallaicons.css'|cdn }}"/>
+    {% endif %}
+    <link rel="stylesheet" href="{{ 'nm-app.css' | asset }}">
+
+    <style>
+        :root {
+            --font-main: 'Alexandria';
+            --color-primary: #12493A;
+            --color-primary-dark: #0A2E23;
+            --color-primary-light: #1D5E4B;
+            --color-primary-reverse: #FFFFFF;
+        }
+    </style>
+    {% hook 'head:end' %}
+</head>
+{% set has_tabbar = theme.settings.get('show_bottom_nav', true) %}
+<body id="app" class="nm theme-raed page-{{ page.slug|replace({'.': '-'}) }} {{ has_tabbar ? 'has-tabbar' : '' }} {% hook 'body:classes' %}">
+{% hook 'body:start' %}
+<a class="nm-sr" href="#main-content">{{ trans('nm.skip') }}</a>
+
+{% component 'header.header' %}
+
+<main id="main-content" role="main">
+    {% block content %}{% endblock %}
+</main>
+
+{% component 'footer.footer' %}
+
+{% include 'components.nm.cart-drawer' %}
+{% if has_tabbar %}{% include 'components.nm.tabbar' %}{% endif %}
+
+{% if __preview is not defined %}
+    <script defer crossorigin="anonymous" src="{{ 'app.js' | asset }}"></script>
+{% endif %}
+<script defer src="{{ 'nm-app.js' | asset }}"></script>
+{% block scripts %}{% endblock %}
+
+{# Salla's own modals; the search buttons open <salla-search> via `search::open`. #}
+<salla-search></salla-search>
+{% if __preview is not defined %}
+    <salla-offer-modal></salla-offer-modal>
+    <salla-login-modal></salla-login-modal>
+    {% if store.scope %}
+        <salla-scopes selection="{{ store.scope.display_as == 'popup' ? 'mandatory' : 'optional' }}"></salla-scopes>
+    {% endif %}
+{% endif %}
+{% hook 'body:end' %}
+</body>
+</html>
