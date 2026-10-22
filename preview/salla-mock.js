@@ -113,6 +113,23 @@
     }
   });
 
+  /* On Salla, <salla-payments> shows the store's own payment logos. The preview draws look-alike tiles. */
+  define('salla-payments', class extends HTMLElement {
+    connectedCallback() {
+      const bank = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1d2b26" stroke-width="1.7" stroke-linejoin="round"><path d="M3 9.5 12 4l9 5.5M5 10v8M9.7 10v8M14.3 10v8M19 10v8M3.5 20.5h17"/></svg>';
+      const items = [
+        ['mada', '<b class="pv-pay-mada"><i>ma</i>da</b>'],
+        ['visa', '<b class="pv-pay-visa">VISA</b><span class="pv-pay-mc"><i></i><i></i></span>'],
+        ['apple', '<b class="pv-pay-apple">Apple Pay</b>'],
+        ['stc', '<b class="pv-pay-stc">stc<small>Bank</small></b>'],
+        ['bank', bank],
+        ['tabby', '<b class="pv-pay-tabby">tabby</b>'],
+        ['tamara', '<b class="pv-pay-tamara">tamara</b>'],
+      ];
+      this.innerHTML = `<ul class="s-payments-list">${items.map(([k, html]) => `<li class="s-payments-list-item" title="${k}">${html}</li>`).join('')}</ul>`;
+    }
+  });
+
   define('salla-installment', class extends HTMLElement {
     static get observedAttributes() { return ['price']; }
     connectedCallback() { this.render(); }

@@ -82,9 +82,7 @@
                 <p class="nm-coupon-msg" data-nm-coupon-msg role="status"></p>
                 <salla-installment price="{{ cart.total }}" data-nm-installment></salla-installment>
                 <button type="button" class="nm-btn nm-btn--block nm-btn--lg" data-nm-checkout>{{ trans('nm.checkout') }}</button>
-                <div class="nm-summary__pay" aria-label="{{ trans('nm.payment_methods') }}">
-                    {% for m in theme.settings.get('payment_line')|split('·') %}{% if m|trim %}<span>{{ m|trim }}</span>{% endif %}{% endfor %}
-                </div>
+                <div class="nm-summary__pay" aria-label="{{ trans('nm.payment_methods') }}"><salla-payments></salla-payments></div>
                 <a class="nm-summary__back" href="{{ store.url }}">{{ trans('nm.continue_shopping') }}</a>
             </aside>
         </div>

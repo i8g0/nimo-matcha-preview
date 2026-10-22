@@ -1,32 +1,35 @@
 {#
-| component.eyebrow, title, accent, button, button_url | string |
+  Photo gallery (same shape as the store's "استلهم لحظاتك" slider): heading with a button,
+  then an edge-to-edge row of tall photos that slides on its own (4 per row on desktop, 2 on phones).
+| component.eyebrow, title, accent, description, button, button_url | string |
 | component.images[] | image, caption, url |
-A slow, endless strip of lifestyle photos (pauses on hover/focus; static for reduced motion).
+| component.hide_mobile | bool |
 #}
 {% import 'components.nm.macros' as nm %}
 {% set imgs = [] %}
 {% for m in component.images %}{% if m.image %}{% set imgs = imgs|merge([m]) %}{% endif %}{% endfor %}
 {% if imgs|length %}
-<section class="nm-section nm-moments {{ component.hide_mobile ? 'nm-hide-mobile' : '' }}" component-id="{{ componentId }}">
+{% set external = component.button_url starts with 'http' %}
+<section class="nm-section nm-gallery-sec {{ component.hide_mobile ? 'nm-hide-mobile' : '' }}" component-id="{{ componentId }}">
     <div class="nm-container">
-        {% include 'components.nm.head' with {c: component, modifier: 'center'} %}
+        <div class="nm-head nm-head--row">
+            {% include 'components.nm.head' with {c: component} %}
+            {% if component.button %}
+                <a class="nm-btn nm-btn--line nm-btn--sm" href="{{ component.button_url ?: '#' }}" {{ external ? 'target="_blank" rel="noopener"' : '' }}>{% if 'instagram' in component.button_url %}{% include 'components.nm.icon' with {name: 'instagram', size: 18} %}{% endif %}{{ component.button }}{% if not external %}{% include 'components.nm.icon' with {name: 'arrow', size: 16} %}{% endif %}</a>
+            {% endif %}
+        </div>
     </div>
-    <div class="nm-moments__track" style="--dur: {{ imgs|length * 9 }}s">
-        {% for round in [1, 2] %}
+    <div class="nm-rail nm-gallery" data-nm-rail data-autoplay="3500">
+        <div class="nm-rail__track nm-gallery__track" data-nm-rail-track>
             {% for m in imgs %}
                 {% set href = nm.href(m.url)|trim %}
-                <a class="nm-moment" href="{{ href != '#' ? href : (component.button_url ?: '#') }}" {{ round == 2 ? 'aria-hidden="true" tabindex="-1"' : '' }}>
-                    <span class="nm-moment__img"><img src="{{ m.image }}" alt="{{ round == 1 ? m.caption : '' }}" loading="lazy" decoding="async" width="400" height="500"></span>
-                    {% if m.caption %}<span>{{ m.caption }}</span>{% endif %}
-                </a>
+                {% set to = href != '#' ? href : (component.button_url ?: '') %}
+                {% if to %}<a class="nm-gallery__item" href="{{ to }}">{% else %}<figure class="nm-gallery__item">{% endif %}
+                    <img src="{{ m.image }}" alt="{{ m.caption ?: component.title ~ ' ' ~ component.accent }}" loading="lazy" decoding="async" width="450" height="560">
+                    {% if m.caption %}<span class="nm-gallery__cap">{{ m.caption }}</span>{% endif %}
+                {% if to %}</a>{% else %}</figure>{% endif %}
             {% endfor %}
-        {% endfor %}
-    </div>
-    {% if component.button %}
-        <div class="nm-container nm-moments__cta">
-            {% set external = component.button_url starts with 'http' %}
-            <a class="nm-btn nm-btn--line" href="{{ component.button_url ?: '#' }}" {{ external ? 'target="_blank" rel="noopener"' : '' }}>{% if 'instagram' in component.button_url %}{% include 'components.nm.icon' with {name: 'instagram', size: 20} %}{% endif %}{{ component.button }}{% if not external %}{% include 'components.nm.icon' with {name: 'arrow', size: 18} %}{% endif %}</a>
         </div>
-    {% endif %}
+    </div>
 </section>
 {% endif %}

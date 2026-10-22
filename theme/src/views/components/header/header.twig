@@ -45,6 +45,9 @@
                     {% include 'components.nm.icon' with {name: 'user'} %}
                 </a>
             {% endif %}
+            <button class="nm-icon-btn nm-theme-toggle" type="button" data-nm-theme-toggle aria-label="{{ trans('nm.theme_toggle') }}" aria-pressed="false">
+                {% include 'components.nm.icon' with {name: 'moon', size: 21} %}{% include 'components.nm.icon' with {name: 'sun', size: 22} %}
+            </button>
             <a class="nm-icon-btn" href="{{ link('cart') }}" data-nm-cart-open data-nm-cart-target aria-label="{{ trans('nm.cart') }}">
                 {% include 'components.nm.icon' with {name: 'cart'} %}
                 <span class="nm-badge" data-nm-cart-count hidden>0</span>

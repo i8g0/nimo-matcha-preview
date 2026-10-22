@@ -167,6 +167,17 @@ async function build() {
     /* the live store has no announcement bar */
     announcement_1: '', announcement_2: '', announcement_3: '',
     footer_about: 'نأخذك في رحلة إلى عالم الماتشا اليابانية، من خلال منتجات مختارة بعناية تجمع بين الجودة العالية والمذاق الأصيل، لنمنحك تجربة تحضير سهلة ومتكاملة في كل كوب.',
+    popup_enabled: true,
+    popup_image: 'https://cdn.files.salla.network/other/1190649360/8fd78ea4-ffda-4b1c-85b4-80f0eedc12f0-original.webp',
+    popup_badge: 'شكرًا لاختيارك نيمو',
+    popup_title: 'احصل على العروض المميزة',
+    popup_accent: 'اللي تحتاجها',
+    popup_text: 'الحق العرض الحين: بوكس ٣ ماتشا + سيروب بخصم ٣٣٪.',
+    popup_product: [{ value: 1923600463, label: 'بوكس 3 ماتشا وسيروب فانيليا 50 مل' }],
+    popup_button: 'تسوّق الآن',
+    popup_url: '/category/offers',
+    popup_delay: 4,
+    popup_frequency: 'session',
     upsell_products: ['vanilla-syrup-50ml', 'nimo-cup-green', 'nimo-matcha-tin', 'salted-caramel-syrup-50ml']
       .map((slug) => products.find((p) => p.slug === slug)).map((p) => ({ value: p.id, label: p.name })),
   };

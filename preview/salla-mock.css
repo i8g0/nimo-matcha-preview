@@ -36,3 +36,14 @@
 
 .pv-badge { position: fixed; z-index: 90; top: 50%; left: 0; transform: translateY(-50%); writing-mode: vertical-rl; padding: 12px 5px; font-size: 10.5px; font-weight: 500; color: #fff; background: var(--ink); pointer-events: none; }
 @media (max-width: 767px) { .pv-badge { display: none; } }
+
+/* look-alike payment tiles (preview only; Salla renders the real logos) */
+.s-payments-list-item b { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 12px; line-height: 1; letter-spacing: 0; }
+.pv-pay-mada { color: #1d2b26; font-weight: 800; } .pv-pay-mada i { font-style: normal; color: #259BD6; }
+.pv-pay-visa { color: #1A1F71; font-weight: 900; font-style: italic; margin-inline-end: 4px; }
+.pv-pay-mc { display: inline-flex; } .pv-pay-mc i { width: 11px; height: 11px; border-radius: 50%; background: #EB001B; } .pv-pay-mc i + i { background: #F79E1B; margin-inline-start: -5px; mix-blend-mode: multiply; }
+.pv-pay-apple { color: #000; font-weight: 600; }
+.pv-pay-stc { color: #4F008C; font-weight: 800; } .pv-pay-stc small { font-weight: 600; font-size: 10px; margin-inline-start: 2px; }
+.s-payments-list-item:has(.pv-pay-tabby) { background: #3BFFC1 !important; border-color: #3BFFC1 !important; }
+.pv-pay-tabby { color: #1d1d1d; font-weight: 800; }
+.pv-pay-tamara { font-weight: 800; background: linear-gradient(90deg, #d27b5c, #c45a9a, #7f6ad8); -webkit-background-clip: text; background-clip: text; color: transparent; }

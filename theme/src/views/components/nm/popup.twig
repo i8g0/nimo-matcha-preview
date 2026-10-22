@@ -1,0 +1,32 @@
+{#
+  Offer popup, managed from theme settings («النافذة المنبثقة»): image, badge, title, text, one product
+  and a button. Appears after a short delay, at most once per visit (or per day), never on cart/checkout.
+  The product row is filled by JS (assets/js/nm/popup.js) from the chosen product.
+#}
+{% import 'components.nm.macros' as nm %}
+{% set p_on = theme.settings.get('popup_enabled', false) %}
+{% if p_on and page.slug != 'cart' %}
+{% set p_prod = theme.settings.get('popup_product', []) %}
+{% set p_first = p_prod is iterable ? p_prod|first : p_prod %}
+{% set p_id = p_first.id is defined ? p_first.id : (p_first.value is defined ? p_first.value : p_first) %}
+{% set p_url = theme.settings.get('popup_url') %}
+<div class="nm-pop" data-nm-popup data-delay="{{ theme.settings.get('popup_delay', 4) }}" data-frequency="{{ include('components.nm.pick', {v: theme.settings.get('popup_frequency', 'session')})|trim ?: 'session' }}" role="dialog" aria-modal="true" aria-labelledby="nm-pop-title" hidden>
+    <div class="nm-pop__scrim" data-nm-popup-close></div>
+    <div class="nm-pop__box">
+        <button class="nm-pop__close" type="button" data-nm-popup-close aria-label="{{ trans('nm.close') }}">{% include 'components.nm.icon' with {name: 'close', size: 20} %}</button>
+        {% if theme.settings.get('popup_image') %}
+            <div class="nm-pop__media"><img src="{{ theme.settings.get('popup_image') }}" alt="" loading="lazy" decoding="async"></div>
+        {% endif %}
+        <div class="nm-pop__body">
+            {% if theme.settings.get('popup_badge') %}<span class="nm-pop__badge">{% include 'components.nm.icon' with {name: 'gift', size: 16} %}{{ theme.settings.get('popup_badge') }}</span>{% endif %}
+            <h2 class="nm-pop__title" id="nm-pop-title">{{ theme.settings.get('popup_title') }}{% if theme.settings.get('popup_accent') %} <span class="nm-accent">{{ theme.settings.get('popup_accent') }}</span>{% endif %}</h2>
+            {% if theme.settings.get('popup_text') %}<p class="nm-pop__text">{{ theme.settings.get('popup_text') }}</p>{% endif %}
+            {% if p_id %}<div class="nm-pop__product" data-nm-popup-product="{{ p_id }}" hidden></div>{% endif %}
+            {% if theme.settings.get('popup_button') %}
+                <a class="nm-btn nm-btn--lg nm-btn--block" href="{{ nm.href(p_url) }}" data-nm-popup-go>{{ theme.settings.get('popup_button') }}{% include 'components.nm.icon' with {name: 'arrow', size: 18} %}</a>
+            {% endif %}
+            <button class="nm-pop__later" type="button" data-nm-popup-close>{{ trans('nm.maybe_later') }}</button>
+        </div>
+    </div>
+</div>
+{% endif %}

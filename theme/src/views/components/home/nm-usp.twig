@@ -1,6 +1,6 @@
 {# | component.eyebrow, title, accent, description | string | component.items[] | icon, title, text | — the store's promises #}
 {% if component.items|length %}
-<section class="nm-section nm-features" component-id="{{ componentId }}" aria-label="{{ component.title }} {{ component.accent }}">
+<section class="nm-section nm-features nm-deco nm-deco--1" component-id="{{ componentId }}" aria-label="{{ component.title }} {{ component.accent }}">
     <div class="nm-container">
         {% include 'components.nm.head' with {c: component, modifier: 'center'} %}
         <ul class="nm-features__grid">

@@ -41,6 +41,26 @@ export function rails(root = document) {
     track.addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true });
     addEventListener('resize', sync);
     sync();
+
+    /* data-autoplay="ms": slides one item at a time and starts over at the end; rests on hover, touch and off-screen */
+    const every = Number(rail.dataset.autoplay);
+    if (every && !reduced()) {
+      let held = false;
+      let seen = false;
+      const step = () => {
+        if (held || !seen || document.hidden) return;
+        const item = track.firstElementChild;
+        const w = item ? item.getBoundingClientRect().width : track.clientWidth;
+        if (pos() >= max() - 4) track.scrollTo({ left: 0, behavior: 'smooth' });
+        else track.scrollBy({ left: w * (rtl ? -1 : 1), behavior: 'smooth' });
+      };
+      setInterval(step, every);
+      rail.addEventListener('pointerenter', () => { held = true; });
+      rail.addEventListener('pointerleave', () => { held = false; });
+      track.addEventListener('touchstart', () => { held = true; }, { passive: true });
+      track.addEventListener('touchend', () => { setTimeout(() => { held = false; }, 4000); }, { passive: true });
+      new IntersectionObserver(([e]) => { seen = e.isIntersecting; }, { threshold: 0.3 }).observe(rail);
+    }
   });
 }
 
