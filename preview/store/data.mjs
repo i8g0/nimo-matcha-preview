@@ -190,11 +190,21 @@ export const home = [
     ],
   } },
   { path: 'home.nm-products', values: { eyebrow: 'THE MATCHA', title: '', accent: 'الماتشا', products: pick('organic-ceremonial-matcha-1kg', 'mango-matcha-40g', 'strawberry-matcha-40g', 'vanilla-matcha-40g'), more_url: '/category/matcha' } },
+  { path: 'home.nm-flavors', values: {
+    items: [
+      { name: 'كلاسيك', accent: 'matcha', line: 'الماتشا الاحتفالية كما هي: ناعمة، خضراء، وبدون مرارة.', image: media.jarLatte, product: [by('ceremonial-matcha-80g')] },
+      { name: 'فراولة', accent: 'berry', line: 'آيس لاتيه بطعم فراولة يذكّرك بالصيف.', image: media.pinkDip, product: [by('strawberry-matcha-40g')] },
+      { name: 'مانجو', accent: 'mango', line: 'استوائية ومنعشة، تحبها من أول رشفة.', image: media.mangoLatte, product: [by('mango-matcha-40g')] },
+      { name: 'فانيليا', accent: 'vanilla', line: 'دافئة وناعمة، لكوب الصبح الهادي.', image: media.vanillaLatte, product: [by('vanilla-matcha-40g')] },
+    ],
+  } },
   { path: 'home.nm-moments', values: {
     eyebrow: 'NIMO MOMENTS', title: 'استلهم لحظاتك', accent: 'مع الماتشا', description: 'ماتشا استثنائي كل يوم.', button: 'تسوق الان', button_url: '/products', hide_mobile: true,
     images: [media.pinkDip, media.darkStone, media.mangoPops, media.bedTray, media.mangoLatte, media.vanillaLatte].map((image) => ({ image, caption: '' })),
   } },
   { path: 'home.nm-products', values: { eyebrow: 'TOOLS', title: 'ادوات', accent: 'التحضير', products: pick('strawberry-syrup-50ml', 'berry-syrup-50ml', 'nimo-matcha-tin', 'nimo-cup-green'), more_url: '/category/tools' } },
+  { path: 'home.nm-ritual', values: { image: media.sifting, url: '/category/tools' } },
+  { path: 'home.nm-bundle', values: { products: pick('ceremonial-matcha-80g', 'vanilla-syrup-50ml', 'nimo-cup-green', 'nimo-matcha-tin') } },
   { path: 'home.nm-rail', values: { eyebrow: 'EVERYTHING YOU NEED', title: 'كل ما', accent: 'تحتاجه', tone: 'sand', more_label: 'تسوق الان', more_url: '/category/tools',
     products: pick('verde-tools', 'nimo-matcha-tin', 'salted-caramel-syrup-50ml', 'vanilla-syrup-50ml', 'strawberry-syrup-50ml', 'berry-syrup-50ml', 'nimo-cup-green', 'nimo-cup-classic') } },
   { path: 'home.nm-moments', values: {
