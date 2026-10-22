@@ -74,7 +74,7 @@ export async function renderUpsell(root, cart) {
     if (!row.innerHTML) {
       row.innerHTML = `<a href="${esc(p.url)}"><img src="${esc(image)}" alt="" loading="lazy"></a>
         <span><strong>${esc(p.name)}</strong><small>${store.money(price)}</small></span>
-        <button class="nm-btn nm-btn--green" type="button" data-nm-add="${p.id}" data-name="${esc(p.name)}" data-image="${esc(image)}" data-url="${esc(p.url)}" data-price="${price}">${t('add', 'أضف')}</button>`;
+        <button class="nm-btn nm-btn--ink" type="button" data-nm-add="${p.id}" data-name="${esc(p.name)}" data-image="${esc(image)}" data-url="${esc(p.url)}" data-price="${price}">${t('add', 'أضف')}</button>`;
     }
     shown += 1;
     row.hidden = false;
@@ -148,7 +148,7 @@ function fly(sourceImg) {
   const dx = to.left + to.width / 2 - (from.left + from.width / 2);
   const dy = to.top + to.height / 2 - (from.top + from.height / 2);
   const anim = ghost.animate([
-    { transform: 'translate(0,0) scale(1)', opacity: 1, borderRadius: '16px' },
+    { transform: 'translate(0,0) scale(1)', opacity: 1, borderRadius: '0px' },
     { transform: `translate(${dx * 0.4}px, ${dy * 0.2 - 80}px) scale(.55)`, opacity: 1, borderRadius: '50%', offset: 0.45 },
     { transform: `translate(${dx}px, ${dy}px) scale(.08)`, opacity: 0.3, borderRadius: '50%' },
   ], { duration: 760, easing: 'cubic-bezier(.55,0,.25,1)' });

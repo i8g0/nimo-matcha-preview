@@ -1,6 +1,6 @@
 {#
-  Header: rotating announcement, sticky bar (hides on scroll down, returns on scroll up),
-  category pills under it on phones, side menu. Links come from Salla's header menu
+  Header: slow marquee announcement, sticky bar (hides on scroll down, returns on scroll up),
+  category tabs under it on phones, side menu. Links come from Salla's header menu
   (<salla-menu source="header">), so the manager edits them from the dashboard.
 #}
 {% set announcements = [] %}
@@ -10,9 +10,10 @@
 
 {% if announcements|length %}
 <div class="nm-announce" role="region" aria-label="{{ trans('nm.announcements') }}">
-    <ul class="nm-announce__list" data-nm-announce>
-        {% for a in announcements %}<li class="{{ loop.first ? 'is-on' : '' }}">{{ a }}</li>{% endfor %}
-    </ul>
+    <span class="nm-sr">{{ announcements|join(' · ') }}</span>
+    <div class="nm-announce__track" aria-hidden="true">
+        {% for round in 1..4 %}{% for a in announcements %}<span>{{ a }}</span><i>✦</i>{% endfor %}{% endfor %}
+    </div>
 </div>
 {% endif %}
 
@@ -53,10 +54,8 @@
 
     {% if theme.settings.get('show_catbar', true) %}
         <nav class="nm-catbar" aria-label="{{ trans('nm.categories') }}">
-            <div class="nm-container">
-                <div class="nm-pills" data-nm-catbar>
-                    <salla-menu source="header"></salla-menu>
-                </div>
+            <div class="nm-tabs" data-nm-catbar>
+                <salla-menu source="header"></salla-menu>
             </div>
         </nav>
     {% endif %}
@@ -76,7 +75,7 @@
         <div class="nm-menu__foot">
             <strong>{{ trans('nm.need_help') }}</strong>
             {% if theme.settings.get('whatsapp') %}
-                <a class="nm-btn nm-btn--green nm-btn--block" href="{{ theme.settings.get('whatsapp') }}" target="_blank" rel="noopener">
+                <a class="nm-btn nm-btn--block" href="{{ theme.settings.get('whatsapp') }}" target="_blank" rel="noopener">
                     {% include 'components.nm.icon' with {name: 'whatsapp', size: 20} %}{{ trans('nm.whatsapp_us') }}
                 </a>
             {% endif %}

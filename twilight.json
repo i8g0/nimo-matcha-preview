@@ -450,106 +450,113 @@
   ],
   "components": [
     {
-      "key": "69a6807d-08f2-4f14-8c9a-32f9d24e9c4c",
+      "key": "862762ff-97d2-4938-b496-4ab1bee0d704",
       "title": {
-        "ar": "البنر الرئيسي (شرائح)",
-        "en": "Hero slides"
+        "ar": "المشاهد السينمائية (البنر الرئيسي)",
+        "en": "Cinematic scenes"
       },
-      "icon": "sicon-image-carousel",
+      "icon": "sicon-video",
       "path": "home.nm-hero",
       "fields": [
         {
           "type": "static",
           "format": "description",
-          "id": "note-63182e97",
-          "value": "<div>أول ما يشوفه العميل. كل شريحة: صورة (أو فيديو mp4 صامت) + عنوان + زرين. الصورة تظهر داخل شكل نيمو العضوي، والخلفية بلون الطابع المختار.</div>"
+          "id": "note-0822544e",
+          "value": "<div>مشاهد بملء الشاشة تتكشّف مع التمرير، مثل فيلم قصير. لكل مشهد صورة، وفيديو اختياري (mp4 صامت، ٥–١٠ ثوانٍ، أقل من ٤ ميغا) للكمبيوتر وآخر عمودي للجوال.</div>"
         },
         {
           "type": "collection",
           "format": "collection",
           "id": "slides",
-          "label": "الشرائح",
-          "item_label": "شريحة",
+          "label": "المشاهد",
+          "item_label": "مشهد",
           "required": true,
           "minLength": 1,
-          "maxLength": 6,
+          "maxLength": 5,
           "fields": [
-            {
-              "type": "items",
-              "format": "dropdown-list",
-              "id": "slides.tone",
-              "label": "لون الشريحة",
-              "source": "Manual",
-              "options": [
-                {
-                  "label": "أخضر نيمو (داكن)",
-                  "value": "green",
-                  "key": "3de1c931-4606-4980-a09a-e2e86be01ad1"
-                },
-                {
-                  "label": "وردي",
-                  "value": "pink",
-                  "key": "60fdafbf-b24c-421e-b442-93d8c570b43b"
-                },
-                {
-                  "label": "برتقالي",
-                  "value": "orange",
-                  "key": "f1f36ae9-53ce-45e9-b9dd-d70d5774f616"
-                },
-                {
-                  "label": "كريمي فاتح",
-                  "value": "cream",
-                  "key": "8f16e10f-e297-4793-af09-0f9ba4c51304"
-                },
-                {
-                  "label": "أخضر ماتشا فاتح",
-                  "value": "leaf",
-                  "key": "237a0142-9d6a-4d63-9740-6f4482a3e1cc"
-                }
-              ],
-              "selected": [
-                {
-                  "label": "أخضر نيمو (داكن)",
-                  "value": "green",
-                  "key": "3de1c931-4606-4980-a09a-e2e86be01ad1"
-                }
-              ],
-              "required": true,
-              "icon": "sicon-list",
-              "key": "93765970-070b-4574-a888-c9ccf204536d"
-            },
             {
               "type": "string",
               "format": "image",
               "id": "slides.image",
-              "label": "الصورة",
+              "label": "صورة المشهد (أفقية للكمبيوتر)",
               "value": null,
               "required": false,
               "icon": "sicon-image",
-              "description": "مربعة أو عمودية بجودة عالية (1200×1400 تقريبًا)",
-              "key": "3a0a5463-6777-467a-837e-5bda8b5e8d03"
+              "description": "تُستخدم غلافًا للفيديو أو بديلًا عنه",
+              "key": "1e36cbb7-1c1d-4ef0-9455-d509b441ae3d"
+            },
+            {
+              "type": "string",
+              "format": "image",
+              "id": "slides.image_mobile",
+              "label": "صورة المشهد للجوال (عمودية، اختياري)",
+              "value": null,
+              "required": false,
+              "icon": "sicon-image",
+              "description": null,
+              "key": "89a6b2cf-feaf-4687-a49b-afa915d14c08"
             },
             {
               "type": "string",
               "format": "text",
               "id": "slides.video",
-              "label": "رابط فيديو mp4 (اختياري، صامت، أقل من ٤ ميغا)",
+              "label": "رابط فيديو الكمبيوتر (mp4 أفقي)",
               "value": null,
               "multilanguage": false,
               "required": false,
               "icon": "sicon-link",
-              "key": "f254914f-09a9-48d1-9102-6ea9eec30f90"
+              "key": "5243ab1a-4248-46cd-8921-b3f4d5624651"
+            },
+            {
+              "type": "string",
+              "format": "text",
+              "id": "slides.video_mobile",
+              "label": "رابط فيديو الجوال (mp4 عمودي)",
+              "value": null,
+              "multilanguage": false,
+              "required": false,
+              "icon": "sicon-link",
+              "key": "5a13aa21-9791-4993-9607-09f062d8389b"
+            },
+            {
+              "type": "items",
+              "format": "dropdown-list",
+              "id": "slides.tone",
+              "label": "طابع المشهد",
+              "source": "Manual",
+              "options": [
+                {
+                  "label": "داكن (صورة أو فيديو كامل)",
+                  "value": "dark",
+                  "key": "e4e6de46-0c29-46d2-b732-0eca192336d8"
+                },
+                {
+                  "label": "فاتح (منتج على خلفية فاتحة)",
+                  "value": "light",
+                  "key": "3fed8da1-fa19-44e1-a48d-c2bc1bda685f"
+                }
+              ],
+              "selected": [
+                {
+                  "label": "داكن (صورة أو فيديو كامل)",
+                  "value": "dark",
+                  "key": "e4e6de46-0c29-46d2-b732-0eca192336d8"
+                }
+              ],
+              "required": true,
+              "icon": "sicon-list",
+              "key": "05dddc0b-1443-41d2-ac6c-c3e9cb2914a1"
             },
             {
               "type": "string",
               "format": "text",
               "id": "slides.eyebrow",
-              "label": "سطر صغير",
+              "label": "سطر صغير (لاتيني أو عربي)",
               "value": null,
               "multilanguage": true,
               "required": false,
               "icon": "sicon-format-text-alt",
-              "key": "0efef820-6848-4a15-9fbe-865fbcfea75e"
+              "key": "84fd3b28-ba30-47be-bb3a-7d5522b3fade"
             },
             {
               "type": "string",
@@ -560,46 +567,35 @@
               "multilanguage": true,
               "required": false,
               "icon": "sicon-format-text-alt",
-              "key": "23c135d5-dfae-4e7a-b901-53dd86f87190"
+              "key": "d26a89db-b062-4535-aa9c-6212cce6b5ef"
             },
             {
               "type": "string",
               "format": "text",
               "id": "slides.accent",
-              "label": "الكلمة الملوّنة",
+              "label": "السطر البرتقالي",
               "value": null,
               "multilanguage": true,
               "required": false,
               "icon": "sicon-format-text-alt",
-              "key": "ff2fd4d1-c0ea-4696-9b58-534a92c2ed53"
-            },
-            {
-              "type": "string",
-              "format": "textarea",
-              "id": "slides.text",
-              "label": "وصف قصير",
-              "value": null,
-              "multilanguage": true,
-              "required": false,
-              "icon": "sicon-typography",
-              "key": "af8e150b-1f79-4681-818a-2014916a37d7"
+              "key": "a1828642-4c76-4bb7-b216-37e8a02b0883"
             },
             {
               "type": "string",
               "format": "text",
               "id": "slides.button",
-              "label": "نص الزر الأساسي",
+              "label": "نص الزر",
               "value": null,
               "multilanguage": true,
               "required": false,
               "icon": "sicon-format-text-alt",
-              "key": "d3522d22-b96e-4c1e-9d2c-e1754814c35c"
+              "key": "7ce82efd-13ab-45ea-9966-c912d4400076"
             },
             {
               "type": "items",
               "format": "variable-list",
               "id": "slides.url",
-              "label": "رابط الزر الأساسي",
+              "label": "رابط الزر",
               "source": "custom",
               "sources": [
                 {
@@ -637,122 +633,38 @@
               "value": null,
               "required": false,
               "icon": "sicon-link",
-              "key": "20651e9e-0ea7-428f-85b5-d7b35d03f131"
-            },
-            {
-              "type": "string",
-              "format": "text",
-              "id": "slides.button_2",
-              "label": "نص الزر الثاني (اختياري)",
-              "value": null,
-              "multilanguage": true,
-              "required": false,
-              "icon": "sicon-format-text-alt",
-              "key": "6011b688-f86d-46f9-9ba3-45414849a580"
-            },
-            {
-              "type": "items",
-              "format": "variable-list",
-              "id": "slides.url_2",
-              "label": "رابط الزر الثاني",
-              "source": "custom",
-              "sources": [
-                {
-                  "label": "منتج",
-                  "key": "products",
-                  "value": "products"
-                },
-                {
-                  "label": "تصنيف",
-                  "key": "categories",
-                  "value": "categories"
-                },
-                {
-                  "label": "منتجات مع وسم",
-                  "key": "products_tags",
-                  "value": "products_tags"
-                },
-                {
-                  "label": "صفحة تعريفية",
-                  "key": "pages",
-                  "value": "pages"
-                },
-                {
-                  "label": "التخفيضات",
-                  "key": "offers_link",
-                  "value": "offers_link"
-                },
-                {
-                  "label": "رابط خارجي",
-                  "key": "custom",
-                  "value": "custom"
-                }
-              ],
-              "searchable": true,
-              "value": null,
-              "required": false,
-              "icon": "sicon-link",
-              "key": "da8ecb30-d559-47f8-9215-94d82041bb7a"
-            },
-            {
-              "type": "string",
-              "format": "text",
-              "id": "slides.sticker",
-              "label": "ملصق دائري على الصورة (مثال: خصم ٤٧٪)",
-              "value": null,
-              "multilanguage": true,
-              "required": false,
-              "icon": "sicon-format-text-alt",
-              "key": "20d6708d-fe16-4c1d-8b96-434c33aca128"
+              "key": "cdce3961-53a6-4eae-b1e9-c61b153bc932"
             }
           ],
           "value": [
             {
-              "slides.tone": "green",
-              "slides.eyebrow": "ماتشا يابانية احتفالية",
-              "slides.title": "كوبك الأخضر",
-              "slides.accent": "يبدأ من هنا",
-              "slides.text": "ماتشا ناعمة بلون حي ونكهة بدون مرارة. تتحضّر في دقيقة، بالبيت، على ذوقك.",
-              "slides.button": "تسوّق البوكسات",
-              "slides.button_2": "كيف أحضّرها؟",
-              "slides.sticker": "الأكثر طلبًا"
+              "slides.tone": "dark",
+              "slides.eyebrow": "CEREMONIAL GRADE · JAPAN",
+              "slides.title": "ماتشا يابانية",
+              "slides.accent": "تُحضَّر في دقيقة",
+              "slides.button": "تسوّق الماتشا"
             },
             {
-              "slides.tone": "pink",
-              "slides.eyebrow": "نكهات نيمو",
-              "slides.title": "فراولة، مانجو،",
-              "slides.accent": "وفانيليا",
-              "slides.text": "ماتشا بنكهات فاكهية لكوب لاتيه بارد يفتح النفس.",
-              "slides.button": "اكتشف النكهات",
-              "slides.sticker": "٥٩ ر.س"
+              "slides.tone": "dark",
+              "slides.eyebrow": "VANILLA · ICED LATTE",
+              "slides.title": "نعومة الفانيليا",
+              "slides.accent": "في كل رشفة",
+              "slides.button": "اكتشف النكهات"
             },
             {
-              "slides.tone": "orange",
-              "slides.eyebrow": "بوكس الهدية",
-              "slides.title": "هدية تفرّح",
-              "slides.accent": "محبّين الماتشا",
-              "slides.text": "ماتشا وسيروب وأكواب نيمو وكرت شكر، في بوكس جاهز للإهداء.",
-              "slides.button": "شوف البوكس",
-              "slides.sticker": "وفّر ٤٧٪"
+              "slides.tone": "dark",
+              "slides.eyebrow": "THE NIMO BOX",
+              "slides.title": "هدية تُفرح",
+              "slides.accent": "محبّي الماتشا",
+              "slides.button": "شوف البوكس"
             }
           ]
-        },
-        {
-          "type": "boolean",
-          "format": "switch",
-          "id": "autoplay",
-          "label": "تقليب تلقائي للشرائح",
-          "value": true,
-          "selected": true,
-          "required": false,
-          "icon": "sicon-toggle-off",
-          "description": null
         },
         {
           "type": "string",
           "format": "text",
           "id": "rating_text",
-          "label": "شارة التقييم (اتركها فارغة لإخفائها)",
+          "label": "سطر التقييم تحت الزر (اتركه فارغًا لإخفائه)",
           "value": "٤٫٩ من تقييمات عملائنا في سلة",
           "multilanguage": true,
           "required": false,
@@ -761,7 +673,7 @@
       ]
     },
     {
-      "key": "f3daa4ae-1f63-439d-a033-66f6503e6479",
+      "key": "3e4d6d6e-b807-47ca-89e0-10385c5da06a",
       "title": {
         "ar": "دوائر التصنيفات",
         "en": "Category circles"
@@ -772,7 +684,7 @@
         {
           "type": "static",
           "format": "description",
-          "id": "note-c49ad7a7",
+          "id": "note-6fc295be",
           "value": "<div>اختصارات سريعة للأقسام. تظهر كدوائر يمكن سحبها على الجوال.</div>"
         },
         {
@@ -794,7 +706,7 @@
               "required": false,
               "icon": "sicon-image",
               "description": null,
-              "key": "5845ffb5-d9ca-40c4-86f6-555db1329dda"
+              "key": "8a12255f-1a5b-4ccc-8e1e-527a40b6dff9"
             },
             {
               "type": "string",
@@ -805,7 +717,7 @@
               "multilanguage": true,
               "required": false,
               "icon": "sicon-format-text-alt",
-              "key": "54b2d828-47ba-4073-b3af-fba87fe227d0"
+              "key": "54a8a600-7cb4-488a-9f27-dc4914d287d8"
             },
             {
               "type": "items",
@@ -849,84 +761,34 @@
               "value": null,
               "required": false,
               "icon": "sicon-link",
-              "key": "35f120bf-18df-43d1-8693-ef10ebb81b88"
-            },
-            {
-              "type": "items",
-              "format": "dropdown-list",
-              "id": "items.tone",
-              "label": "لون الخلفية",
-              "source": "Manual",
-              "options": [
-                {
-                  "label": "أخضر نيمو (داكن)",
-                  "value": "green",
-                  "key": "17fdd8e8-53d9-4a4d-9a2d-bc66b3935f0d"
-                },
-                {
-                  "label": "وردي",
-                  "value": "pink",
-                  "key": "818f90b6-e57e-49b9-83ca-82e1538c4237"
-                },
-                {
-                  "label": "برتقالي",
-                  "value": "orange",
-                  "key": "ae005b01-57e8-4bf0-babf-50eb2d9aa9f0"
-                },
-                {
-                  "label": "كريمي فاتح",
-                  "value": "cream",
-                  "key": "1be8b307-d03e-4ec0-88ad-19cb76fe4e5a"
-                },
-                {
-                  "label": "أخضر ماتشا فاتح",
-                  "value": "leaf",
-                  "key": "ad3303dd-dccb-4e0b-8a27-1929645a0676"
-                }
-              ],
-              "selected": [
-                {
-                  "label": "كريمي فاتح",
-                  "value": "cream",
-                  "key": "1be8b307-d03e-4ec0-88ad-19cb76fe4e5a"
-                }
-              ],
-              "required": true,
-              "icon": "sicon-list",
-              "key": "16305e3c-c28b-4f71-ac0a-77e132a5a090"
+              "key": "d687c04b-5f2d-4b55-a077-e3d8045b1c59"
             }
           ],
           "value": [
             {
-              "items.title": "العروض",
-              "items.tone": "pink"
+              "items.title": "العروض"
             },
             {
-              "items.title": "البوكسات",
-              "items.tone": "orange"
+              "items.title": "البوكسات"
             },
             {
-              "items.title": "الماتشا",
-              "items.tone": "leaf"
+              "items.title": "الماتشا"
             },
             {
-              "items.title": "النكهات",
-              "items.tone": "cream"
+              "items.title": "النكهات"
             },
             {
-              "items.title": "السيروب",
-              "items.tone": "pink"
+              "items.title": "السيروب"
             },
             {
-              "items.title": "الأدوات",
-              "items.tone": "cream"
+              "items.title": "الأدوات"
             }
           ]
         }
       ]
     },
     {
-      "key": "0193f2b4-dea1-47c3-84d2-5ad2a99dad47",
+      "key": "2b332cf3-1716-4d2e-906f-b8267bc96bff",
       "title": {
         "ar": "شريط المزايا",
         "en": "Benefits strip"
@@ -954,44 +816,44 @@
                 {
                   "label": "شاحنة",
                   "value": "truck",
-                  "key": "fdfdf684-0965-46d9-a5ac-6089a6006955"
+                  "key": "ed0f65cb-e949-4a98-bf71-12764d387a91"
                 },
                 {
                   "label": "ورقة شاي",
                   "value": "leaf",
-                  "key": "26577a0c-eb5f-4ab4-89e4-4251fb976cee"
+                  "key": "2cb79033-29f6-4233-af62-9c312882a009"
                 },
                 {
                   "label": "هدية",
                   "value": "gift",
-                  "key": "3f3c30ba-7edf-4b5c-9cf2-072ba6155d6c"
+                  "key": "e919f069-3d1e-434b-9788-b1e0b470c135"
                 },
                 {
                   "label": "بطاقة",
                   "value": "card",
-                  "key": "e58c0554-75b4-4c5c-863e-e141353c014b"
+                  "key": "fd68eebf-7ec8-425a-b881-52cbc946bf0b"
                 },
                 {
                   "label": "درع",
                   "value": "shield",
-                  "key": "6236b1fe-e53f-4888-bf38-d4990da9f13d"
+                  "key": "b239bdb8-4d75-422b-928e-2751efa59ded"
                 },
                 {
                   "label": "كوب",
                   "value": "cup",
-                  "key": "9f581fa2-0dba-4b83-8a7b-ee734e645796"
+                  "key": "b49995aa-8d1b-4049-9e03-1c1873ea9ad2"
                 }
               ],
               "selected": [
                 {
                   "label": "شاحنة",
                   "value": "truck",
-                  "key": "fdfdf684-0965-46d9-a5ac-6089a6006955"
+                  "key": "ed0f65cb-e949-4a98-bf71-12764d387a91"
                 }
               ],
               "required": true,
               "icon": "sicon-list",
-              "key": "73482c61-d7be-466d-ad51-eac75d3fdbb3"
+              "key": "241eeb31-9651-4558-96da-f41ebe5c24bc"
             },
             {
               "type": "string",
@@ -1002,7 +864,7 @@
               "multilanguage": true,
               "required": false,
               "icon": "sicon-format-text-alt",
-              "key": "60931f7f-d920-4b62-9072-8fa6345ffbcc"
+              "key": "a5852aa3-ee8f-4dc9-800b-a9a94f65ccdc"
             },
             {
               "type": "string",
@@ -1013,7 +875,7 @@
               "multilanguage": true,
               "required": false,
               "icon": "sicon-format-text-alt",
-              "key": "424d7267-eb90-475c-bb3c-c4ebd2d258b0"
+              "key": "0faacd99-59e7-4964-ae22-946ebf676b22"
             }
           ],
           "value": [
@@ -1042,7 +904,7 @@
       ]
     },
     {
-      "key": "1e1d7528-6abd-4e0d-818a-cc1c4ebd0b99",
+      "key": "59bd4e11-2f2d-4b36-a021-a918ac5db97e",
       "title": {
         "ar": "المنتج الأكثر طلبًا + عداد العرض",
         "en": "Best seller spotlight"
@@ -1053,7 +915,7 @@
         {
           "type": "static",
           "format": "description",
-          "id": "note-82c423df",
+          "id": "note-cab06a90",
           "value": "<div>يعرض منتجًا واحدًا بصورة كبيرة، ومحتوياته، وعداد ينتهي في التاريخ المحدد. عند انتهاء التاريخ يختفي العداد تلقائيًا ويبقى المنتج.</div>"
         },
         {
@@ -1061,7 +923,7 @@
           "format": "text",
           "id": "eyebrow",
           "label": "سطر صغير فوق العنوان",
-          "value": "الأكثر طلبًا",
+          "value": "BEST SELLER",
           "multilanguage": true,
           "required": false,
           "icon": "sicon-format-text-alt"
@@ -1131,7 +993,7 @@
               "multilanguage": true,
               "required": false,
               "icon": "sicon-format-text-alt",
-              "key": "b315ac89-6c7a-43d7-8ce2-b9f423d4abb2"
+              "key": "507d3082-bda0-4357-a24b-b5af1520298c"
             }
           ],
           "value": [
@@ -1183,7 +1045,7 @@
       ]
     },
     {
-      "key": "04c98a17-edd2-465e-a4ee-c7c6397ddd4f",
+      "key": "c8d996f5-3a8f-421b-95c1-a00e238bfba0",
       "title": {
         "ar": "المتجر (منتجات مع تبويبات)",
         "en": "Shop grid with tabs"
@@ -1194,7 +1056,7 @@
         {
           "type": "static",
           "format": "description",
-          "id": "note-9834e8a9",
+          "id": "note-550cf378",
           "value": "<div>التبويبات تتكوّن تلقائيًا من تصنيفات المنتجات المختارة، فالعميل يتنقّل بين الأقسام بدون ما يطلع من الصفحة.</div>"
         },
         {
@@ -1202,7 +1064,7 @@
           "format": "text",
           "id": "eyebrow",
           "label": "سطر صغير فوق العنوان",
-          "value": "تسوّق نيمو",
+          "value": "THE MATCHA BAR",
           "multilanguage": true,
           "required": false,
           "icon": "sicon-format-text-alt"
@@ -1319,7 +1181,7 @@
       ]
     },
     {
-      "key": "6c8cf30e-d37c-4ddf-a2f7-30977237b233",
+      "key": "54d35cae-8e89-4064-a400-d8fe8078d40c",
       "title": {
         "ar": "مختار النكهات التفاعلي",
         "en": "Flavor picker"
@@ -1330,7 +1192,7 @@
         {
           "type": "static",
           "format": "description",
-          "id": "note-9027b2cf",
+          "id": "note-68297624",
           "value": "<div>العميل يضغط على النكهة فيتغيّر لون القسم والصورة والمنتج. رتّب النكهات كما تحب.</div>"
         },
         {
@@ -1338,7 +1200,7 @@
           "format": "text",
           "id": "eyebrow",
           "label": "سطر صغير فوق العنوان",
-          "value": "نكهات نيمو",
+          "value": "THE FLAVOURS",
           "multilanguage": true,
           "required": false,
           "icon": "sicon-format-text-alt"
@@ -1382,51 +1244,51 @@
               "multilanguage": true,
               "required": false,
               "icon": "sicon-format-text-alt",
-              "key": "af27d043-6a8f-464d-a2e7-eed599e07e31"
+              "key": "b95b8187-7d7e-4ccf-b75b-8b346814acfa"
             },
             {
               "type": "items",
               "format": "dropdown-list",
-              "id": "items.tone",
+              "id": "items.accent",
               "label": "لون النكهة",
               "source": "Manual",
               "options": [
                 {
-                  "label": "أخضر نيمو (داكن)",
-                  "value": "green",
-                  "key": "459b5cb6-525c-430b-aab6-2df40cfb577b"
+                  "label": "ماتشا",
+                  "value": "matcha",
+                  "key": "a6191a55-100a-44cd-8ae1-ff80e4e5ded2"
                 },
                 {
-                  "label": "وردي",
-                  "value": "pink",
-                  "key": "39ee90ec-3d30-48b5-94ed-e8c52f34da71"
+                  "label": "مانجو",
+                  "value": "mango",
+                  "key": "a943ce13-fce6-4276-be7d-de77046557bf"
                 },
                 {
-                  "label": "برتقالي",
-                  "value": "orange",
-                  "key": "43c99d39-d380-4b08-873e-2c68aed62c80"
+                  "label": "فانيليا",
+                  "value": "vanilla",
+                  "key": "6ddb7f64-67b3-4797-9b4a-557bb1cd53cf"
                 },
                 {
-                  "label": "كريمي فاتح",
-                  "value": "cream",
-                  "key": "42b63739-67bf-46cf-a97b-2fc0323277b6"
+                  "label": "فراولة / توت",
+                  "value": "berry",
+                  "key": "b6da7e23-731d-4769-9baa-176d0060849f"
                 },
                 {
-                  "label": "أخضر ماتشا فاتح",
-                  "value": "leaf",
-                  "key": "18767b78-7bcd-4237-b353-c209d737bb4a"
+                  "label": "كراميل",
+                  "value": "caramel",
+                  "key": "aed90b3b-1550-44c6-82c6-2f11ca220434"
                 }
               ],
               "selected": [
                 {
-                  "label": "أخضر نيمو (داكن)",
-                  "value": "green",
-                  "key": "459b5cb6-525c-430b-aab6-2df40cfb577b"
+                  "label": "ماتشا",
+                  "value": "matcha",
+                  "key": "a6191a55-100a-44cd-8ae1-ff80e4e5ded2"
                 }
               ],
               "required": true,
               "icon": "sicon-list",
-              "key": "6a6f32a1-0dce-4394-99ba-227e6863f09c"
+              "key": "5ac8ad3b-e3d4-41ab-8880-3daa60da9bbf"
             },
             {
               "type": "string",
@@ -1437,7 +1299,7 @@
               "multilanguage": true,
               "required": false,
               "icon": "sicon-typography",
-              "key": "a84f5438-0d9b-4ba8-ab02-619b8136d821"
+              "key": "e909831a-d7ad-4efe-a99d-53420a117608"
             },
             {
               "type": "string",
@@ -1448,7 +1310,7 @@
               "required": false,
               "icon": "sicon-image",
               "description": null,
-              "key": "620b85e9-15d4-48c9-a15a-abd95fb3d115"
+              "key": "765ba2fe-feb1-4b08-a5f0-4cef317b0786"
             },
             {
               "type": "items",
@@ -1465,28 +1327,28 @@
               "selected": [],
               "value": [],
               "icon": "sicon-keyboard_arrow_down",
-              "key": "bd8622fe-5e0c-4821-815f-30e7779d9b43"
+              "key": "a0aeacc2-33b4-49dc-8237-30ffc2376fc2"
             }
           ],
           "value": [
             {
               "items.name": "كلاسيك",
-              "items.tone": "green",
+              "items.accent": "matcha",
               "items.line": "الماتشا الاحتفالية كما هي: ناعمة، خضراء، وبدون مرارة."
             },
             {
               "items.name": "فراولة",
-              "items.tone": "pink",
-              "items.line": "آيس لاتيه وردي بطعم فراولة يذكّرك بالصيف."
+              "items.accent": "berry",
+              "items.line": "آيس لاتيه بطعم فراولة يذكّرك بالصيف."
             },
             {
               "items.name": "مانجو",
-              "items.tone": "orange",
+              "items.accent": "mango",
               "items.line": "استوائية ومنعشة، تحبها من أول رشفة."
             },
             {
               "items.name": "فانيليا",
-              "items.tone": "cream",
+              "items.accent": "vanilla",
               "items.line": "دافئة وناعمة، لكوب الصبح الهادي."
             }
           ]
@@ -1494,7 +1356,7 @@
       ]
     },
     {
-      "key": "aa8aae00-2ac2-4615-9473-dd0159c69496",
+      "key": "c322be55-e49a-46df-a7c6-392d1338ef19",
       "title": {
         "ar": "طريقة التحضير بخطوات",
         "en": "How to prepare"
@@ -1507,7 +1369,7 @@
           "format": "text",
           "id": "eyebrow",
           "label": "سطر صغير فوق العنوان",
-          "value": "سهلة جدًا",
+          "value": "THE RITUAL",
           "multilanguage": true,
           "required": false,
           "icon": "sicon-format-text-alt"
@@ -1551,7 +1413,7 @@
               "multilanguage": true,
               "required": false,
               "icon": "sicon-format-text-alt",
-              "key": "13865714-87cf-4078-b499-633ab8c95247"
+              "key": "1e07bc3b-868e-4655-a08e-4936ee3f93f8"
             },
             {
               "type": "string",
@@ -1562,7 +1424,7 @@
               "multilanguage": true,
               "required": false,
               "icon": "sicon-typography",
-              "key": "a3baf6d3-3292-4c68-9b3e-7f423f7df92e"
+              "key": "c03bdca6-2bf7-44bd-909b-aa3966c5f161"
             },
             {
               "type": "string",
@@ -1573,7 +1435,7 @@
               "multilanguage": true,
               "required": false,
               "icon": "sicon-format-text-alt",
-              "key": "2d8e5b49-a5c1-4e92-ba10-1eb629ff532c"
+              "key": "be420dec-78ae-4be1-b4e9-def0df589d25"
             }
           ],
           "value": [
@@ -1675,7 +1537,7 @@
       ]
     },
     {
-      "key": "4cbf2122-07e1-457f-8063-d020947800dd",
+      "key": "271a3a0c-f333-4a33-b00c-2888de6bf79f",
       "title": {
         "ar": "كمّل كوبك (اشترِ معًا)",
         "en": "Bundle builder"
@@ -1686,7 +1548,7 @@
         {
           "type": "static",
           "format": "description",
-          "id": "note-fb233a27",
+          "id": "note-f2377902",
           "value": "<div>العميل يختار من المنتجات ويضيفها كلها للسلة بضغطة. يرفع متوسط قيمة الطلب.</div>"
         },
         {
@@ -1694,7 +1556,7 @@
           "format": "text",
           "id": "eyebrow",
           "label": "سطر صغير فوق العنوان",
-          "value": "اشترِها مع بعض",
+          "value": "COMPLETE YOUR CUP",
           "multilanguage": true,
           "required": false,
           "icon": "sicon-format-text-alt"
@@ -1758,7 +1620,7 @@
       ]
     },
     {
-      "key": "5e3adcdc-5118-4382-b68e-9dd6b737ee0d",
+      "key": "f869e7a1-3448-42b5-af2d-4177e07a0066",
       "title": {
         "ar": "شريط منتجات أفقي",
         "en": "Product rail"
@@ -1769,7 +1631,7 @@
         {
           "type": "static",
           "format": "description",
-          "id": "note-793f7028",
+          "id": "note-0f02985e",
           "value": "<div>شريط منتجات قابل للسحب. استخدمه أكثر من مرة لأقسام مختلفة (الأدوات، السيروب، الجديد…).</div>"
         },
         {
@@ -1777,7 +1639,7 @@
           "format": "text",
           "id": "eyebrow",
           "label": "سطر صغير فوق العنوان",
-          "value": "",
+          "value": "TOOLS & SYRUPS",
           "multilanguage": true,
           "required": false,
           "icon": "sicon-format-text-alt"
@@ -1810,36 +1672,36 @@
           "source": "Manual",
           "options": [
             {
-              "label": "أخضر نيمو (داكن)",
-              "value": "green",
-              "key": "62830210-4844-4c60-9575-6865abdeedc3"
+              "label": "كريمي (فاتح)",
+              "value": "paper",
+              "key": "2eb67dd4-a3e4-486d-885c-b54e2f7574fa"
             },
             {
-              "label": "وردي",
-              "value": "pink",
-              "key": "1dc88036-f76e-4419-ab6c-cf65a05c1beb"
+              "label": "رملي",
+              "value": "sand",
+              "key": "010ea852-718f-4ce6-a2b7-7329e2afbef1"
             },
             {
-              "label": "برتقالي",
+              "label": "أخضر الليل (داكن)",
+              "value": "night",
+              "key": "a1934618-0e77-4a6e-8121-9640f7ffe555"
+            },
+            {
+              "label": "برتقالي نيمو",
               "value": "orange",
-              "key": "e20c9e03-60eb-4e6a-9a45-0e3f213fac53"
+              "key": "780302b4-5f0a-4e20-8c8f-c07331b34249"
             },
             {
-              "label": "كريمي فاتح",
-              "value": "cream",
-              "key": "5713d04d-c3e2-4aad-bcf0-b6073959e618"
-            },
-            {
-              "label": "أخضر ماتشا فاتح",
+              "label": "ماتشا فاتح",
               "value": "leaf",
-              "key": "bfeecd8f-5b58-4808-942a-032384cb5a61"
+              "key": "e9d99398-1f66-43b6-a854-8bcc0a233af8"
             }
           ],
           "selected": [
             {
-              "label": "كريمي فاتح",
-              "value": "cream",
-              "key": "5713d04d-c3e2-4aad-bcf0-b6073959e618"
+              "label": "رملي",
+              "value": "sand",
+              "key": "010ea852-718f-4ce6-a2b7-7329e2afbef1"
             }
           ],
           "required": true,
@@ -1917,7 +1779,7 @@
       ]
     },
     {
-      "key": "d7a563e7-adb9-4db0-8f88-a2a6ed0b7b17",
+      "key": "bf730a12-017f-4c57-88de-e870da04edf2",
       "title": {
         "ar": "بنر صورة (كمبيوتر وجوال)",
         "en": "Image banner"
@@ -1928,7 +1790,7 @@
         {
           "type": "static",
           "format": "description",
-          "id": "note-d1860850",
+          "id": "note-6bcaf1f2",
           "value": "<div>لبنرات العروض الجاهزة من المصمم. صورة للكمبيوتر وصورة للجوال، تظهر كاملة بدون قص.</div>"
         },
         {
@@ -2007,7 +1869,7 @@
       ]
     },
     {
-      "key": "fd180f32-4489-43ae-a33f-518a33163689",
+      "key": "f0a0a309-1a5e-4d1d-9d01-242d2defd299",
       "title": {
         "ar": "لحظات نيمو (معرض صور)",
         "en": "Moments gallery"
@@ -2020,7 +1882,7 @@
           "format": "text",
           "id": "eyebrow",
           "label": "سطر صغير فوق العنوان",
-          "value": "من مطبخ نيمو",
+          "value": "NIMO MOMENTS",
           "multilanguage": true,
           "required": false,
           "icon": "sicon-format-text-alt"
@@ -2064,7 +1926,7 @@
               "required": false,
               "icon": "sicon-image",
               "description": null,
-              "key": "52c73b26-d205-49f7-b02c-db5cb6d4f7aa"
+              "key": "416c8dc4-9cf2-4bf0-ad42-f9f0f2f95077"
             },
             {
               "type": "string",
@@ -2075,7 +1937,7 @@
               "multilanguage": true,
               "required": false,
               "icon": "sicon-format-text-alt",
-              "key": "d53e711a-fc91-4a1f-8194-549f1f8c7e05"
+              "key": "b4e809bc-7f7d-43f9-a0f8-e7ff55ce2a68"
             },
             {
               "type": "items",
@@ -2119,7 +1981,7 @@
               "value": null,
               "required": false,
               "icon": "sicon-link",
-              "key": "b34d95e9-b221-4589-a124-7b3fe47f8bca"
+              "key": "8b86ca8f-6623-48b3-a4c3-d5bcf29dd037"
             }
           ],
           "value": [
@@ -2166,7 +2028,7 @@
       ]
     },
     {
-      "key": "a855fecc-6cd5-4057-bbbf-736d5b8d584d",
+      "key": "ca1ba9b8-625a-4f02-9127-88477f51af89",
       "title": {
         "ar": "آراء العملاء",
         "en": "Reviews"
@@ -2179,7 +2041,7 @@
           "format": "text",
           "id": "eyebrow",
           "label": "سطر صغير فوق العنوان",
-          "value": "قالوا عن نيمو",
+          "value": "WORDS",
           "multilanguage": true,
           "required": false,
           "icon": "sicon-format-text-alt"
@@ -2189,7 +2051,7 @@
           "format": "text",
           "id": "title",
           "label": "العنوان",
-          "value": "كلامهم",
+          "value": "قالوا عن",
           "multilanguage": true,
           "required": false,
           "icon": "sicon-format-text-alt"
@@ -2199,7 +2061,7 @@
           "format": "text",
           "id": "accent",
           "label": "الكلمة الملوّنة في العنوان",
-          "value": "يكفي",
+          "value": "نيمو",
           "multilanguage": true,
           "required": false,
           "icon": "sicon-format-text-alt"
@@ -2243,7 +2105,7 @@
               "multilanguage": true,
               "required": false,
               "icon": "sicon-typography",
-              "key": "e532875a-284c-4b16-b6a2-9080e2b9795c"
+              "key": "f9eaf788-d786-4e5b-9171-457302fb92be"
             },
             {
               "type": "string",
@@ -2254,7 +2116,7 @@
               "multilanguage": true,
               "required": false,
               "icon": "sicon-format-text-alt",
-              "key": "db203a76-0e17-48ff-b072-37bd368e4ac9"
+              "key": "15a988ee-eea3-4e5c-bf3a-a990a85c537b"
             },
             {
               "type": "string",
@@ -2265,7 +2127,7 @@
               "multilanguage": true,
               "required": false,
               "icon": "sicon-format-text-alt",
-              "key": "1ba93642-9528-4b45-8f86-e28e344c3975"
+              "key": "774829a0-3217-4b84-8d9f-560a62ee5991"
             },
             {
               "type": "string",
@@ -2276,7 +2138,7 @@
               "multilanguage": true,
               "required": false,
               "icon": "sicon-format-text-alt",
-              "key": "0284cf8d-840f-4eb9-be69-940c58aa5398"
+              "key": "72726232-ff9a-49e8-af45-a2d33d79abf7"
             },
             {
               "type": "boolean",
@@ -2288,7 +2150,7 @@
               "required": false,
               "icon": "sicon-toggle-off",
               "description": null,
-              "key": "d1deb033-86b0-4b21-9e72-c81ad6796326"
+              "key": "91f92446-ffca-4527-8512-7968773d8dfa"
             }
           ],
           "value": []
@@ -2296,7 +2158,7 @@
       ]
     },
     {
-      "key": "d77f8c3f-e157-42d8-8520-427b5c63d954",
+      "key": "143ecd51-65bc-4264-a711-833d9499ac4d",
       "title": {
         "ar": "قصة نيمو",
         "en": "Brand story"
@@ -2319,7 +2181,7 @@
           "format": "text",
           "id": "eyebrow",
           "label": "سطر صغير فوق العنوان",
-          "value": "من مزارع اليابان",
+          "value": "FROM JAPAN, WITH CARE",
           "multilanguage": true,
           "required": false,
           "icon": "sicon-format-text-alt"
@@ -2373,7 +2235,7 @@
               "multilanguage": true,
               "required": false,
               "icon": "sicon-format-text-alt",
-              "key": "d900d972-6088-4f85-acb7-dc31c70d823f"
+              "key": "dedbe292-d298-48c5-aa8d-a189b1ede848"
             },
             {
               "type": "string",
@@ -2384,7 +2246,7 @@
               "multilanguage": true,
               "required": false,
               "icon": "sicon-format-text-alt",
-              "key": "6a2eee6e-c5d2-47d1-9660-028e19806a54"
+              "key": "8a93b4ad-5721-4d94-84f8-622114954fd9"
             }
           ],
           "value": [
@@ -2458,7 +2320,7 @@
       ]
     },
     {
-      "key": "dc309356-3163-4376-8567-a35e86ef3572",
+      "key": "f38a60fd-341e-4e90-a9ff-8355d2a0c48d",
       "title": {
         "ar": "الأسئلة الشائعة",
         "en": "FAQ"
@@ -2471,7 +2333,7 @@
           "format": "text",
           "id": "eyebrow",
           "label": "سطر صغير فوق العنوان",
-          "value": "عندك سؤال؟",
+          "value": "QUESTIONS",
           "multilanguage": true,
           "required": false,
           "icon": "sicon-format-text-alt"
@@ -2515,7 +2377,7 @@
               "multilanguage": true,
               "required": false,
               "icon": "sicon-format-text-alt",
-              "key": "f124a0e6-9d8d-445c-92cb-071109457d14"
+              "key": "b0b0947c-7a19-4735-8a1e-6f44c09d34c7"
             },
             {
               "type": "string",
@@ -2526,7 +2388,7 @@
               "multilanguage": true,
               "required": false,
               "icon": "sicon-typography",
-              "key": "412cbee6-9807-4dd3-887b-c362d5928059"
+              "key": "0e260d64-263e-4bb9-bbb8-191fdf8b2dc8"
             }
           ],
           "value": [
@@ -2555,7 +2417,7 @@
       ]
     },
     {
-      "key": "703f3f2e-73fa-4ffd-9a65-27b32ac67610",
+      "key": "c3328a74-f344-4b1d-867a-35cdd1f5ada5",
       "title": {
         "ar": "دعوة للتواصل",
         "en": "Call to action"
@@ -2571,36 +2433,36 @@
           "source": "Manual",
           "options": [
             {
-              "label": "أخضر نيمو (داكن)",
-              "value": "green",
-              "key": "1d8247ac-b38d-460c-a840-5f083e9665c0"
+              "label": "كريمي (فاتح)",
+              "value": "paper",
+              "key": "653c8075-8ed6-410d-8659-8754c2ec808c"
             },
             {
-              "label": "وردي",
-              "value": "pink",
-              "key": "ab09cb1d-ee87-43cf-8a97-0edd4d61fb4f"
+              "label": "رملي",
+              "value": "sand",
+              "key": "7fefe487-c02b-4486-9f0f-fe9b83bcf934"
             },
             {
-              "label": "برتقالي",
+              "label": "أخضر الليل (داكن)",
+              "value": "night",
+              "key": "33869009-a667-49d4-a6bd-0375bbb82334"
+            },
+            {
+              "label": "برتقالي نيمو",
               "value": "orange",
-              "key": "bf735103-7434-439c-bd68-9a6aa4acd985"
+              "key": "20715d08-e9c9-4861-badb-88aa134e3d88"
             },
             {
-              "label": "كريمي فاتح",
-              "value": "cream",
-              "key": "7b6eec19-b622-4bb2-8be8-8b671ba285ef"
-            },
-            {
-              "label": "أخضر ماتشا فاتح",
+              "label": "ماتشا فاتح",
               "value": "leaf",
-              "key": "3260f861-72e6-4bdc-bd6f-0eac98b1866b"
+              "key": "e0d890f2-9582-4322-8991-80232350f721"
             }
           ],
           "selected": [
             {
-              "label": "وردي",
-              "value": "pink",
-              "key": "ab09cb1d-ee87-43cf-8a97-0edd4d61fb4f"
+              "label": "برتقالي نيمو",
+              "value": "orange",
+              "key": "20715d08-e9c9-4861-badb-88aa134e3d88"
             }
           ],
           "required": true,

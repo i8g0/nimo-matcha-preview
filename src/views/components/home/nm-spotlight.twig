@@ -12,20 +12,19 @@
     <div class="nm-container">
         <div class="nm-spot__grid">
             <div class="nm-spot__stage" data-reveal>
+                <div class="nm-spot__life">
+                    <img src="{{ component.image ?: p.image.url }}" alt="" loading="lazy" decoding="async">
+                </div>
                 <a class="nm-spot__product" href="{{ p.url }}" aria-label="{{ p.name }}">
-                    <img src="{{ p.image.url }}" alt="{{ p.name }}" loading="lazy" decoding="async" width="900" height="900" data-nm-fly-src>
-                    <span class="nm-spot__badge"><span class="nm-chip nm-chip--orange">{{ p.promotion_title ?: component.eyebrow }}</span></span>
+                    <img src="{{ p.image.url }}" alt="{{ p.name }}" loading="lazy" decoding="async" width="600" height="750" data-nm-fly-src>
                 </a>
-                {% if component.image %}
-                    <span class="nm-spot__life" aria-hidden="true"><img src="{{ component.image }}" alt="" loading="lazy" decoding="async"></span>
-                {% endif %}
+                {% if off %}<span class="nm-spot__seal">{{ trans('nm.save') }}<br>{{ off }}٪</span>{% endif %}
             </div>
             <div class="nm-spot__info">
                 {% include 'components.nm.head' with {c: component} %}
                 <a class="nm-spot__name" href="{{ p.url }}">{{ p.name }}</a>
                 <div class="nm-spot__price">
                     {{ nm.price(p) }}
-                    {% if off %}<span class="nm-chip nm-chip--pink">{{ trans('nm.save') }} {{ off }}٪</span>{% endif %}
                     <span class="nm-cups" data-nm-cups data-name="{{ p.name }}" data-price="{{ p.price }}" hidden></span>
                 </div>
                 {% if component.contents|length %}
@@ -45,16 +44,14 @@
                     </div>
                 {% endif %}
                 {% if p.is_available %}
-                    <div class="nm-buy-row">
-                        <button class="nm-btn nm-btn--green nm-btn--lg" type="button" {{ nm.add_attrs(p) }}>{{ trans('nm.add_to_cart') }} · {{ p.price|money }}</button>
+                    <div class="nm-spot__buy">
+                        <button class="nm-btn nm-btn--lg nm-btn--block" type="button" {{ nm.add_attrs(p) }}>{{ trans('nm.add_to_cart') }} · {{ p.price|money }}</button>
+                        <salla-installment price="{{ p.price }}"></salla-installment>
                     </div>
-                    <salla-installment price="{{ p.price }}"></salla-installment>
                 {% else %}
                     <p class="nm-buy__out">{{ trans('nm.sold_out') }}</p>
                 {% endif %}
-                {% if component.proof %}
-                    <p class="nm-proof"><span class="nm-proof__faces" aria-hidden="true"><i></i><i></i><i></i></span>{{ component.proof }}</p>
-                {% endif %}
+                {% if component.proof %}<p class="nm-proof">{{ component.proof }}</p>{% endif %}
             </div>
         </div>
     </div>

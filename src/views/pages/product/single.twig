@@ -32,7 +32,7 @@
                     <div class="nm-gallery__thumbs">
                         {% for img in gallery %}
                             <button type="button" class="nm-gallery__thumb {{ loop.first ? 'is-active' : '' }}" data-nm-thumb="{{ loop.index0 }}" aria-label="{{ trans('nm.photo') }} {{ loop.index }}">
-                                <img src="{{ img.url }}" alt="" loading="lazy" width="80" height="80">
+                                <img src="{{ img.url }}" alt="" loading="lazy" width="76" height="95">
                             </button>
                         {% endfor %}
                     </div>
@@ -41,9 +41,9 @@
             </div>
 
             <div class="nm-buy">
-                {% if product.category %}<a class="nm-chip nm-buy__cat" href="{{ product.category.url }}">{{ product.category.name }}</a>{% endif %}
+                {% if product.category %}<a class="nm-eyebrow" href="{{ product.category.url }}">{{ product.category.name }}</a>{% endif %}
                 <h1 class="nm-buy__name">{{ product.name }}</h1>
-                {% if product.subtitle %}<p style="color:var(--nm-muted)">{{ product.subtitle }}</p>{% endif %}
+                {% if product.subtitle %}<p class="nm-buy__sub">{{ product.subtitle }}</p>{% endif %}
                 {% if product.rating and product.rating.count %}
                     <a class="nm-buy__rating" href="#reviews">
                         <span class="nm-stars" style="--s: {{ product.rating.stars }}" aria-hidden="true">★★★★★</span>
@@ -53,8 +53,8 @@
 
                 <div class="nm-buy__price">
                     {{ nm.price(product) }}
-                    {% if off %}<span class="nm-chip nm-chip--pink">{{ trans('nm.save') }} {{ off }}٪</span>{% endif %}
-                    {% if product.promotion_title %}<span class="nm-chip nm-chip--green">{{ product.promotion_title }}</span>{% endif %}
+                    {% if off %}<span class="nm-label">{{ trans('nm.save') }} {{ off }}٪</span>{% endif %}
+                    {% if product.promotion_title %}<span class="nm-label nm-label--solid">{{ product.promotion_title }}</span>{% endif %}
                     <small>{{ trans('nm.tax_included') }}</small>
                 </div>
                 <salla-installment price="{{ product.price }}"></salla-installment>
@@ -79,11 +79,11 @@
                                     <input type="number" value="1" min="1" max="{{ product.max_quantity ?: 10 }}" inputmode="numeric" aria-label="{{ trans('nm.quantity') }}" data-nm-qty-input>
                                     <button type="button" data-step="-1" aria-label="{{ trans('nm.decrease') }}">−</button>
                                 </div>
-                                <button type="button" class="nm-btn nm-btn--green nm-btn--lg" {{ nm.add_attrs(product) }} data-nm-with-qty data-nm-main-add>
+                                <button type="button" class="nm-btn nm-btn--lg" {{ nm.add_attrs(product) }} data-nm-with-qty data-nm-main-add>
                                     {{ trans('nm.add_to_cart') }}
                                 </button>
                             </div>
-                            <button type="button" class="nm-btn nm-btn--pink nm-btn--lg nm-btn--block" {{ nm.add_attrs(product) }} data-nm-with-qty data-nm-buy-now>{{ trans('nm.buy_now') }}</button>
+                            <button type="button" class="nm-btn nm-btn--ink nm-btn--lg nm-btn--block" {{ nm.add_attrs(product) }} data-nm-with-qty data-nm-buy-now>{{ trans('nm.buy_now') }}</button>
                         {% endif %}
                     </div>
                 {% else %}
@@ -143,7 +143,7 @@
         <div class="nm-buybar" data-nm-buybar aria-hidden="true">
             <img src="{{ product.image.url }}" alt="" width="48" height="48">
             <span class="nm-buybar__txt"><strong>{{ product.name }}</strong><span>{{ product.price|money }}</span></span>
-            <button type="button" class="nm-btn nm-btn--green" {{ nm.add_attrs(product) }} data-nm-with-qty tabindex="-1">{{ trans('nm.add_to_cart') }}</button>
+            <button type="button" class="nm-btn" {{ nm.add_attrs(product) }} data-nm-with-qty tabindex="-1">{{ trans('nm.add_to_cart') }}</button>
         </div>
     {% endif %}
 </div>

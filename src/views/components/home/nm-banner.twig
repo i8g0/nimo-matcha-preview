@@ -4,7 +4,7 @@
 <section class="nm-section--tight nm-banner" component-id="{{ componentId }}">
     <div class="nm-container" data-reveal>
         {% set href = nm.href(component.url)|trim %}
-        {% if href and href != '#' %}<a href="{{ href }}">{% else %}<div>{% endif %}
+        {% if href and href != '#' %}<a class="nm-banner__link" href="{{ href }}">{% else %}<div class="nm-banner__link">{% endif %}
             <picture>
                 {% if component.image_mobile %}<source media="(max-width: 767px)" srcset="{{ component.image_mobile }}">{% endif %}
                 <img src="{{ component.image ?: component.image_mobile }}" alt="{{ component.alt }}" loading="lazy" decoding="async">
