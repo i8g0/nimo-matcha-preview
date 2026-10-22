@@ -24,7 +24,7 @@
                 <img src="{{ store.logo }}" alt="" width="96" height="96" loading="lazy">
                 <strong>{{ trans('nm.empty_cart') }}</strong>
                 <span>{{ trans('nm.empty_cart_hint') }}</span>
-                <a class="nm-btn nm-btn--green" href="{{ store.url }}" data-nm-cart-close>{{ trans('nm.shop_now') }}</a>
+                <a class="nm-btn" href="{{ store.url }}" data-nm-cart-close>{{ trans('nm.shop_now') }}</a>
             </div>
             {% if upsell|length %}
                 <section class="nm-upsell" data-nm-upsell hidden>
@@ -41,7 +41,7 @@
         <div class="nm-drawer__foot" data-nm-foot hidden>
             <div class="nm-drawer__total"><span>{{ trans('nm.subtotal') }}</span><strong data-nm-subtotal></strong></div>
             <salla-installment data-nm-installment price="0"></salla-installment>
-            <a class="nm-btn nm-btn--green nm-btn--block nm-btn--lg" href="{{ link('cart') }}">{{ trans('nm.checkout') }}</a>
+            <a class="nm-btn nm-btn--block nm-btn--lg" href="{{ link('cart') }}">{{ trans('nm.checkout') }}</a>
         </div>
     </aside>
 </div>

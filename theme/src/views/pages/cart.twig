@@ -49,7 +49,7 @@
                     <img src="{{ store.logo }}" alt="" width="110" height="110">
                     <strong>{{ trans('nm.empty_cart') }}</strong>
                     <span>{{ trans('nm.empty_cart_hint') }}</span>
-                    <a class="nm-btn nm-btn--green" href="{{ store.url }}">{{ trans('nm.shop_now') }}</a>
+                    <a class="nm-btn" href="{{ store.url }}">{{ trans('nm.shop_now') }}</a>
                 </div>
 
                 {% set upsell = theme.settings.get('upsell_products', []) %}
@@ -77,11 +77,11 @@
                 <small>{{ trans('nm.tax_included') }}</small>
                 <form class="nm-coupon" data-nm-coupon>
                     <input type="text" name="code" placeholder="{{ trans('nm.coupon_placeholder') }}" aria-label="{{ trans('nm.coupon_placeholder') }}" autocomplete="off">
-                    <button class="nm-btn nm-btn--ghost" type="submit">{{ trans('nm.apply') }}</button>
+                    <button class="nm-btn nm-btn--line" type="submit">{{ trans('nm.apply') }}</button>
                 </form>
                 <p class="nm-coupon-msg" data-nm-coupon-msg role="status"></p>
                 <salla-installment price="{{ cart.total }}" data-nm-installment></salla-installment>
-                <button type="button" class="nm-btn nm-btn--green nm-btn--block nm-btn--lg" data-nm-checkout>{{ trans('nm.checkout') }}</button>
+                <button type="button" class="nm-btn nm-btn--block nm-btn--lg" data-nm-checkout>{{ trans('nm.checkout') }}</button>
                 <div class="nm-summary__pay" aria-label="{{ trans('nm.payment_methods') }}">
                     {% for m in theme.settings.get('payment_line')|split('·') %}{% if m|trim %}<span>{{ m|trim }}</span>{% endif %}{% endfor %}
                 </div>

@@ -1,24 +1,11 @@
-/** The frame around every page: announcement, header, side menu, category pills, search. */
+/** The frame around every page: announcement, header, side menu, category tabs, search. */
 import { openSearch } from './store.js';
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
-export function announce() {
-  const list = $('[data-nm-announce]');
-  const items = list ? [...list.children] : [];
-  if (items.length < 2) return;
-  let i = 0;
-  setInterval(() => {
-    if (document.hidden) return;
-    const prev = items[i];
-    i = (i + 1) % items.length;
-    prev.classList.remove('is-on');
-    prev.classList.add('is-off');
-    setTimeout(() => prev.classList.remove('is-off'), 650);
-    items[i].classList.add('is-on');
-  }, 4200);
-}
+/** The announcement is a CSS marquee; nothing to run. Kept so older entry points keep working. */
+export function announce() {}
 
 /** Sticky header that steps aside while reading down and returns on the way up. */
 export function header() {
@@ -72,14 +59,14 @@ export function search() {
   });
 }
 
-/** Turns the Salla menu links inside [data-nm-catbar] into pills and marks the current one. */
+/** Turns the Salla menu links inside [data-nm-catbar] into tabs and marks the current one. */
 export function catbars() {
   const here = decodeURI(location.pathname).replace(/\/$/, '');
   const style = (bar) => {
     const links = $$('a', bar);
     if (!links.length) return false;
     links.forEach((a) => {
-      a.classList.add('nm-pill');
+      a.classList.add('nm-tab');
       let path = '';
       try { path = decodeURI(new URL(a.href, location.href).pathname).replace(/\/$/, ''); } catch { /* ignore */ }
       const active = path && path === here;

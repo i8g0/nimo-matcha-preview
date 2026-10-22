@@ -1,51 +1,51 @@
 {#
 | component.eyebrow, title, accent | string |
-| component.items[] | name, tone, line, image, product (Product[]) |
-Tapping a flavour swaps the colour, the photo, the line and the product (sections.js). Works without JS: first flavour shows.
+| component.items[] | name, accent (matcha|mango|vanilla|berry|caramel), line, image, product (Product[]) |
+Choosing a flavour cross-fades the full-bleed photo, the line and the product (sections.js).
+Works without JS: the first flavour shows.
 #}
 {% import 'components.nm.macros' as nm %}
 {% set items = component.items|default([]) %}
 {% if items|length %}
-{% set swatch = {green: '#12493A', pink: '#EC008C', orange: '#F26B21', cream: '#F1E3C6', leaf: '#8DB33F'} %}
-{% set t0 = include('components.nm.pick', {v: (items|first).tone})|trim ?: 'green' %}
-<section class="nm-section nm-flavors" id="flavors" data-tone="{{ t0 }}" data-nm-flavors component-id="{{ componentId }}">
-    <div class="nm-container nm-flavors__grid">
+<section class="nm-flavors" id="flavors" data-tone="night" data-nm-flavors component-id="{{ componentId }}">
+    <div class="nm-flavors__bg" aria-hidden="true">
+        {% for f in items %}
+            {% set p = f.product|first %}
+            {% set img = f.image ?: (p ? p.image.url : null) %}
+            <figure class="{{ loop.first ? 'is-active' : '' }}" data-flavor-img="{{ loop.index0 }}">
+                {% if img %}<img src="{{ img }}" alt="" loading="lazy" decoding="async">{% endif %}
+            </figure>
+        {% endfor %}
+    </div>
+    <div class="nm-container nm-flavors__inner">
         <div class="nm-flavors__copy">
             {% include 'components.nm.head' with {c: component} %}
-            <div class="nm-flavors__picker" role="group" aria-label="{{ trans('nm.pick_flavor') }}">
+            <ul class="nm-flavors__list" role="group" aria-label="{{ trans('nm.pick_flavor') }}">
                 {% for f in items %}
-                    {% set tone = include('components.nm.pick', {v: f.tone})|trim ?: 'green' %}
-                    <button class="nm-flavor-btn" type="button" data-nm-flavor="{{ loop.index0 }}" data-tone-name="{{ tone }}" aria-pressed="{{ loop.first ? 'true' : 'false' }}" style="--sw: {{ swatch[tone]|default('#12493A') }}">
-                        <i aria-hidden="true"></i>{{ f.name }}
-                    </button>
+                    {% set accent = include('components.nm.pick', {v: f.accent})|trim ?: 'matcha' %}
+                    <li>
+                        <button class="nm-flavor-btn" type="button" data-nm-flavor="{{ loop.index0 }}" aria-pressed="{{ loop.first ? 'true' : 'false' }}" style="--sw: var(--fl-{{ accent }})">
+                            <b>{{ '%02d'|format(loop.index) }}</b><span>{{ f.name }}</span><i aria-hidden="true"></i>
+                        </button>
+                    </li>
                 {% endfor %}
-            </div>
+            </ul>
             {% for f in items %}
                 {% set p = f.product|first %}
                 <div class="nm-flavors__panel" data-flavor-panel="{{ loop.index0 }}" {{ loop.first ? '' : 'hidden' }}>
                     {% if f.line %}<p class="nm-flavors__line">{{ f.line }}</p>{% endif %}
                     {% if p %}
                         <div class="nm-flavors__product" data-nm-card>
-                            <a href="{{ p.url }}"><img src="{{ p.image.url }}" alt="{{ p.name }}" loading="lazy" width="76" height="76" data-nm-fly-src></a>
+                            <a href="{{ p.url }}"><img src="{{ p.image.url }}" alt="{{ p.name }}" loading="lazy" width="64" height="80" data-nm-fly-src></a>
                             <div>
                                 <a href="{{ p.url }}"><strong>{{ p.name }}</strong></a>
                                 <span class="nm-card__price">{{ nm.price(p) }}</span>
                             </div>
                             {% if p.is_available %}
-                                <button class="nm-btn nm-btn--green nm-btn--sm" type="button" {{ nm.add_attrs(p) }}>{{ trans('nm.add') }}</button>
+                                <button class="nm-btn nm-btn--sm" type="button" {{ nm.add_attrs(p) }}>{{ trans('nm.add') }}</button>
                             {% endif %}
                         </div>
                     {% endif %}
-                </div>
-            {% endfor %}
-        </div>
-        <div class="nm-flavors__stage" aria-hidden="true">
-            <span class="nm-flavors__orbit"></span>
-            {% for f in items %}
-                {% set p = f.product|first %}
-                {% set img = f.image ?: (p ? p.image.url : null) %}
-                <div class="nm-flavors__img {{ loop.first ? 'is-active' : '' }}" data-flavor-img="{{ loop.index0 }}">
-                    {% if img %}<img src="{{ img }}" alt="" loading="lazy" decoding="async">{% endif %}
                 </div>
             {% endfor %}
         </div>

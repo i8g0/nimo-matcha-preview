@@ -174,19 +174,19 @@ export const comments = {
 export const home = [
   { path: 'home.nm-hero', values: {
     slides: [
-      { tone: 'green', image: media.darkStone, eyebrow: 'ماتشا يابانية احتفالية', title: 'كوبك الأخضر', accent: 'يبدأ من هنا', text: 'ماتشا ناعمة بلون حي ونكهة بدون مرارة. تتحضّر في دقيقة، بالبيت، على ذوقك.', button: 'تسوّق البوكسات', url: '/category/boxes', button_2: 'كيف أحضّرها؟', url_2: '/#ritual', sticker: 'بدون مرارة' },
-      { tone: 'pink', image: media.pinkDip, eyebrow: 'نكهات نيمو', title: 'فراولة، مانجو،', accent: 'وفانيليا', text: 'ماتشا بنكهات فاكهية لكوب لاتيه بارد يفتح النفس.', button: 'اكتشف النكهات', url: '/#flavors', button_2: 'كل الماتشا', url_2: '/category/matcha', sticker: '٥٩ ر.س' },
-      { tone: 'orange', image: img('88e807df-a131-4078-b187-9ad120462413-1000x1000-oYIa4S9s7BLGYbLk1JR7GDh8lRpQ5rsIBvXpw0V3.jpg'), eyebrow: 'بوكس الهدية', title: 'هدية تفرّح', accent: 'محبّين الماتشا', text: 'ماتشا وسيروب وأكواب نيمو وكرت شكر، في بوكس جاهز للإهداء.', button: 'شوف البوكس', url: '/product/nimo-matcha-gift-box', sticker: 'وفّر ٤٧٪' },
+      { tone: 'dark', image: media.darkStone, eyebrow: 'CEREMONIAL GRADE · JAPAN', title: 'ماتشا يابانية', accent: 'تُحضَّر في دقيقة', button: 'تسوّق الماتشا', url: '/category/matcha' },
+      { tone: 'dark', image: media.vanillaLatte, eyebrow: 'VANILLA · ICED LATTE', title: 'نعومة الفانيليا', accent: 'في كل رشفة', button: 'اكتشف النكهات', url: '/#flavors' },
+      { tone: 'dark', image: media.bedTray, eyebrow: 'THE NIMO BOX', title: 'هدية تُفرح', accent: 'محبّي الماتشا', button: 'شوف البوكس', url: '/product/nimo-matcha-gift-box' },
     ],
   } },
   { path: 'home.nm-categories', values: {
     items: [
-      { title: 'العروض', tone: 'pink', image: by('ceremonial-matcha-120g').image.url, url: '/category/offers' },
-      { title: 'البوكسات', tone: 'orange', image: by('nimo-matcha-gift-box').image.url, url: '/category/boxes' },
-      { title: 'الماتشا', tone: 'leaf', image: by('organic-ceremonial-matcha-40g').image.url, url: '/category/matcha' },
-      { title: 'النكهات', tone: 'pink', image: by('strawberry-matcha-40g').image.url, url: '/#flavors' },
-      { title: 'السيروب', tone: 'cream', image: media.syrups, url: '/category/tools' },
-      { title: 'الأدوات', tone: 'cream', image: by('verde-tools').image.url, url: '/category/tools' },
+      { title: 'العروض', image: by('ceremonial-matcha-120g').image.url, url: '/category/offers' },
+      { title: 'البوكسات', image: by('nimo-matcha-gift-box').image.url, url: '/category/boxes' },
+      { title: 'الماتشا', image: by('organic-ceremonial-matcha-40g').image.url, url: '/category/matcha' },
+      { title: 'النكهات', image: by('strawberry-matcha-40g').image.url, url: '/#flavors' },
+      { title: 'السيروب', image: media.syrups, url: '/category/tools' },
+      { title: 'الأدوات', image: by('verde-tools').image.url, url: '/category/tools' },
     ],
   } },
   { path: 'home.nm-usp', values: {} },
@@ -194,10 +194,10 @@ export const home = [
   { path: 'home.nm-shop', values: { products: products, more_url: '/products' } },
   { path: 'home.nm-flavors', values: {
     items: [
-      { name: 'كلاسيك', tone: 'green', line: 'الماتشا الاحتفالية كما هي: ناعمة، خضراء، وبدون مرارة.', image: media.jarLatte, product: [by('ceremonial-matcha-80g')] },
-      { name: 'فراولة', tone: 'pink', line: 'آيس لاتيه وردي بطعم فراولة يذكّرك بالصيف.', image: media.pinkDip, product: [by('strawberry-matcha-40g')] },
-      { name: 'مانجو', tone: 'orange', line: 'استوائية ومنعشة، تحبها من أول رشفة.', image: media.mangoLatte, product: [by('mango-matcha-40g')] },
-      { name: 'فانيليا', tone: 'cream', line: 'دافئة وناعمة، لكوب الصبح الهادي.', image: media.vanillaLatte, product: [by('vanilla-matcha-40g')] },
+      { name: 'كلاسيك', accent: 'matcha', line: 'الماتشا الاحتفالية كما هي: ناعمة، خضراء، وبدون مرارة.', image: media.jarLatte, product: [by('ceremonial-matcha-80g')] },
+      { name: 'فراولة', accent: 'berry', line: 'آيس لاتيه بطعم فراولة يذكّرك بالصيف.', image: media.pinkDip, product: [by('strawberry-matcha-40g')] },
+      { name: 'مانجو', accent: 'mango', line: 'استوائية ومنعشة، تحبها من أول رشفة.', image: media.mangoLatte, product: [by('mango-matcha-40g')] },
+      { name: 'فانيليا', accent: 'vanilla', line: 'دافئة وناعمة، لكوب الصبح الهادي.', image: media.vanillaLatte, product: [by('vanilla-matcha-40g')] },
     ],
   } },
   { path: 'home.nm-ritual', values: { image: media.sifting, url: '/category/tools' } },

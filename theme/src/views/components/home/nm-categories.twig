@@ -1,13 +1,12 @@
-{# | component.items[] | image, title, url, tone | — round shortcuts to each part of the store #}
+{# | component.items[] | image, title, url | — round shortcuts to each part of the store #}
 {% import 'components.nm.macros' as nm %}
 {% if component.items|length %}
-<section class="nm-cats" component-id="{{ componentId }}" aria-label="{{ trans('nm.categories') }}">
-    <div class="nm-cats__track">
+<section class="nm-rings" component-id="{{ componentId }}" aria-label="{{ trans('nm.categories') }}">
+    <div class="nm-rings__track">
         {% for item in component.items %}
-            {% set tone = include('components.nm.pick', {v: item.tone})|trim ?: 'cream' %}
-            <a class="nm-cat" href="{{ nm.href(item.url) }}" data-tone="{{ tone }}" data-reveal style="--i: {{ loop.index0 }}">
-                <span class="nm-cat__img">{% if item.image %}<img src="{{ item.image }}" alt="" loading="lazy" decoding="async" width="200" height="200">{% endif %}</span>
-                <span class="nm-cat__name">{{ item.title }}</span>
+            <a class="nm-ring" href="{{ nm.href(item.url) }}" data-reveal style="--i: {{ loop.index0 }}">
+                <span class="nm-ring__disc"><span class="nm-ring__img">{% if item.image %}<img src="{{ item.image }}" alt="" loading="lazy" decoding="async" width="240" height="240">{% endif %}</span></span>
+                <span class="nm-ring__name">{{ item.title }}</span>
             </a>
         {% endfor %}
     </div>

@@ -169,7 +169,7 @@ async function build() {
   };
   const theme = {
     is_rtl: true,
-    color: { primary: '#12493A', reverse_text: '#FFFFFF', darker: () => '#0A2E23', lighter: () => '#1D5E4B' },
+    color: { primary: '#EB6A1F', reverse_text: '#FFFFFF', darker: () => '#C4520F', lighter: () => '#F49A5E' },
     settings: {
       get: (key, fallback = null) => {
         if (key in PREVIEW_SETTINGS) return PREVIEW_SETTINGS[key];

@@ -11,25 +11,29 @@
 {% if component.products|length %}
 <section class="nm-section nm-shop" id="shop" data-nm-shop component-id="{{ componentId }}">
     <div class="nm-container">
-        {% include 'components.nm.head' with {c: component} %}
-        {% if cats|length > 1 %}
-            <div class="nm-shop__bar">
-                <div class="nm-pills" role="tablist" aria-label="{{ trans('nm.categories') }}">
-                    <button class="nm-pill is-active" type="button" role="tab" aria-selected="true" data-nm-filter="*">{{ component.all_label ?: trans('nm.all') }} <small>{{ component.products|length }}</small></button>
+        {% include 'components.nm.head' with {c: component, modifier: 'center'} %}
+    </div>
+    {% if cats|length > 1 %}
+        <div class="nm-shop__bar">
+            <div class="nm-container">
+                <div class="nm-tabs" role="tablist" aria-label="{{ trans('nm.categories') }}">
+                    <button class="nm-tab is-active" type="button" role="tab" aria-selected="true" data-nm-filter="*">{{ component.all_label ?: trans('nm.all') }}<small>{{ component.products|length }}</small></button>
                     {% for c in cats %}
                         {% set n = 0 %}{% for p in component.products %}{% if p.category and p.category.name == c %}{% set n = n + 1 %}{% endif %}{% endfor %}
-                        <button class="nm-pill" type="button" role="tab" aria-selected="false" data-nm-filter="{{ c }}">{{ c }} <small>{{ n }}</small></button>
+                        <button class="nm-tab" type="button" role="tab" aria-selected="false" data-nm-filter="{{ c }}">{{ c }}<small>{{ n }}</small></button>
                     {% endfor %}
                 </div>
             </div>
-        {% endif %}
+        </div>
+    {% endif %}
+    <div class="nm-container">
         <div class="nm-grid nm-shop__grid" data-nm-shop-grid>
             {% for p in component.products %}
                 {% include 'components.product.nm-card' with {product: p, eager: false} %}
             {% endfor %}
         </div>
         {% if component.more_label %}
-            <div class="nm-shop__more"><a class="nm-btn nm-btn--ghost" href="{{ nm.href(component.more_url) }}">{{ component.more_label }}{% include 'components.nm.icon' with {name: 'arrow', size: 18} %}</a></div>
+            <div class="nm-shop__more"><a class="nm-btn nm-btn--line" href="{{ nm.href(component.more_url) }}">{{ component.more_label }}{% include 'components.nm.icon' with {name: 'arrow', size: 18} %}</a></div>
         {% endif %}
     </div>
 </section>

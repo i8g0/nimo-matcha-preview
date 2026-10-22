@@ -1,4 +1,4 @@
-/** Home sections with behaviour: hero slides, shop tabs, flavour picker, bundle builder. */
+/** Home sections with behaviour: cinematic scenes, shop tabs, flavour picker, bundle builder. */
 import * as store from './store.js';
 import { addOne, openDrawer } from './cart-ui.js';
 import { reveals } from './motion.js';
@@ -7,59 +7,7 @@ const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---------- hero ---------- */
-export function hero() {
-  $$('[data-nm-hero]').forEach((root) => {
-    const slides = $$('[data-nm-slide]', root);
-    const dots = $$('[data-nm-dot]', root);
-    if (slides.length < 2) return;
-    const MS = 6500;
-    root.style.setProperty('--nm-hero-ms', `${MS}ms`);
-    const auto = root.dataset.autoplay !== 'false' && !reduced();
-    let i = 0;
-    let timer;
-    const show = (n) => {
-      i = (n + slides.length) % slides.length;
-      slides.forEach((s, k) => {
-        const on = k === i;
-        s.classList.toggle('is-active', on);
-        s.setAttribute('aria-hidden', on ? 'false' : 'true');
-        $$('a, button', s).forEach((a) => (on ? a.removeAttribute('tabindex') : a.setAttribute('tabindex', '-1')));
-      });
-      dots.forEach((d, k) => {
-        d.classList.remove('is-active');
-        d.setAttribute('aria-selected', k === i ? 'true' : 'false');
-        if (k === i) { void d.offsetWidth; d.classList.add('is-active'); }
-        d.classList.toggle('is-static', !auto && k === i);
-      });
-      root.dataset.tone = slides[i].dataset.toneName || 'green';
-      schedule();
-    };
-    const schedule = () => {
-      clearTimeout(timer);
-      if (auto && !root.classList.contains('is-paused')) timer = setTimeout(() => show(i + 1), MS);
-    };
-    dots.forEach((d) => d.addEventListener('click', () => show(Number(d.dataset.nmDot))));
-    /* pause while the shopper is reading or the hero is off-screen */
-    const pause = (on) => { root.classList.toggle('is-paused', on); if (on) clearTimeout(timer); else schedule(); };
-    root.addEventListener('pointerenter', () => pause(true));
-    root.addEventListener('pointerleave', () => pause(false));
-    root.addEventListener('focusin', () => pause(true));
-    root.addEventListener('focusout', () => pause(false));
-    new IntersectionObserver(([e]) => pause(!e.isIntersecting)).observe(root);
-    /* swipe */
-    let x0 = null;
-    root.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
-    root.addEventListener('touchend', (e) => {
-      if (x0 === null) return;
-      const dx = e.changedTouches[0].clientX - x0;
-      const rtl = document.dir === 'rtl';
-      if (Math.abs(dx) > 50) show(i + ((dx < 0) !== rtl ? 1 : -1));
-      x0 = null;
-    });
-    show(0);
-  });
-}
+export { scenes as hero } from './scenes.js';
 
 /* ---------- shop tabs ---------- */
 export function shop() {
@@ -99,7 +47,6 @@ export function flavors() {
       const k = b.dataset.nmFlavor;
       if (b.getAttribute('aria-pressed') === 'true') return;
       btns.forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
-      root.dataset.tone = b.dataset.toneName || 'green';
       imgs.forEach((im) => im.classList.toggle('is-active', im.dataset.flavorImg === k));
       root.classList.add('is-switching');
       setTimeout(() => {

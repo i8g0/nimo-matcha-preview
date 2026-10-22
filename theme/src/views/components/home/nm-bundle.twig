@@ -13,11 +13,10 @@ The shopper ticks what they want; the total updates and one button adds them all
         <div class="nm-bundle__box" data-reveal>
             <div class="nm-bundle__items">
                 {% for p in items %}
-                    {% if not loop.first %}<span class="nm-bundle__plus" aria-hidden="true">+</span>{% endif %}
                     <label class="nm-bitem">
                         <input type="checkbox" checked data-nm-bundle-item data-id="{{ p.id }}" data-price="{{ p.price }}" data-regular="{{ p.is_on_sale ? p.regular_price : p.price }}" data-name="{{ p.name }}" data-image="{{ p.image.url }}" data-url="{{ p.url }}">
-                        <span class="nm-bitem__check" aria-hidden="true">{% include 'components.nm.icon' with {name: 'check', size: 14} %}</span>
-                        <img src="{{ p.image.url }}" alt="" loading="lazy" decoding="async" width="300" height="300">
+                        <span class="nm-bitem__check" aria-hidden="true">{% include 'components.nm.icon' with {name: 'check', size: 13} %}</span>
+                        <img src="{{ p.image.url }}" alt="" loading="lazy" decoding="async" width="300" height="375">
                         <strong>{{ p.name }}</strong>
                         <span class="nm-card__price">{{ nm.price(p) }}</span>
                     </label>
@@ -26,7 +25,7 @@ The shopper ticks what they want; the total updates and one button adds them all
             <div class="nm-bundle__sum">
                 <div class="nm-bundle__total"><span>{{ trans('nm.total') }} (<span data-nm-bundle-count>{{ items|length }}</span>)</span><strong class="nm-num" data-nm-bundle-total></strong></div>
                 <span class="nm-bundle__save" data-nm-bundle-save data-label="{{ trans('nm.you_save') }}" hidden></span>
-                <button class="nm-btn nm-btn--green nm-btn--block nm-btn--lg" type="button" data-nm-bundle-add>{{ component.button ?: trans('nm.add_to_cart') }}</button>
+                <button class="nm-btn nm-btn--block nm-btn--lg" type="button" data-nm-bundle-add>{{ component.button ?: trans('nm.add_to_cart') }}</button>
             </div>
         </div>
     </div>

@@ -61,34 +61,33 @@ export function cardHTML(p) {
   const second = (p.images || [])[1]?.url;
   const promo = p.promotion_title || p.promotion?.title || '';
   const cat = p.category?.name || (typeof p.category === 'string' ? p.category : '') || '';
-  const stars = p.rating?.stars;
   const priceHTML = onSale
     ? `<strong class="nm-price nm-price--sale">${money(sale)}</strong><del class="nm-price-old">${money(regular)}</del>`
     : `<strong class="nm-price">${money(price)}</strong>`;
   const name = esc(p.name);
   return `
   <article class="nm-card ${available ? '' : 'nm-card--out'}" data-nm-card data-category="${esc(cat)}" data-name="${name}" data-price="${price}">
-    <a class="nm-card__media" href="${esc(p.url)}" aria-label="${name}">
-      <img src="${esc(image)}" alt="${name}" loading="lazy" decoding="async" width="600" height="600" data-nm-fly-src>
-      ${second ? `<img src="${esc(second)}" alt="" loading="lazy" decoding="async" width="600" height="600">` : ''}
+    <a class="nm-card__stage" href="${esc(p.url)}" aria-label="${name}">
+      <img src="${esc(image)}" alt="${name}" loading="lazy" decoding="async" width="600" height="750" data-nm-fly-src>
+      ${second ? `<img src="${esc(second)}" alt="" loading="lazy" decoding="async" width="600" height="750">` : ''}
       <span class="nm-card__badges">
-        ${off ? `<span class="nm-chip nm-chip--pink">${t('save', 'وفّر')} ${arabicDigits(off)}٪</span>` : ''}
-        ${promo ? `<span class="nm-chip nm-chip--green">${esc(promo)}</span>` : ''}
-        ${available ? '' : `<span class="nm-chip nm-chip--soft">${t('soldOut', 'نفدت الكمية')}</span>`}
+        ${promo ? `<span class="nm-label nm-label--solid">${esc(promo)}</span>` : ''}
+        ${off ? `<span class="nm-label">${t('save', 'وفّر')} ${arabicDigits(off)}٪</span>` : ''}
+        ${available ? '' : `<span class="nm-label nm-label--muted">${t('soldOut', 'نفدت الكمية')}</span>`}
       </span>
     </a>
-    ${available ? `<button class="nm-card__add" type="button" data-nm-add="${p.id}" data-name="${name}" data-image="${esc(image)}" data-url="${esc(p.url)}" data-price="${price}" aria-label="${t('addToCart', 'أضف للسلة')}: ${name}">
-      <svg class="nm-plus" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-      <svg class="nm-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
-    </button>` : ''}
-    <div class="nm-card__body">
-      ${cat ? `<span class="nm-card__cat">${esc(cat)}</span>` : ''}
-      <a class="nm-card__name" href="${esc(p.url)}">${name}</a>
-      <div class="nm-card__meta">
+    <div class="nm-card__foot">
+      ${available ? `<button class="nm-card__add" type="button" data-nm-add="${p.id}" data-name="${name}" data-image="${esc(image)}" data-url="${esc(p.url)}" data-price="${price}" aria-label="${t('addToCart', 'أضف للسلة')}: ${name}">
+        <svg class="nm-plus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        <svg class="nm-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+      </button>` : ''}
+      <div class="nm-card__body">
+        ${cat ? `<span class="nm-card__cat">${esc(cat)}</span>` : ''}
+        <a class="nm-card__name" href="${esc(p.url)}">${name}</a>
+        <span class="nm-card__rule" aria-hidden="true"></span>
+        <div class="nm-card__price">${priceHTML}</div>
         <span class="nm-cups" data-nm-cups hidden></span>
-        ${stars ? `<span class="nm-stars" style="--s:${Number(stars)}" aria-label="${Number(stars)}/5">★★★★★</span>` : ''}
       </div>
-      <div class="nm-card__price">${priceHTML}</div>
     </div>
   </article>`;
 }

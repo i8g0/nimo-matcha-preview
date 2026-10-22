@@ -35,38 +35,36 @@ const note = (value) => ({ type: 'static', format: 'description', id: `note-${ke
 const component = (path, ar, en, icon, fields) => ({ key: key(), title: { ar, en }, icon, path, fields });
 
 /* The brand palette, named the way the merchant thinks about it. Used by every "tone" dropdown. */
-const TONES = [['أخضر نيمو (داكن)', 'green'], ['وردي', 'pink'], ['برتقالي', 'orange'], ['كريمي فاتح', 'cream'], ['أخضر ماتشا فاتح', 'leaf']];
+const TONES = [['كريمي (فاتح)', 'paper'], ['رملي', 'sand'], ['أخضر الليل (داكن)', 'night'], ['برتقالي نيمو', 'orange'], ['ماتشا فاتح', 'leaf']];
+const ACCENTS = [['ماتشا', 'matcha'], ['مانجو', 'mango'], ['فانيليا', 'vanilla'], ['فراولة / توت', 'berry'], ['كراميل', 'caramel']];
 const tone = (id, label, value) => manual(id, label, TONES, value);
 const head = (eyebrow, title, accent) => [text('eyebrow', 'سطر صغير فوق العنوان', eyebrow), text('title', 'العنوان', title), text('accent', 'الكلمة الملوّنة في العنوان', accent)];
 
 const components = [
-  component('home.nm-hero', 'البنر الرئيسي (شرائح)', 'Hero slides', 'sicon-image-carousel', [
-    note('أول ما يشوفه العميل. كل شريحة: صورة (أو فيديو mp4 صامت) + عنوان + زرين. الصورة تظهر داخل شكل نيمو العضوي، والخلفية بلون الطابع المختار.'),
-    collection('slides', 'الشرائح', 'شريحة', [
-      tone('tone', 'لون الشريحة', 'green'),
-      image('image', 'الصورة', 'مربعة أو عمودية بجودة عالية (1200×1400 تقريبًا)'),
-      url('video', 'رابط فيديو mp4 (اختياري، صامت، أقل من ٤ ميغا)'),
-      text('eyebrow', 'سطر صغير'),
+  component('home.nm-hero', 'المشاهد السينمائية (البنر الرئيسي)', 'Cinematic scenes', 'sicon-video', [
+    note('مشاهد بملء الشاشة تتكشّف مع التمرير، مثل فيلم قصير. لكل مشهد صورة، وفيديو اختياري (mp4 صامت، ٥–١٠ ثوانٍ، أقل من ٤ ميغا) للكمبيوتر وآخر عمودي للجوال.'),
+    collection('slides', 'المشاهد', 'مشهد', [
+      image('image', 'صورة المشهد (أفقية للكمبيوتر)', 'تُستخدم غلافًا للفيديو أو بديلًا عنه'),
+      image('image_mobile', 'صورة المشهد للجوال (عمودية، اختياري)'),
+      url('video', 'رابط فيديو الكمبيوتر (mp4 أفقي)'),
+      url('video_mobile', 'رابط فيديو الجوال (mp4 عمودي)'),
+      manual('tone', 'طابع المشهد', [['داكن (صورة أو فيديو كامل)', 'dark'], ['فاتح (منتج على خلفية فاتحة)', 'light']], 'dark'),
+      text('eyebrow', 'سطر صغير (لاتيني أو عربي)'),
       text('title', 'العنوان'),
-      text('accent', 'الكلمة الملوّنة'),
-      area('text', 'وصف قصير'),
-      text('button', 'نص الزر الأساسي'),
-      link('url', 'رابط الزر الأساسي'),
-      text('button_2', 'نص الزر الثاني (اختياري)'),
-      link('url_2', 'رابط الزر الثاني'),
-      text('sticker', 'ملصق دائري على الصورة (مثال: خصم ٤٧٪)'),
+      text('accent', 'السطر البرتقالي'),
+      text('button', 'نص الزر'),
+      link('url', 'رابط الزر'),
     ], [
-      { tone: 'green', eyebrow: 'ماتشا يابانية احتفالية', title: 'كوبك الأخضر', accent: 'يبدأ من هنا', text: 'ماتشا ناعمة بلون حي ونكهة بدون مرارة. تتحضّر في دقيقة، بالبيت، على ذوقك.', button: 'تسوّق البوكسات', button_2: 'كيف أحضّرها؟', sticker: 'الأكثر طلبًا' },
-      { tone: 'pink', eyebrow: 'نكهات نيمو', title: 'فراولة، مانجو،', accent: 'وفانيليا', text: 'ماتشا بنكهات فاكهية لكوب لاتيه بارد يفتح النفس.', button: 'اكتشف النكهات', sticker: '٥٩ ر.س' },
-      { tone: 'orange', eyebrow: 'بوكس الهدية', title: 'هدية تفرّح', accent: 'محبّين الماتشا', text: 'ماتشا وسيروب وأكواب نيمو وكرت شكر، في بوكس جاهز للإهداء.', button: 'شوف البوكس', sticker: 'وفّر ٤٧٪' },
-    ], 1, 6),
-    toggle('autoplay', 'تقليب تلقائي للشرائح', true),
-    text('rating_text', 'شارة التقييم (اتركها فارغة لإخفائها)', '٤٫٩ من تقييمات عملائنا في سلة'),
+      { tone: 'dark', eyebrow: 'CEREMONIAL GRADE · JAPAN', title: 'ماتشا يابانية', accent: 'تُحضَّر في دقيقة', button: 'تسوّق الماتشا' },
+      { tone: 'dark', eyebrow: 'VANILLA · ICED LATTE', title: 'نعومة الفانيليا', accent: 'في كل رشفة', button: 'اكتشف النكهات' },
+      { tone: 'dark', eyebrow: 'THE NIMO BOX', title: 'هدية تُفرح', accent: 'محبّي الماتشا', button: 'شوف البوكس' },
+    ], 1, 5),
+    text('rating_text', 'سطر التقييم تحت الزر (اتركه فارغًا لإخفائه)', '٤٫٩ من تقييمات عملائنا في سلة'),
   ]),
   component('home.nm-categories', 'دوائر التصنيفات', 'Category circles', 'sicon-layout-grid', [
     note('اختصارات سريعة للأقسام. تظهر كدوائر يمكن سحبها على الجوال.'),
-    collection('items', 'التصنيفات', 'تصنيف', [image('image', 'الصورة (مربعة)'), text('title', 'الاسم'), link('url', 'الرابط'), tone('tone', 'لون الخلفية', 'cream')],
-      [{ title: 'العروض', tone: 'pink' }, { title: 'البوكسات', tone: 'orange' }, { title: 'الماتشا', tone: 'leaf' }, { title: 'النكهات', tone: 'cream' }, { title: 'السيروب', tone: 'pink' }, { title: 'الأدوات', tone: 'cream' }], 2, 10),
+    collection('items', 'التصنيفات', 'تصنيف', [image('image', 'الصورة (مربعة)'), text('title', 'الاسم'), link('url', 'الرابط')],
+      [{ title: 'العروض' }, { title: 'البوكسات' }, { title: 'الماتشا' }, { title: 'النكهات' }, { title: 'السيروب' }, { title: 'الأدوات' }], 2, 10),
   ]),
   component('home.nm-usp', 'شريط المزايا', 'Benefits strip', 'sicon-star', [
     collection('items', 'المزايا', 'ميزة', [
@@ -81,7 +79,7 @@ const components = [
   ]),
   component('home.nm-spotlight', 'المنتج الأكثر طلبًا + عداد العرض', 'Best seller spotlight', 'sicon-alarm', [
     note('يعرض منتجًا واحدًا بصورة كبيرة، ومحتوياته، وعداد ينتهي في التاريخ المحدد. عند انتهاء التاريخ يختفي العداد تلقائيًا ويبقى المنتج.'),
-    ...head('الأكثر طلبًا', 'بوكس الماتشا', 'اللي الكل يطلبه'),
+    ...head('BEST SELLER', 'بوكس الماتشا', 'اللي الكل يطلبه'),
     products('product', 'المنتج', 1),
     image('image', 'صورة جانبية (لايف ستايل)'),
     collection('contents', 'محتويات المنتج', 'سطر', [text('text', 'السطر')], [
@@ -93,7 +91,7 @@ const components = [
   ]),
   component('home.nm-shop', 'المتجر (منتجات مع تبويبات)', 'Shop grid with tabs', 'sicon-store', [
     note('التبويبات تتكوّن تلقائيًا من تصنيفات المنتجات المختارة، فالعميل يتنقّل بين الأقسام بدون ما يطلع من الصفحة.'),
-    ...head('تسوّق نيمو', 'اختر', 'ماتشتك'),
+    ...head('THE MATCHA BAR', 'اختر', 'ماتشتك'),
     area('description', 'وصف قصير', 'كل المنتجات في مكان واحد. اضغط على القسم اللي يهمّك.'),
     text('all_label', 'اسم تبويب الكل', 'الكل'),
     products('products', 'المنتجات', 24),
@@ -102,22 +100,22 @@ const components = [
   ]),
   component('home.nm-flavors', 'مختار النكهات التفاعلي', 'Flavor picker', 'sicon-sparkles', [
     note('العميل يضغط على النكهة فيتغيّر لون القسم والصورة والمنتج. رتّب النكهات كما تحب.'),
-    ...head('نكهات نيمو', 'وش', 'نكهتك اليوم؟'),
+    ...head('THE FLAVOURS', 'وش', 'نكهتك اليوم؟'),
     collection('items', 'النكهات', 'نكهة', [
       text('name', 'اسم النكهة'),
-      tone('tone', 'لون النكهة', 'green'),
+      manual('accent', 'لون النكهة', ACCENTS, 'matcha'),
       area('line', 'عبارة النكهة'),
       image('image', 'صورة النكهة (لايف ستايل)'),
       products('product', 'المنتج', 1),
     ], [
-      { name: 'كلاسيك', tone: 'green', line: 'الماتشا الاحتفالية كما هي: ناعمة، خضراء، وبدون مرارة.' },
-      { name: 'فراولة', tone: 'pink', line: 'آيس لاتيه وردي بطعم فراولة يذكّرك بالصيف.' },
-      { name: 'مانجو', tone: 'orange', line: 'استوائية ومنعشة، تحبها من أول رشفة.' },
-      { name: 'فانيليا', tone: 'cream', line: 'دافئة وناعمة، لكوب الصبح الهادي.' },
+      { name: 'كلاسيك', accent: 'matcha', line: 'الماتشا الاحتفالية كما هي: ناعمة، خضراء، وبدون مرارة.' },
+      { name: 'فراولة', accent: 'berry', line: 'آيس لاتيه بطعم فراولة يذكّرك بالصيف.' },
+      { name: 'مانجو', accent: 'mango', line: 'استوائية ومنعشة، تحبها من أول رشفة.' },
+      { name: 'فانيليا', accent: 'vanilla', line: 'دافئة وناعمة، لكوب الصبح الهادي.' },
     ], 2, 6),
   ]),
   component('home.nm-ritual', 'طريقة التحضير بخطوات', 'How to prepare', 'sicon-list-play', [
-    ...head('سهلة جدًا', 'حضّرها في', 'دقيقة'),
+    ...head('THE RITUAL', 'حضّرها في', 'دقيقة'),
     collection('steps', 'الخطوات', 'خطوة', [text('title', 'العنوان'), area('text', 'الشرح'), text('measure', 'رقم بارز (مثال: ٢ جم)')], [
       { measure: '٢ جم', title: 'ملعقة ماتشا', text: 'ضع ملعقة صغيرة من الماتشا في الكوب أو الوعاء.' },
       { measure: '٨٠°', title: 'ماء دافئ', text: 'أضف قليلًا من الماء الدافئ، لا تستخدم ماء يغلي.' },
@@ -130,15 +128,15 @@ const components = [
   ]),
   component('home.nm-bundle', 'كمّل كوبك (اشترِ معًا)', 'Bundle builder', 'sicon-cart-add', [
     note('العميل يختار من المنتجات ويضيفها كلها للسلة بضغطة. يرفع متوسط قيمة الطلب.'),
-    ...head('اشترِها مع بعض', 'كمّل', 'كوبك'),
+    ...head('COMPLETE YOUR CUP', 'كمّل', 'كوبك'),
     area('description', 'وصف قصير', 'ماتشا + سيروب + كوب = تجربة كاملة. اختر وأضف الكل بضغطة.'),
     products('products', 'المنتجات (من ٢ إلى ٤)', 4, 2),
     text('button', 'نص الزر', 'أضف المختار للسلة'),
   ]),
   component('home.nm-rail', 'شريط منتجات أفقي', 'Product rail', 'sicon-list', [
     note('شريط منتجات قابل للسحب. استخدمه أكثر من مرة لأقسام مختلفة (الأدوات، السيروب، الجديد…).'),
-    ...head('', 'أدوات', 'التحضير'),
-    tone('tone', 'لون الخلفية', 'cream'),
+    ...head('TOOLS & SYRUPS', 'أدوات', 'التحضير'),
+    tone('tone', 'لون الخلفية', 'sand'),
     products('products', 'المنتجات', 16),
     text('more_label', 'نص رابط عرض الكل', 'عرض الكل'), link('more_url', 'رابط عرض الكل'),
   ]),
@@ -148,19 +146,19 @@ const components = [
     text('alt', 'وصف الصورة (للبحث وقارئ الشاشة)'), link('url', 'الرابط'),
   ]),
   component('home.nm-moments', 'لحظات نيمو (معرض صور)', 'Moments gallery', 'sicon-image-carousel', [
-    ...head('من مطبخ نيمو', 'لحظات', 'خضراء'),
+    ...head('NIMO MOMENTS', 'لحظات', 'خضراء'),
     collection('images', 'الصور', 'صورة', [image('image', 'الصورة'), text('caption', 'وصف قصير'), link('url', 'رابط (اختياري)')], [
       { caption: 'آيس لاتيه فانيليا' }, { caption: 'ماتشا الصباح' }, { caption: 'كيك الماتشا' }, { caption: 'سموذي بول' }, { caption: 'ماتشا فراولة' }, { caption: 'مانجو ماتشا' },
     ], 3, 16),
     text('button', 'نص الزر', 'تابعنا على إنستقرام'), url('button_url', 'رابط الزر', 'https://www.instagram.com/nimomatcha'),
   ]),
   component('home.nm-reviews', 'آراء العملاء', 'Reviews', 'sicon-chat-bubbles', [
-    ...head('قالوا عن نيمو', 'كلامهم', 'يكفي'),
+    ...head('WORDS', 'قالوا عن', 'نيمو'),
     text('score', 'التقييم العام', '٤٫٩'), text('score_label', 'وصف التقييم', 'متوسط تقييمات عملائنا في سلة'),
     collection('reviews', 'الآراء', 'رأي', [area('text', 'الرأي'), text('name', 'الاسم'), text('city', 'المدينة'), text('product', 'المنتج (اختياري)'), toggle('verified', 'مشتري موثّق (كتب الرأي بعد طلب)', false)], [], 1, 16),
   ]),
   component('home.nm-story', 'قصة نيمو', 'Brand story', 'sicon-align-right', [
-    image('image', 'الصورة'), ...head('من مزارع اليابان', 'رحلة إلى عالم', 'الماتشا'),
+    image('image', 'الصورة'), ...head('FROM JAPAN, WITH CARE', 'رحلة إلى عالم', 'الماتشا'),
     area('text', 'النص', 'نأخذك في رحلة إلى عالم الماتشا اليابانية، من خلال منتجات مختارة بعناية تجمع بين الجودة العالية والمذاق الأصيل، لنمنحك تجربة تحضير سهلة ومتكاملة في كل كوب.'),
     collection('facts', 'أرقام', 'رقم', [text('value', 'الرقم'), text('label', 'الوصف')], [
       { value: '١٠٠٪', label: 'ماتشا يابانية' }, { value: '٢ جم', label: 'لكل كوب' }, { value: '+٤٠', label: 'كوب في البوكس' },
@@ -168,7 +166,7 @@ const components = [
     text('button', 'نص الزر', 'تعرّف علينا'), link('url', 'رابط الزر'),
   ]),
   component('home.nm-faq', 'الأسئلة الشائعة', 'FAQ', 'sicon-help', [
-    ...head('عندك سؤال؟', 'أسئلة', 'تتكرر'),
+    ...head('QUESTIONS', 'أسئلة', 'تتكرر'),
     collection('items', 'الأسئلة', 'سؤال', [text('q', 'السؤال'), area('a', 'الإجابة')], [
       { q: 'وش الفرق بين الماتشا الاحتفالية والعادية؟', a: 'الاحتفالية من أوراق أصغر وأنعم، لونها أخضر حي وطعمها ناعم بدون مرارة، ومناسبة تنشرب بالماء أو مع الحليب.' },
       { q: 'كم كوب يطلع من ٤٠ جرام؟', a: 'تقريبًا ٢٠ كوب، على أساس ٢ جرام لكل كوب. البوكس ٨٠ جرام يعطيك حوالي ٤٠ كوب.' },
@@ -178,7 +176,7 @@ const components = [
     ], 1, 12),
   ]),
   component('home.nm-cta', 'دعوة للتواصل', 'Call to action', 'sicon-whatsapp', [
-    tone('tone', 'لون الخلفية', 'pink'),
+    tone('tone', 'لون الخلفية', 'orange'),
     text('title', 'العنوان', 'محتار وش تختار؟'), area('text', 'النص', 'كلّمنا على واتساب ونرشّح لك الأنسب لذوقك.'),
     text('button', 'نص الزر', 'كلّمنا على واتساب'), url('button_url', 'رابط الزر', 'https://wa.me/'),
   ]),
