@@ -100,6 +100,12 @@ export function defineCard() {
     set product(p) { this._p = p; if (this.isConnected) this.render(); }
     get product() { return this._p; }
     connectedCallback() {
+      /* a value set before this element was upgraded lands as an own property: adopt it */
+      if (Object.prototype.hasOwnProperty.call(this, 'product')) {
+        const v = this.product;
+        delete this.product;
+        this._p = v;
+      }
       if (!this._p && this.getAttribute('product')) {
         try { this._p = JSON.parse(this.getAttribute('product')); } catch { /* ignore */ }
       }
