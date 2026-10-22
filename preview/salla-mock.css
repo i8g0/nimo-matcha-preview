@@ -1,0 +1,36 @@
+/* Looks for the Salla stand-ins in the preview. On Salla these elements are rendered and styled by Salla. */
+.pv-tamara { display: block; font-size: 13px; color: var(--nm-muted); }
+.pv-tamara b { color: var(--nm-ink); font-weight: 700; }
+.pv-tamara i { font-style: normal; font-weight: 700; color: #1c1c1c; background: linear-gradient(90deg, #F3C9A8, #E9A8C6, #B9B4F0); padding: 1px 7px; border-radius: 5px; font-family: system-ui, sans-serif; font-size: 11px; }
+
+.pv-comments { display: grid; gap: 14px; }
+@media (min-width: 900px) { .pv-comments { grid-template-columns: repeat(3, 1fr); } }
+.pv-empty { color: var(--nm-muted); padding: 20px; border-radius: var(--nm-r); background: var(--nm-white); border: 1px dashed var(--nm-line-strong); }
+
+.pv-search { position: fixed; inset: 0; z-index: 150; background: rgba(10, 46, 35, .5); backdrop-filter: blur(6px); opacity: 0; transition: opacity .3s; }
+.pv-search.is-open { opacity: 1; }
+.pv-search__box { background: var(--nm-cream); padding: 16px var(--nm-gutter) 24px; transform: translateY(-20px); transition: transform .5s var(--nm-ease); max-height: 86vh; overflow-y: auto; border-radius: 0 0 24px 24px; }
+.pv-search.is-open .pv-search__box { transform: none; }
+.pv-search__bar { display: flex; gap: 8px; max-width: 760px; margin: 0 auto; }
+.pv-search__bar input { flex: 1; min-width: 0; height: 56px; padding: 0 20px; border: 1.5px solid var(--nm-line-strong); border-radius: 999px; background: #fff; font: inherit; font-size: 17px; outline: none; }
+.pv-search__bar input:focus { border-color: var(--nm-green); }
+.pv-search__bar button { width: 56px; border: 0; background: none; font-size: 18px; }
+.pv-search__hint { max-width: 760px; margin: 14px auto 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 12.5px; color: var(--nm-muted); }
+.pv-search__hint button { border: 1px solid var(--nm-line-strong); background: #fff; padding: 6px 14px; border-radius: 999px; font-size: 13px; color: var(--nm-green); }
+.pv-search__results { max-width: 760px; margin: 16px auto 0; display: grid; gap: 6px; }
+.pv-search__results a { display: flex; align-items: center; gap: 14px; padding: 8px; border-radius: 16px; transition: background .2s; }
+.pv-search__results a:hover { background: #fff; }
+.pv-search__results img { width: 56px; height: 56px; object-fit: cover; border-radius: 12px; background: var(--nm-studio); }
+.pv-search__results b { display: block; font-size: 15px; color: var(--nm-green); }
+.pv-search__results small { color: var(--nm-muted); }
+.pv-search__results p { color: var(--nm-muted); text-align: center; padding: 20px; }
+
+.pv-modal { position: fixed; inset: 0; z-index: 400; display: grid; place-items: center; padding: 20px; background: rgba(10, 46, 35, .55); backdrop-filter: blur(4px); animation: nm-rise .4s var(--nm-ease); }
+.pv-modal__box { max-width: 420px; padding: 32px 28px; background: var(--nm-cream); text-align: center; display: flex; flex-direction: column; gap: 12px; align-items: center; border-radius: 28px; }
+.pv-modal__eyebrow { font-size: 12px; font-weight: 600; color: var(--nm-pink); }
+.pv-modal__box h3 { margin: 0; font-size: 24px; color: var(--nm-green); }
+.pv-modal__box p { margin: 0; font-size: 14px; color: var(--nm-muted); line-height: 1.9; }
+.pv-modal__box button { margin-top: 8px; height: 48px; padding: 0 32px; border: 0; border-radius: 999px; background: var(--nm-green); color: #fff; font-weight: 600; }
+
+.pv-badge { position: fixed; z-index: 90; top: 50%; left: 0; transform: translateY(-50%); writing-mode: vertical-rl; padding: 12px 5px; font-size: 10.5px; font-weight: 600; color: #fff; background: var(--nm-pink); border-radius: 0 8px 8px 0; pointer-events: none; }
+@media (max-width: 767px) { .pv-badge { display: none; } }

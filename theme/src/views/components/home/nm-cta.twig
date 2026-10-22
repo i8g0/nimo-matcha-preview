@@ -1,0 +1,16 @@
+{# | component.tone | tone | component.title, text, button, button_url | string | #}
+{% set tone = include('components.nm.pick', {v: component.tone})|trim ?: 'pink' %}
+<section class="nm-section--tight nm-cta" component-id="{{ componentId }}">
+    <div class="nm-container">
+        <div class="nm-cta__box" data-tone="{{ tone }}" data-reveal>
+            <span class="nm-cta__mark" aria-hidden="true"><img src="{{ store.logo }}" alt="" width="64" height="64" loading="lazy"></span>
+            <div>
+                <h2>{{ component.title }}</h2>
+                {% if component.text %}<p>{{ component.text }}</p>{% endif %}
+            </div>
+            {% if component.button %}
+                <a class="nm-btn nm-btn--lg" href="{{ component.button_url ?: theme.settings.get('whatsapp') }}" target="_blank" rel="noopener">{% include 'components.nm.icon' with {name: 'whatsapp', size: 20} %}{{ component.button }}</a>
+            {% endif %}
+        </div>
+    </div>
+</section>

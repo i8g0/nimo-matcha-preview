@@ -1,0 +1,21 @@
+{# | component.eyebrow, title, accent | string | component.items[] q, a | — native <details>, works without JS #}
+{% if component.items|length %}
+<section class="nm-section nm-faq" id="faq" component-id="{{ componentId }}">
+    <div class="nm-container nm-faq__grid">
+        <div style="display:flex;flex-direction:column;gap:20px">
+            {% include 'components.nm.head' with {c: component} %}
+            {% if theme.settings.get('whatsapp') %}
+                <div><a class="nm-btn nm-btn--ghost" href="{{ theme.settings.get('whatsapp') }}" target="_blank" rel="noopener">{% include 'components.nm.icon' with {name: 'whatsapp', size: 20} %}{{ trans('nm.ask_us') }}</a></div>
+            {% endif %}
+        </div>
+        <div class="nm-faq__list">
+            {% for item in component.items %}
+                <details class="nm-qa" data-reveal style="--i: {{ loop.index0 }}" {{ loop.first ? 'open' : '' }}>
+                    <summary>{{ item.q }}<i aria-hidden="true"></i></summary>
+                    <div class="nm-qa__a">{{ item.a|nl2br }}</div>
+                </details>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}

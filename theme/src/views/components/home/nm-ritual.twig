@@ -1,0 +1,29 @@
+{#
+| component.eyebrow, title, accent, image, video, button | string |
+| component.steps[] | measure, title, text |
+| component.url | link |
+#}
+{% import 'components.nm.macros' as nm %}
+<section class="nm-section nm-toned" data-tone="green" id="ritual" component-id="{{ componentId }}">
+    <div class="nm-container nm-ritual__grid">
+        <div class="nm-ritual__media" data-reveal>
+            {% if component.video %}
+                <video muted playsinline loop preload="none" poster="{{ component.image }}" data-nm-video data-src="{{ component.video }}" aria-label="{{ component.title }}"></video>
+            {% elseif component.image %}
+                <img src="{{ component.image }}" alt="{{ component.title }} {{ component.accent }}" loading="lazy" decoding="async">
+            {% endif %}
+        </div>
+        <div style="display:flex;flex-direction:column;gap:20px">
+            {% include 'components.nm.head' with {c: component} %}
+            <ol class="nm-steps">
+                {% for s in component.steps %}
+                    <li class="nm-step" data-reveal style="--i: {{ loop.index0 }}">
+                        <span class="nm-step__measure">{{ s.measure }}</span>
+                        <div><h3>{{ s.title }}</h3><p>{{ s.text }}</p></div>
+                    </li>
+                {% endfor %}
+            </ol>
+            {% if component.button %}<div><a class="nm-btn" href="{{ nm.href(component.url) }}">{{ component.button }}{% include 'components.nm.icon' with {name: 'arrow', size: 18} %}</a></div>{% endif %}
+        </div>
+    </div>
+</section>

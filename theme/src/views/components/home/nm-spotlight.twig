@@ -1,0 +1,62 @@
+{#
+| component.eyebrow, title, accent, image, timer_label, proof | string |
+| component.product    | Product[] (first is used) |
+| component.contents[] | text |
+| component.ends_at    | date (YYYY-MM-DD) — the countdown hides itself once it passes |
+#}
+{% import 'components.nm.macros' as nm %}
+{% set p = component.product|first %}
+{% if p %}
+{% set off = nm.off(p)|trim %}
+<section class="nm-section nm-spot" id="best" component-id="{{ componentId }}">
+    <div class="nm-container">
+        <div class="nm-spot__grid">
+            <div class="nm-spot__stage" data-reveal>
+                <a class="nm-spot__product" href="{{ p.url }}" aria-label="{{ p.name }}">
+                    <img src="{{ p.image.url }}" alt="{{ p.name }}" loading="lazy" decoding="async" width="900" height="900" data-nm-fly-src>
+                    <span class="nm-spot__badge"><span class="nm-chip nm-chip--orange">{{ p.promotion_title ?: component.eyebrow }}</span></span>
+                </a>
+                {% if component.image %}
+                    <span class="nm-spot__life" aria-hidden="true"><img src="{{ component.image }}" alt="" loading="lazy" decoding="async"></span>
+                {% endif %}
+            </div>
+            <div class="nm-spot__info">
+                {% include 'components.nm.head' with {c: component} %}
+                <a class="nm-spot__name" href="{{ p.url }}">{{ p.name }}</a>
+                <div class="nm-spot__price">
+                    {{ nm.price(p) }}
+                    {% if off %}<span class="nm-chip nm-chip--pink">{{ trans('nm.save') }} {{ off }}٪</span>{% endif %}
+                    <span class="nm-cups" data-nm-cups data-name="{{ p.name }}" data-price="{{ p.price }}" hidden></span>
+                </div>
+                {% if component.contents|length %}
+                    <ul class="nm-contents" aria-label="{{ trans('nm.in_the_box') }}">
+                        {% for row in component.contents %}{% if row.text %}<li>{{ row.text }}</li>{% endif %}{% endfor %}
+                    </ul>
+                {% endif %}
+                {% if component.ends_at %}
+                    <div class="nm-timer" data-nm-timer="{{ component.ends_at }}" hidden>
+                        <span class="nm-timer__label">{{ component.timer_label }}</span>
+                        <div class="nm-timer__boxes" aria-live="off">
+                            <span class="nm-timer__box"><b data-d>٠٠</b><small>{{ trans('nm.days') }}</small></span>
+                            <span class="nm-timer__box"><b data-h>٠٠</b><small>{{ trans('nm.hours') }}</small></span>
+                            <span class="nm-timer__box"><b data-m>٠٠</b><small>{{ trans('nm.minutes') }}</small></span>
+                            <span class="nm-timer__box"><b data-s>٠٠</b><small>{{ trans('nm.seconds') }}</small></span>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if p.is_available %}
+                    <div class="nm-buy-row">
+                        <button class="nm-btn nm-btn--green nm-btn--lg" type="button" {{ nm.add_attrs(p) }}>{{ trans('nm.add_to_cart') }} · {{ p.price|money }}</button>
+                    </div>
+                    <salla-installment price="{{ p.price }}"></salla-installment>
+                {% else %}
+                    <p class="nm-buy__out">{{ trans('nm.sold_out') }}</p>
+                {% endif %}
+                {% if component.proof %}
+                    <p class="nm-proof"><span class="nm-proof__faces" aria-hidden="true"><i></i><i></i><i></i></span>{{ component.proof }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}

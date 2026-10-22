@@ -1,0 +1,42 @@
+{#
+  Category / search / offers listing.
+| page.title, page.slug, page.id | |
+| category (optional)            | name, url, sub_categories |
+| sort_options[]                 | id, name, is_selected |
+  Products come from Salla's <salla-products-list> (paging, filters, search handled by Salla), drawn with the
+  Nimo card (custom element nm-product-card, assets/js/nm/card.js). Category pills come from the header menu.
+#}
+{% extends "layouts.master" %}
+{% block content %}
+<div class="nm-plp" data-nm-listing>
+    <header class="nm-plp__hero nm-container">
+        <h1 id="page-main-title">{{ page.title|raw }}</h1>
+        {% if search_query is defined and search_query %}<p>{{ trans('nm.results_for') }} «{{ search_query }}»</p>{% endif %}
+    </header>
+    <div class="nm-plp__bar">
+        <div class="nm-container">
+            <div class="nm-pills" data-nm-catbar data-nm-plp-cats>
+                <salla-menu source="header"></salla-menu>
+            </div>
+            {% if sort_options is defined and sort_options|length %}
+                <div class="nm-plp__sort">
+                    <span>{{ trans('nm.sort_by') }}</span>
+                    <div class="nm-pills" role="radiogroup" aria-label="{{ trans('nm.sort_by') }}">
+                        {% for sort in sort_options %}
+                            <button type="button" class="nm-pill {{ sort.is_selected ? 'is-active' : '' }}" role="radio" aria-checked="{{ sort.is_selected ? 'true' : 'false' }}" data-nm-sort="{{ sort.id }}">{{ sort.name }}</button>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="nm-container">
+        {% hook 'product:index.items.start' %}
+        <salla-products-list class="nm-grid" source="{{ page.slug }}" source-value="{{ page.id }}" product-card-component="nm-product-card" data-nm-products-list></salla-products-list>
+        {% hook 'product:index.items.end' %}
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+    <script defer src="{{ 'nm-listing.js' | asset }}"></script>
+{% endblock %}

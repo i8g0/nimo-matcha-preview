@@ -1,0 +1,96 @@
+{#
+  Cart page. Variables: cart.* (see Raed's pages/cart.twig).
+  Lines are server-rendered from cart.items; cart-page.js keeps lines and summary in sync after every change.
+  Checkout itself is Salla's: the button calls salla.cart.submit().
+#}
+{% extends "layouts.master" %}
+{% block content %}
+<div class="nm-cartpage" data-nm-cartpage>
+    <div class="nm-container">
+        <div class="nm-cartpage__head">
+            <h1>{{ trans('nm.your_cart') }}</h1>
+            <ol class="nm-steps-bar" aria-label="{{ trans('nm.checkout_steps') }}">
+                <li class="is-active" aria-current="step"><i>١</i>{{ trans('nm.cart') }}</li>
+                <li><i>٢</i>{{ trans('nm.shipping') }}</li>
+                <li><i>٣</i>{{ trans('nm.payment') }}</li>
+            </ol>
+        </div>
+
+        <div class="nm-cartpage__grid">
+            <div>
+                <div class="nm-free" data-nm-free {{ cart.free_shipping_bar ? '' : 'hidden' }}>
+                    <p data-nm-free-text></p>
+                    <span class="nm-free__bar"><span data-nm-free-fill style="width: {{ cart.free_shipping_bar.percent|default(0) }}%"></span></span>
+                </div>
+
+                <div class="nm-cartpage__lines" data-nm-cart-lines>
+                    {%- for item in cart.items -%}
+                        <div class="nm-line" data-item-id="{{ item.id }}" data-product-id="{{ item.product_id }}">
+                            <a class="nm-line__img" href="{{ item.url }}"><img src="{{ item.product_image }}" alt="{{ item.product_name }}" loading="lazy"></a>
+                            <div class="nm-line__body">
+                                <div class="nm-line__top">
+                                    <a class="nm-line__name" href="{{ item.url }}">{{ item.product_name }}</a>
+                                    <strong class="nm-line__total">{{ item.total|money }}</strong>
+                                </div>
+                                <div class="nm-line__bottom">
+                                    <div class="nm-qty nm-qty--sm">
+                                        <button type="button" data-nm-line-step="1" aria-label="{{ trans('nm.increase') }}">+</button>
+                                        <span data-nm-line-qty>{{ item.quantity }}</span>
+                                        <button type="button" data-nm-line-step="-1" aria-label="{{ trans('nm.decrease') }}">−</button>
+                                    </div>
+                                    <button type="button" class="nm-line__remove" data-nm-line-remove>{{ trans('nm.remove') }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    {%- endfor -%}
+                </div>
+
+                <div class="nm-cartpage__empty" data-nm-cart-empty {{ cart.items|length ? 'hidden' : '' }}>
+                    <img src="{{ store.logo }}" alt="" width="110" height="110">
+                    <strong>{{ trans('nm.empty_cart') }}</strong>
+                    <span>{{ trans('nm.empty_cart_hint') }}</span>
+                    <a class="nm-btn nm-btn--green" href="{{ store.url }}">{{ trans('nm.shop_now') }}</a>
+                </div>
+
+                {% set upsell = theme.settings.get('upsell_products', []) %}
+                {% if upsell|length %}
+                    <section class="nm-upsell" data-nm-upsell hidden>
+                        <h3>{{ theme.settings.get('upsell_title') ?: trans('nm.complete_cup') }}</h3>
+                        <div class="nm-upsell__list">
+                            {% for u in upsell %}
+                                {% set uid = u.id is defined ? u.id : (u.value is defined ? u.value : (u.key is defined ? u.key : u)) %}
+                                <div class="nm-up" data-nm-up="{{ uid }}" hidden></div>
+                            {% endfor %}
+                        </div>
+                    </section>
+                {% endif %}
+            </div>
+
+            <aside class="nm-summary" data-nm-summary aria-label="{{ trans('nm.order_summary') }}">
+                <h2>{{ trans('nm.order_summary') }}</h2>
+                <dl>
+                    <div><dt>{{ trans('nm.subtotal') }}</dt><dd data-nm-sum-sub>{{ cart.sub_total|money }}</dd></div>
+                    <div data-nm-sum-discount-row {{ cart.discount ? '' : 'hidden' }}><dt>{{ trans('nm.discount') }}</dt><dd data-nm-sum-discount>{{ cart.discount|default(0)|money }}</dd></div>
+                    <div><dt>{{ trans('nm.shipping') }}</dt><dd>{{ trans('nm.shipping_next_step') }}</dd></div>
+                    <div class="nm-summary__total"><dt>{{ trans('nm.total') }}</dt><dd data-nm-sum-total>{{ cart.total|money }}</dd></div>
+                </dl>
+                <small>{{ trans('nm.tax_included') }}</small>
+                <form class="nm-coupon" data-nm-coupon>
+                    <input type="text" name="code" placeholder="{{ trans('nm.coupon_placeholder') }}" aria-label="{{ trans('nm.coupon_placeholder') }}" autocomplete="off">
+                    <button class="nm-btn nm-btn--ghost" type="submit">{{ trans('nm.apply') }}</button>
+                </form>
+                <p class="nm-coupon-msg" data-nm-coupon-msg role="status"></p>
+                <salla-installment price="{{ cart.total }}" data-nm-installment></salla-installment>
+                <button type="button" class="nm-btn nm-btn--green nm-btn--block nm-btn--lg" data-nm-checkout>{{ trans('nm.checkout') }}</button>
+                <div class="nm-summary__pay" aria-label="{{ trans('nm.payment_methods') }}">
+                    {% for m in theme.settings.get('payment_line')|split('·') %}{% if m|trim %}<span>{{ m|trim }}</span>{% endif %}{% endfor %}
+                </div>
+                <a class="nm-summary__back" href="{{ store.url }}">{{ trans('nm.continue_shopping') }}</a>
+            </aside>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+    <script defer src="{{ 'nm-cart.js' | asset }}"></script>
+{% endblock %}

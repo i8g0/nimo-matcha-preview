@@ -1,0 +1,9 @@
+{#- Section heading. Include with: {% include 'components.nm.head' with {c: component, modifier: 'center'} %}
+    Reads c.eyebrow, c.title, c.accent and (optionally) c.description. -#}
+<div class="nm-head {{ modifier ? 'nm-head--' ~ modifier : '' }}">
+    {% if c.eyebrow %}<span class="nm-eyebrow" data-reveal>{{ c.eyebrow }}</span>{% endif %}
+    {% if c.title or c.accent %}
+        <h2 class="nm-head__title" data-reveal>{{ c.title }}{% if c.accent %} <span class="nm-accent">{{ c.accent }}</span>{% endif %}</h2>
+    {% endif %}
+    {% if c.description %}<p class="nm-head__text" data-reveal>{{ c.description|nl2br }}</p>{% endif %}
+</div>

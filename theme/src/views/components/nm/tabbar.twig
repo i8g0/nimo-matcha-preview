@@ -1,0 +1,16 @@
+{# Bottom tab bar on phones: the four things a shopper needs, always under the thumb. #}
+<nav class="nm-tabbar" aria-label="{{ trans('nm.quick_nav') }}">
+    <a href="{{ store.url }}" class="{{ page.slug == 'index' ? 'is-active' : '' }}" {{ page.slug == 'index' ? 'aria-current="page"' : '' }}>
+        {% include 'components.nm.icon' with {name: 'home'} %}<span>{{ trans('nm.home') }}</span>
+    </a>
+    <button type="button" data-nm-menu-open class="{{ page.slug starts with 'product.index' or page.slug starts with 'cat' ? 'is-active' : '' }}">
+        {% include 'components.nm.icon' with {name: 'grid'} %}<span>{{ trans('nm.categories') }}</span>
+    </button>
+    <button type="button" data-nm-search>
+        {% include 'components.nm.icon' with {name: 'search'} %}<span>{{ trans('nm.search') }}</span>
+    </button>
+    <a href="{{ link('cart') }}" data-nm-cart-open class="{{ page.slug == 'cart' ? 'is-active' : '' }}">
+        {% include 'components.nm.icon' with {name: 'cart'} %}<span>{{ trans('nm.cart') }}</span>
+        <span class="nm-badge" data-nm-cart-count hidden>0</span>
+    </a>
+</nav>

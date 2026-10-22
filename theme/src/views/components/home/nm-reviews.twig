@@ -1,0 +1,43 @@
+{#
+| component.eyebrow, title, accent, score, score_label | string |
+| component.reviews[] | text, name, city, product |
+Real customer words, copied from Salla's published reviews.
+#}
+{% if component.reviews|length %}
+<section class="nm-section nm-reviews" component-id="{{ componentId }}">
+    <div class="nm-container nm-reviews__grid">
+        <div style="display:flex;flex-direction:column;gap:20px">
+            {% include 'components.nm.head' with {c: component} %}
+            {% if component.score %}
+                <div class="nm-score" data-reveal>
+                    <b>{{ component.score }}</b>
+                    <span class="nm-stars" style="--s:5" aria-hidden="true">★★★★★</span>
+                    <small>{{ component.score_label }}</small>
+                </div>
+            {% endif %}
+            <div class="nm-rail__arrows">
+                <button class="nm-arrow" type="button" data-nm-rail-prev aria-label="{{ trans('nm.previous') }}">{% include 'components.nm.icon' with {name: 'prev', size: 20} %}</button>
+                <button class="nm-arrow" type="button" data-nm-rail-next aria-label="{{ trans('nm.next') }}">{% include 'components.nm.icon' with {name: 'next', size: 20} %}</button>
+            </div>
+        </div>
+        <div class="nm-rail" data-nm-rail style="min-width:0">
+            <div class="nm-rail__track nm-reviews__track" data-nm-rail-track>
+                {% for r in component.reviews %}
+                    <article class="nm-review">
+                        <span class="nm-stars" style="--s:5" aria-label="5/5">★★★★★</span>
+                        <p>{{ r.text }}</p>
+                        <footer>
+                            <span class="nm-review__avatar" aria-hidden="true">{{ r.name|slice(0, 1) }}</span>
+                            <span>
+                                <strong>{{ r.name }}</strong>
+                                <small>{{ r.city }}{% if r.product %} · {{ r.product }}{% endif %}</small>
+                            </span>
+                        </footer>
+                        {% if r.verified %}<span class="nm-verified">{% include 'components.nm.icon' with {name: 'shield', size: 14} %}{{ trans('nm.verified') }}</span>{% endif %}
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}

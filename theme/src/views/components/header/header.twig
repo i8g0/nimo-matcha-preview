@@ -1,0 +1,86 @@
+{#
+  Header: rotating announcement, sticky bar (hides on scroll down, returns on scroll up),
+  category pills under it on phones, side menu. Links come from Salla's header menu
+  (<salla-menu source="header">), so the manager edits them from the dashboard.
+#}
+{% set announcements = [] %}
+{% for key in ['announcement_1', 'announcement_2', 'announcement_3'] %}
+    {% if theme.settings.get(key) %}{% set announcements = announcements|merge([theme.settings.get(key)]) %}{% endif %}
+{% endfor %}
+
+{% if announcements|length %}
+<div class="nm-announce" role="region" aria-label="{{ trans('nm.announcements') }}">
+    <ul class="nm-announce__list" data-nm-announce>
+        {% for a in announcements %}<li class="{{ loop.first ? 'is-on' : '' }}">{{ a }}</li>{% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<header class="nm-header" data-nm-header>
+    <div class="nm-container nm-header__bar">
+        <div class="nm-header__side">
+            <button class="nm-icon-btn nm-header__menu" type="button" data-nm-menu-open aria-label="{{ trans('nm.open_menu') }}" aria-expanded="false" aria-controls="nm-menu">
+                {% include 'components.nm.icon' with {name: 'menu'} %}
+            </button>
+            <button class="nm-icon-btn nm-header__search-icon" type="button" data-nm-search aria-label="{{ trans('nm.search') }}">
+                {% include 'components.nm.icon' with {name: 'search'} %}
+            </button>
+        </div>
+
+        <a class="nm-header__logo" href="{{ store.url }}" aria-label="{{ store.name }}">
+            <img src="{{ store.logo }}" alt="{{ store.name }}" width="120" height="54" fetchpriority="high">
+        </a>
+
+        <nav class="nm-header__nav" aria-label="{{ trans('nm.menu') }}">
+            <salla-menu source="header" topnav></salla-menu>
+        </nav>
+
+        <div class="nm-header__side nm-header__side--end">
+            <button class="nm-header__search" type="button" data-nm-search>
+                {% include 'components.nm.icon' with {name: 'search', size: 18} %}<span>{{ trans('nm.search_placeholder') }}</span>
+            </button>
+            {% if __preview is not defined %}
+                <a class="nm-icon-btn" href="{{ user.type == 'guest' ? 'javascript:void(0)' : link('customer/profile') }}" {{ user.type == 'guest' ? 'onclick="salla.event.dispatch(\'login::open\')"' : '' }} aria-label="{{ trans('nm.account') }}">
+                    {% include 'components.nm.icon' with {name: 'user'} %}
+                </a>
+            {% endif %}
+            <a class="nm-icon-btn" href="{{ link('cart') }}" data-nm-cart-open data-nm-cart-target aria-label="{{ trans('nm.cart') }}">
+                {% include 'components.nm.icon' with {name: 'cart'} %}
+                <span class="nm-badge" data-nm-cart-count hidden>0</span>
+            </a>
+        </div>
+    </div>
+
+    {% if theme.settings.get('show_catbar', true) %}
+        <nav class="nm-catbar" aria-label="{{ trans('nm.categories') }}">
+            <div class="nm-container">
+                <div class="nm-pills" data-nm-catbar>
+                    <salla-menu source="header"></salla-menu>
+                </div>
+            </div>
+        </nav>
+    {% endif %}
+</header>
+
+<div class="nm-menu" id="nm-menu" data-nm-menu role="dialog" aria-modal="true" aria-label="{{ trans('nm.menu') }}" hidden>
+    <div class="nm-menu__panel">
+        <div class="nm-menu__top">
+            <img src="{{ store.logo }}" alt="{{ store.name }}" width="100" height="44">
+            <button class="nm-icon-btn" type="button" data-nm-menu-close aria-label="{{ trans('nm.close') }}">
+                {% include 'components.nm.icon' with {name: 'close'} %}
+            </button>
+        </div>
+        <nav class="nm-menu__nav">
+            <salla-menu source="header"></salla-menu>
+        </nav>
+        <div class="nm-menu__foot">
+            <strong>{{ trans('nm.need_help') }}</strong>
+            {% if theme.settings.get('whatsapp') %}
+                <a class="nm-btn nm-btn--green nm-btn--block" href="{{ theme.settings.get('whatsapp') }}" target="_blank" rel="noopener">
+                    {% include 'components.nm.icon' with {name: 'whatsapp', size: 20} %}{{ trans('nm.whatsapp_us') }}
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="nm-menu__scrim" data-nm-menu-close></div>
+</div>
