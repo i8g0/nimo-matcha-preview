@@ -255,6 +255,7 @@ body.page-product-single.has-tabbar { --nm-bottom-nav: 0px; }
 .nm-card--out .nm-card__media img { filter: grayscale(.6); opacity: .7; }
 .nm-card--out .nm-price { color: var(--nm-muted); }
 
+nm-product-card { display: contents; }
 .nm-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 14px; }
 @media (min-width: 768px) { .nm-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px 20px; } }
 @media (min-width: 1100px) { .nm-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 44px 24px; } }
