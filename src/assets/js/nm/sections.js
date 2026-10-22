@@ -103,12 +103,28 @@ export function flavors() {
       if (b.getAttribute('aria-pressed') === 'true') return;
       btns.forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
       imgs.forEach((im) => im.classList.toggle('is-active', im.dataset.flavorImg === k));
+      $$('.nm-flavors__hint i', root).forEach((d, j) => d.classList.toggle('is-on', String(j) === k));
+      if (matchMedia('(max-width: 899px)').matches) b.scrollIntoView({ block: 'nearest', inline: 'center', behavior: reduced() ? 'auto' : 'smooth' });
       root.classList.add('is-switching');
       setTimeout(() => {
         panels.forEach((p) => { p.hidden = p.dataset.flavorPanel !== k; });
         root.classList.remove('is-switching');
       }, reduced() ? 0 : 220);
     }));
+    /* phones: swipe the photo to move to the next / previous flavour */
+    const stage = $('[data-nm-flavor-stage]', root);
+    let x0 = null;
+    stage?.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    stage?.addEventListener('touchend', (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      x0 = null;
+      if (Math.abs(dx) < 40) return;
+      const cur = btns.findIndex((x) => x.getAttribute('aria-pressed') === 'true');
+      const rtl = document.documentElement.dir === 'rtl';
+      const next = (cur + ((dx < 0) !== rtl ? 1 : -1) + btns.length) % btns.length;
+      btns[next].click();
+    });
   });
 }
 

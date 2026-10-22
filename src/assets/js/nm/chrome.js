@@ -85,3 +85,24 @@ export function catbars() {
     mo.observe(bar, { childList: true, subtree: true });
   });
 }
+
+/** Light / dark switch. The first paint is set in master.twig; this only flips and remembers it. */
+export function themeToggle() {
+  const root = document.documentElement;
+  const meta = $('meta[name="theme-color"]');
+  const sync = () => {
+    const dark = root.getAttribute('data-theme') === 'dark';
+    $$('[data-nm-theme-toggle]').forEach((b) => b.setAttribute('aria-pressed', dark ? 'true' : 'false'));
+    if (meta) meta.content = dark ? '#0E1915' : '#FFFFFF';
+  };
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('[data-nm-theme-toggle]')) return;
+    const dark = root.getAttribute('data-theme') !== 'dark';
+    root.classList.add('nm-themeswap');
+    if (dark) root.setAttribute('data-theme', 'dark'); else root.removeAttribute('data-theme');
+    try { localStorage.setItem('nm-theme', dark ? 'dark' : 'light'); } catch { /* private mode */ }
+    sync();
+    setTimeout(() => root.classList.remove('nm-themeswap'), 600);
+  });
+  sync();
+}

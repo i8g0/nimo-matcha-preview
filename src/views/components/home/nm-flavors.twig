@@ -8,7 +8,7 @@ Works without JS: the first flavour shows.
 {% set items = component.items|default([]) %}
 {% if items|length %}
 <section class="nm-flavors" id="flavors" data-tone="night" data-nm-flavors component-id="{{ componentId }}">
-    <div class="nm-flavors__bg" aria-hidden="true">
+    <div class="nm-flavors__bg" aria-hidden="true" data-nm-flavor-stage>
         {% for f in items %}
             {% set p = f.product|first %}
             {% set img = f.image ?: (p ? p.image.url : null) %}
@@ -16,6 +16,7 @@ Works without JS: the first flavour shows.
                 {% if img %}<img src="{{ img }}" alt="" loading="lazy" decoding="async">{% endif %}
             </figure>
         {% endfor %}
+        {% if items|length > 1 %}<span class="nm-flavors__hint">{% for f in items %}<i class="{{ loop.first ? 'is-on' : '' }}"></i>{% endfor %}</span>{% endif %}
     </div>
     <div class="nm-container nm-flavors__inner">
         <div class="nm-flavors__copy">

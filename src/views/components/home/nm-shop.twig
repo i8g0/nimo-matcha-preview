@@ -9,7 +9,7 @@
     {% if p.category and p.category.name not in cats %}{% set cats = cats|merge([p.category.name]) %}{% endif %}
 {% endfor %}
 {% if component.products|length %}
-<section class="nm-section nm-shop" id="shop" data-nm-shop component-id="{{ componentId }}">
+<section class="nm-section nm-shop nm-deco nm-deco--{{ (position|default(0)) % 3 }}" id="shop" data-nm-shop component-id="{{ componentId }}">
     <div class="nm-container">
         {% include 'components.nm.head' with {c: component, modifier: 'center'} %}
     </div>

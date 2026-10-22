@@ -6,7 +6,7 @@ A titled grid of product cards (like Salla's "fixed products").
 #}
 {% import 'components.nm.macros' as nm %}
 {% if component.products|length %}
-<section class="nm-section nm-section--products" component-id="{{ componentId }}">
+<section class="nm-section nm-section--products nm-deco nm-deco--{{ (position|default(0)) % 3 }}" component-id="{{ componentId }}">
     <div class="nm-container">
         <div class="nm-head nm-head--row">
             {% include 'components.nm.head' with {c: component} %}

@@ -119,6 +119,9 @@
     "prep_1": "Add 2 g (a small spoon) of matcha to the cup.",
     "prep_2": "Add a little warm water (about 80°C), never boiling.",
     "prep_3": "Whisk in a W motion until a fine foam forms.",
-    "prep_4": "Add milk, ice and a Nimo syrup to taste."
+    "prep_4": "Add milk, ice and a Nimo syrup to taste.",
+    "theme_toggle": "Light / dark mode",
+    "maybe_later": "Maybe later",
+    "swipe": "Swipe to change flavour"
   }
 }

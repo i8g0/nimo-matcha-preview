@@ -7,7 +7,7 @@ The shopper ticks what they want; the total updates and one button adds them all
 {% set items = [] %}
 {% for p in component.products %}{% if p.is_available %}{% set items = items|merge([p]) %}{% endif %}{% endfor %}
 {% if items|length > 1 %}
-<section class="nm-section nm-bundle" data-nm-bundle component-id="{{ componentId }}">
+<section class="nm-section nm-bundle nm-deco nm-deco--2" data-nm-bundle component-id="{{ componentId }}">
     <div class="nm-container">
         {% include 'components.nm.head' with {c: component, modifier: 'center'} %}
         <div class="nm-bundle__box" data-reveal>

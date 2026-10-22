@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#F7F2EA">
+    <meta name="theme-color" content="#FFFFFF">
     {{ theme.settings.set('placeholder', 'images/placeholder.png') }}
 
     {% if __preview is not defined %}
@@ -54,6 +54,13 @@
             }
         };
         document.documentElement.classList.add('js');
+        /* light / dark: the shopper's choice, else the store default; set before paint so there is no flash */
+        (function () {
+            var d = document.documentElement, mode = "{{ include('components.nm.pick', {v: theme.settings.get('color_mode', 'light')})|trim ?: 'light' }}";
+            try { mode = localStorage.getItem('nm-theme') || mode; } catch (e) {}
+            if (mode === 'auto') mode = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            if (mode === 'dark') d.setAttribute('data-theme', 'dark');
+        })();
     </script>
 
     {% hook 'head:start' %}
@@ -95,6 +102,7 @@
 {% component 'footer.footer' %}
 
 {% include 'components.nm.cart-drawer' %}
+{% include 'components.nm.popup' %}
 {% if has_tabbar %}{% include 'components.nm.tabbar' %}{% endif %}
 
 {% if __preview is not defined %}

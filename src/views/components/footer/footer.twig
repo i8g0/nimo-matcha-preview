@@ -29,7 +29,7 @@
             <h3>{{ trans('nm.shop') }}</h3>
             <salla-menu source="header"></salla-menu>
             <div class="nm-footer__pay" aria-label="{{ trans('nm.payment_methods') }}">
-                {% for m in theme.settings.get('payment_line')|split('·') %}{% if m|trim %}<span>{{ m|trim }}</span>{% endif %}{% endfor %}
+                <salla-payments></salla-payments>
             </div>
         </div>
     </div>

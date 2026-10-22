@@ -6,6 +6,7 @@ import * as cartUI from './nm/cart-ui.js';
 import * as chrome from './nm/chrome.js';
 import * as motion from './nm/motion.js';
 import { defineCard, fillCups } from './nm/card.js';
+import { popup } from './nm/popup.js';
 
 defineCard();
 cartUI.init();
@@ -16,6 +17,8 @@ const boot = () => {
   chrome.menu();
   chrome.search();
   chrome.catbars();
+  chrome.themeToggle();
+  popup();
   fillCups();
   motion.reveals();
   motion.rails();
