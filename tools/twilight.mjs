@@ -41,7 +41,20 @@ const tone = (id, label, value) => manual(id, label, TONES, value);
 const head = (eyebrow, title, accent) => [text('eyebrow', 'سطر صغير فوق العنوان', eyebrow), text('title', 'العنوان', title), text('accent', 'الكلمة الملوّنة في العنوان', accent)];
 
 const components = [
-  component('home.nm-hero', 'المشاهد السينمائية (البنر الرئيسي)', 'Cinematic scenes', 'sicon-video', [
+  component('home.nm-hero', 'البنر الرئيسي', 'Main banner slider', 'sicon-image-carousel', [
+    note('شرائح بنرات بعرض الصفحة. ارفع تصميم البنر للكمبيوتر (1900×700) وتصميمًا للجوال (700×1000)، وتظهر كاملة بدون قص. العنوان والزر اختياريان لو التصميم ما فيه نص.'),
+    collection('slides', 'الشرائح', 'شريحة', [
+      image('image', 'صورة الكمبيوتر', 'المقاس المناسب 1900×700'),
+      image('image_mobile', 'صورة الجوال', 'المقاس المناسب 700×1000'),
+      url('video', 'رابط فيديو mp4 بدل الصورة (اختياري)'),
+      text('title', 'عنوان فوق البنر (اختياري)'),
+      text('button', 'نص الزر (اختياري)'),
+      link('url', 'رابط الشريحة'),
+    ], [{}], 1, 10),
+    toggle('autoplay', 'تشغيل تلقائي', true),
+    number('delay', 'مدة كل شريحة (ثانية)', 5, 2, 20),
+  ]),
+  component('home.nm-scenes', 'المشاهد السينمائية (اختياري)', 'Cinematic scenes', 'sicon-video', [
     note('مشاهد بملء الشاشة تتكشّف مع التمرير، مثل فيلم قصير. لكل مشهد صورة، وفيديو اختياري (mp4 صامت، ٥–١٠ ثوانٍ، أقل من ٤ ميغا) للكمبيوتر وآخر عمودي للجوال.'),
     collection('slides', 'المشاهد', 'مشهد', [
       image('image', 'صورة المشهد (أفقية للكمبيوتر)', 'تُستخدم غلافًا للفيديو أو بديلًا عنه'),
@@ -66,16 +79,19 @@ const components = [
     collection('items', 'التصنيفات', 'تصنيف', [image('image', 'الصورة (مربعة)'), text('title', 'الاسم'), link('url', 'الرابط')],
       [{ title: 'العروض' }, { title: 'البوكسات' }, { title: 'الماتشا' }, { title: 'النكهات' }, { title: 'السيروب' }, { title: 'الأدوات' }], 2, 10),
   ]),
-  component('home.nm-usp', 'شريط المزايا', 'Benefits strip', 'sicon-star', [
+  component('home.nm-usp', 'مميزات المتجر', 'Store features', 'sicon-star', [
+    ...head('WHY NIMO', 'مميزات', 'المتجر'),
+    area('description', 'سطر تحت العنوان', 'استمتع بتجربة آمنة وخصوصية تامة'),
     collection('items', 'المزايا', 'ميزة', [
-      manual('icon', 'الأيقونة', [['شاحنة', 'truck'], ['ورقة شاي', 'leaf'], ['هدية', 'gift'], ['بطاقة', 'card'], ['درع', 'shield'], ['كوب', 'cup']], 'truck'),
-      text('title', 'العنوان'), text('text', 'سطر توضيحي'),
+      manual('icon', 'الأيقونة', [['شاحنة', 'truck'], ['ورقة شاي', 'leaf'], ['هدية', 'gift'], ['بطاقة', 'card'], ['درع', 'shield'], ['كوب', 'cup'], ['نجمة', 'star'], ['واتساب', 'whatsapp']], 'truck'),
+      text('title', 'العنوان'), area('text', 'الشرح'),
     ], [
-      { icon: 'leaf', title: 'درجة احتفالية', text: 'ماتشا يابانية ناعمة وبدون مرارة' },
-      { icon: 'truck', title: 'توصيل سريع', text: 'لكل مدن المملكة' },
-      { icon: 'card', title: 'قسّطها مع تمارا', text: '٤ دفعات بدون فوائد' },
-      { icon: 'gift', title: 'تغليف يفرّح', text: 'جاهز للإهداء' },
-    ], 2, 6),
+      { icon: 'truck', title: 'شحن سريع', text: 'استلم طلبك في وقت قياسي واستمتع بتجربة آمنة وخصوصية تامة' },
+      { icon: 'leaf', title: 'جودة عالية', text: 'ماتشا يابانية أصلية مختارة بعناية، بجودة عالية وطعم غني يليق بكل محبي الماتشا' },
+      { icon: 'whatsapp', title: 'دعم فني مباشر', text: 'فريق دعم فني جاهز للإجابة على استفساراتك ومساعدتك في حل أي مشكلة' },
+      { icon: 'star', title: 'تجربة تسوق مريحة', text: 'تصميم بسيط وسهل الاستخدام يسمح لك بالعثور على ما تبحث عنه بسرعة ويسر' },
+      { icon: 'gift', title: 'عروض وخصومات حصرية', text: 'احصل على خصومات حصرية وعروض مغرية على مجموعة واسعة من المنتجات' },
+    ], 2, 8),
   ]),
   component('home.nm-spotlight', 'المنتج الأكثر طلبًا + عداد العرض', 'Best seller spotlight', 'sicon-alarm', [
     note('يعرض منتجًا واحدًا بصورة كبيرة، ومحتوياته، وعداد ينتهي في التاريخ المحدد. عند انتهاء التاريخ يختفي العداد تلقائيًا ويبقى المنتج.'),
@@ -133,6 +149,17 @@ const components = [
     products('products', 'المنتجات (من ٢ إلى ٤)', 4, 2),
     text('button', 'نص الزر', 'أضف المختار للسلة'),
   ]),
+  component('home.nm-products', 'منتجات (شبكة)', 'Product grid', 'sicon-layout-grid', [
+    note('مجموعة منتجات بعنوان، مثل «عروض نيمو» أو «الماتشا». استخدمه أكثر من مرة.'),
+    ...head('NIMO OFFERS', 'عروض', 'نيمو'),
+    products('products', 'المنتجات', 12),
+    text('more_label', 'نص رابط عرض الكل', 'عرض الكل'), link('more_url', 'رابط عرض الكل'),
+  ]),
+  component('home.nm-videos', 'التسوق بالفيديوهات', 'Shop by video', 'sicon-video', [
+    note('فيديوهات قصيرة عمودية (mp4) وتحت كل فيديو منتجه مع زر الإضافة للسلة. الفيديو يشتغل صامتًا لما يظهر على الشاشة.'),
+    ...head('WATCH & SHOP', 'حضّرها بطريقتك…', 'واستمتع بنكهة نيمو ماتشا'),
+    collection('items', 'الفيديوهات', 'فيديو', [url('video', 'رابط الفيديو mp4'), image('image', 'غلاف الفيديو (اختياري)'), products('product', 'المنتج', 1, 0, false)], [], 1, 20),
+  ]),
   component('home.nm-rail', 'شريط منتجات أفقي', 'Product rail', 'sicon-list', [
     note('شريط منتجات قابل للسحب. استخدمه أكثر من مرة لأقسام مختلفة (الأدوات، السيروب، الجديد…).'),
     ...head('TOOLS & SYRUPS', 'أدوات', 'التحضير'),
@@ -147,10 +174,12 @@ const components = [
   ]),
   component('home.nm-moments', 'لحظات نيمو (معرض صور)', 'Moments gallery', 'sicon-image-carousel', [
     ...head('NIMO MOMENTS', 'لحظات', 'خضراء'),
+    area('description', 'سطر تحت العنوان'),
     collection('images', 'الصور', 'صورة', [image('image', 'الصورة'), text('caption', 'وصف قصير'), link('url', 'رابط (اختياري)')], [
       { caption: 'آيس لاتيه فانيليا' }, { caption: 'ماتشا الصباح' }, { caption: 'كيك الماتشا' }, { caption: 'سموذي بول' }, { caption: 'ماتشا فراولة' }, { caption: 'مانجو ماتشا' },
     ], 3, 16),
     text('button', 'نص الزر', 'تابعنا على إنستقرام'), url('button_url', 'رابط الزر', 'https://www.instagram.com/nimomatcha'),
+    toggle('hide_mobile', 'إخفاء القسم في الجوال', false),
   ]),
   component('home.nm-reviews', 'آراء العملاء', 'Reviews', 'sicon-chat-bubbles', [
     ...head('WORDS', 'قالوا عن', 'نيمو'),
@@ -164,6 +193,7 @@ const components = [
       { value: '١٠٠٪', label: 'ماتشا يابانية' }, { value: '٢ جم', label: 'لكل كوب' }, { value: '+٤٠', label: 'كوب في البوكس' },
     ], 0, 4),
     text('button', 'نص الزر', 'تعرّف علينا'), link('url', 'رابط الزر'),
+    toggle('hide_mobile', 'إخفاء القسم في الجوال', false),
   ]),
   component('home.nm-faq', 'الأسئلة الشائعة', 'FAQ', 'sicon-help', [
     ...head('QUESTIONS', 'أسئلة', 'تتكرر'),

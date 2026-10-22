@@ -164,6 +164,9 @@ async function build() {
 
   /* values the manager would set in Salla's theme settings (preview only) */
   const PREVIEW_SETTINGS = {
+    /* the live store has no announcement bar */
+    announcement_1: '', announcement_2: '', announcement_3: '',
+    footer_about: 'نأخذك في رحلة إلى عالم الماتشا اليابانية، من خلال منتجات مختارة بعناية تجمع بين الجودة العالية والمذاق الأصيل، لنمنحك تجربة تحضير سهلة ومتكاملة في كل كوب.',
     upsell_products: ['vanilla-syrup-50ml', 'nimo-cup-green', 'nimo-matcha-tin', 'salted-caramel-syrup-50ml']
       .map((slug) => products.find((p) => p.slug === slug)).map((p) => ({ value: p.id, label: p.name })),
   };

@@ -1,0 +1,46 @@
+{#
+| component.eyebrow, title, accent | string |
+| component.items[] | video (mp4), image (poster), product (Product[]) |
+Short vertical films; each one sells its product right under it. Films play muted while on screen.
+#}
+{% import 'components.nm.macros' as nm %}
+{% set items = [] %}
+{% for v in component.items|default([]) %}{% if v.video %}{% set items = items|merge([v]) %}{% endif %}{% endfor %}
+{% if items|length %}
+<section class="nm-section nm-videos nm-toned" data-tone="night" component-id="{{ componentId }}">
+    <div class="nm-container">
+        <div class="nm-head nm-head--row">
+            {% include 'components.nm.head' with {c: component} %}
+            <div class="nm-rail__arrows">
+                <button class="nm-arrow" type="button" data-nm-rail-prev aria-label="{{ trans('nm.previous') }}">{% include 'components.nm.icon' with {name: 'prev', size: 20} %}</button>
+                <button class="nm-arrow" type="button" data-nm-rail-next aria-label="{{ trans('nm.next') }}">{% include 'components.nm.icon' with {name: 'next', size: 20} %}</button>
+            </div>
+        </div>
+    </div>
+    <div class="nm-rail" data-nm-rail>
+        <div class="nm-rail__track nm-videos__track" data-nm-rail-track>
+            {% for v in items %}
+                {% set p = v.product|first %}
+                <article class="nm-vcard" {% if p %}data-nm-card{% endif %}>
+                    <div class="nm-vcard__film">
+                        <video muted playsinline loop preload="none" {% if v.image %}poster="{{ v.image }}"{% endif %} data-nm-video data-src="{{ v.video }}" aria-label="{{ p ? p.name : component.title }}"></video>
+                        <span class="nm-vcard__play" aria-hidden="true">{% include 'components.nm.icon' with {name: 'play', size: 14} %}</span>
+                    </div>
+                    {% if p %}
+                        <div class="nm-vcard__product">
+                            <a href="{{ p.url }}"><img src="{{ p.image.url }}" alt="" loading="lazy" width="52" height="64" data-nm-fly-src></a>
+                            <div>
+                                <a href="{{ p.url }}"><strong>{{ p.name }}</strong></a>
+                                <span class="nm-card__price">{{ nm.price(p) }}</span>
+                            </div>
+                            {% if p.is_available %}
+                                <button class="nm-card__add" type="button" {{ nm.add_attrs(p) }} aria-label="{{ trans('nm.add_to_cart') }}: {{ p.name }}">{% include 'components.nm.icon' with {name: 'plus', size: 18} %}{% include 'components.nm.icon' with {name: 'check', size: 18} %}</button>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}

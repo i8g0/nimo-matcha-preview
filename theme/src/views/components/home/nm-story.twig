@@ -1,6 +1,6 @@
 {# | component.image, eyebrow, title, accent, text, button | string | component.facts[] value, label | component.url link | #}
 {% import 'components.nm.macros' as nm %}
-<section class="nm-section nm-toned" data-tone="night" id="about" component-id="{{ componentId }}">
+<section class="nm-section nm-toned {{ component.hide_mobile ? 'nm-hide-mobile' : '' }}" data-tone="night" id="about" component-id="{{ componentId }}">
     <div class="nm-container nm-story__grid">
         <div class="nm-story__img" data-reveal>
             {% if component.image %}<img src="{{ component.image }}" alt="{{ component.title }} {{ component.accent }}" loading="lazy" decoding="async">{% endif %}

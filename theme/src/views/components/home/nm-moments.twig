@@ -7,7 +7,7 @@ A slow, endless strip of lifestyle photos (pauses on hover/focus; static for red
 {% set imgs = [] %}
 {% for m in component.images %}{% if m.image %}{% set imgs = imgs|merge([m]) %}{% endif %}{% endfor %}
 {% if imgs|length %}
-<section class="nm-section nm-moments" component-id="{{ componentId }}">
+<section class="nm-section nm-moments {{ component.hide_mobile ? 'nm-hide-mobile' : '' }}" component-id="{{ componentId }}">
     <div class="nm-container">
         {% include 'components.nm.head' with {c: component, modifier: 'center'} %}
     </div>
@@ -24,7 +24,8 @@ A slow, endless strip of lifestyle photos (pauses on hover/focus; static for red
     </div>
     {% if component.button %}
         <div class="nm-container nm-moments__cta">
-            <a class="nm-btn nm-btn--line" href="{{ component.button_url ?: '#' }}" target="_blank" rel="noopener">{% include 'components.nm.icon' with {name: 'instagram', size: 20} %}{{ component.button }}</a>
+            {% set external = component.button_url starts with 'http' %}
+            <a class="nm-btn nm-btn--line" href="{{ component.button_url ?: '#' }}" {{ external ? 'target="_blank" rel="noopener"' : '' }}>{% if 'instagram' in component.button_url %}{% include 'components.nm.icon' with {name: 'instagram', size: 20} %}{% endif %}{{ component.button }}{% if not external %}{% include 'components.nm.icon' with {name: 'arrow', size: 18} %}{% endif %}</a>
         </div>
     {% endif %}
 </section>

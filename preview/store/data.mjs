@@ -29,6 +29,9 @@ export const media = {
   syrups: img('MJFblqy3jsnq5n5QoSseAiVSOXf6GfhyN1P3Ilfv.jpg'),
   bannerWide: life('b43f4d1b-7c22-4090-b36f-055d3078b5b9'),
   bannerMobile: life('c2ea6c3e-d9c7-4746-9235-e00da0ccf82d'),
+  heroWide: life('91d193ff-7379-4f5b-97f4-a93b06657db6'),
+  heroMobile: life('8fd78ea4-ffda-4b1c-85b4-80f0eedc12f0'),
+  latteGlass: life('caad9c37-331d-48fc-9e6b-8c7daa9c7345'),
 };
 
 export const store = {
@@ -49,18 +52,12 @@ export const categories = {
 
 export const menus = {
   header: [
-    { title: 'كل المنتجات', url: '/products' },
     { title: 'عروض نيمو', url: '/category/offers' },
-    { title: 'البوكسات', url: '/category/boxes' },
-    { title: 'الماتشا', url: '/category/matcha' },
+    { title: 'بوكسات الماتشا', url: '/category/boxes' },
+    { title: 'اختيارات الماتشا', url: '/category/matcha' },
     { title: 'أدوات التحضير', url: '/category/tools' },
   ],
   footer: [
-    { title: 'من نحن', url: '/#about' },
-    { title: 'طريقة التحضير', url: '/#ritual' },
-    { title: 'الأسئلة الشائعة', url: '/#faq' },
-    { title: 'سياسة الاستبدال والاسترجاع', url: '#' },
-    { title: 'تواصل معنا', url: 'mailto:info@nimomatcha-sa.com' },
   ],
 };
 
@@ -170,54 +167,43 @@ export const comments = {
   ],
 };
 
-/* The home page, exactly as the manager would arrange it in Salla's theme editor. */
+/* The home page in the same order and with the same content as the live store (nimomatcha.com),
+   section for section, as the manager would arrange it in Salla's theme editor. */
+const VIDEOS = 'https://cdn.files.salla.network/other/1190649360/';
 export const home = [
   { path: 'home.nm-hero', values: {
     slides: [
-      { tone: 'dark', image: media.darkStone, eyebrow: 'CEREMONIAL GRADE · JAPAN', title: 'ماتشا يابانية', accent: 'تُحضَّر في دقيقة', button: 'تسوّق الماتشا', url: '/category/matcha' },
-      { tone: 'dark', image: media.vanillaLatte, eyebrow: 'VANILLA · ICED LATTE', title: 'نعومة الفانيليا', accent: 'في كل رشفة', button: 'اكتشف النكهات', url: '/#flavors' },
-      { tone: 'dark', image: media.bedTray, eyebrow: 'THE NIMO BOX', title: 'هدية تُفرح', accent: 'محبّي الماتشا', button: 'شوف البوكس', url: '/product/nimo-matcha-gift-box' },
+      { image: media.heroWide, image_mobile: media.heroMobile, url: '/category/boxes' },
+      { image: media.heroWide, image_mobile: media.heroMobile, url: '/category/boxes' },
+      { image: media.bannerWide, image_mobile: media.bannerMobile, url: '/products' },
     ],
   } },
-  { path: 'home.nm-categories', values: {
+  { path: 'home.nm-shop', values: { eyebrow: 'MATCHA BOXES', title: 'بوكسات', accent: 'الماتشا', description: '', products: pick('nimo-matcha-gift-box', 'matcha-box-3'), more_label: 'كل البوكسات', more_url: '/category/boxes' } },
+  { path: 'home.nm-products', values: { eyebrow: 'NIMO OFFERS', title: 'عروض', accent: 'نيمو', products: pick('ceremonial-matcha-120g', 'ceremonial-matcha-80g', 'matcha-40g-vanilla-50ml'), more_url: '/category/offers' } },
+  { path: 'home.nm-videos', values: {
     items: [
-      { title: 'العروض', image: by('ceremonial-matcha-120g').image.url, url: '/category/offers' },
-      { title: 'البوكسات', image: by('nimo-matcha-gift-box').image.url, url: '/category/boxes' },
-      { title: 'الماتشا', image: by('organic-ceremonial-matcha-40g').image.url, url: '/category/matcha' },
-      { title: 'النكهات', image: by('strawberry-matcha-40g').image.url, url: '/#flavors' },
-      { title: 'السيروب', image: media.syrups, url: '/category/tools' },
-      { title: 'الأدوات', image: by('verde-tools').image.url, url: '/category/tools' },
+      { video: `${VIDEOS}501c1bd9-70da-43c6-ab07-1b7d6826f7bc-video.mp4`, product: [by('nimo-matcha-gift-box')] },
+      { video: `${VIDEOS}b0b3db9c-e802-4e30-8caa-93445793e944-video.mp4`, product: [by('matcha-40g-vanilla-50ml')] },
+      { video: `${VIDEOS}18e57f5f-cf2a-44ad-8129-9b2c7cc2a092-video.mp4`, product: [by('matcha-box-3')] },
+      { video: `${VIDEOS}82f24973-78d1-44c4-b184-20c8dd2941b3-video.mp4`, product: [by('ceremonial-matcha-80g')] },
+      { video: `${VIDEOS}67fbbfff-7175-42db-8ab7-e3cc73736f45-video.mp4`, product: [by('ceremonial-matcha-120g')] },
     ],
   } },
-  { path: 'home.nm-usp', values: {} },
-  { path: 'home.nm-spotlight', values: { product: [by('nimo-matcha-gift-box')], image: media.bedTray, ends_at: '2026-10-31' } },
-  { path: 'home.nm-shop', values: { products: products, more_url: '/products' } },
-  { path: 'home.nm-flavors', values: {
-    items: [
-      { name: 'كلاسيك', accent: 'matcha', line: 'الماتشا الاحتفالية كما هي: ناعمة، خضراء، وبدون مرارة.', image: media.jarLatte, product: [by('ceremonial-matcha-80g')] },
-      { name: 'فراولة', accent: 'berry', line: 'آيس لاتيه بطعم فراولة يذكّرك بالصيف.', image: media.pinkDip, product: [by('strawberry-matcha-40g')] },
-      { name: 'مانجو', accent: 'mango', line: 'استوائية ومنعشة، تحبها من أول رشفة.', image: media.mangoLatte, product: [by('mango-matcha-40g')] },
-      { name: 'فانيليا', accent: 'vanilla', line: 'دافئة وناعمة، لكوب الصبح الهادي.', image: media.vanillaLatte, product: [by('vanilla-matcha-40g')] },
-    ],
-  } },
-  { path: 'home.nm-ritual', values: { image: media.sifting, url: '/category/tools' } },
-  { path: 'home.nm-bundle', values: { products: pick('ceremonial-matcha-80g', 'vanilla-syrup-50ml', 'nimo-cup-green', 'nimo-matcha-tin') } },
-  { path: 'home.nm-rail', values: { products: pick('verde-tools', 'nimo-matcha-tin', 'salted-caramel-syrup-50ml', 'vanilla-syrup-50ml', 'strawberry-syrup-50ml', 'berry-syrup-50ml', 'nimo-cup-green', 'nimo-cup-classic'), more_url: '/category/tools' } },
-  { path: 'home.nm-banner', values: { image: media.bannerWide, image_mobile: media.bannerMobile, alt: 'نكهتك المفضلة بانتظارك', url: '/category/offers' } },
+  { path: 'home.nm-products', values: { eyebrow: 'THE MATCHA', title: '', accent: 'الماتشا', products: pick('organic-ceremonial-matcha-1kg', 'mango-matcha-40g', 'strawberry-matcha-40g', 'vanilla-matcha-40g'), more_url: '/category/matcha' } },
   { path: 'home.nm-moments', values: {
-    images: [
-      { image: media.vanillaLatte, caption: 'آيس لاتيه فانيليا' },
-      { image: media.bedTray, caption: 'ماتشا الصباح' },
-      { image: media.cake, caption: 'كيك الماتشا' },
-      { image: media.coconutBowl, caption: 'سموذي بول' },
-      { image: media.jarLatte, caption: 'ماتشا الورد' },
-      { image: media.mangoPops, caption: 'آيس مانجو ماتشا' },
-      { image: media.blueCup, caption: 'ماتشا ميلك شيك' },
-      { image: media.handCup, caption: 'كوب نيمو على الطريق' },
-    ],
+    eyebrow: 'NIMO MOMENTS', title: 'استلهم لحظاتك', accent: 'مع الماتشا', description: 'ماتشا استثنائي كل يوم.', button: 'تسوق الان', button_url: '/products', hide_mobile: true,
+    images: [media.pinkDip, media.darkStone, media.mangoPops, media.bedTray, media.mangoLatte, media.vanillaLatte].map((image) => ({ image, caption: '' })),
   } },
-  { path: 'home.nm-reviews', values: { reviews } },
-  { path: 'home.nm-story', values: { image: media.field, url: '/#faq' } },
-  { path: 'home.nm-faq', values: {} },
-  { path: 'home.nm-cta', values: {} },
+  { path: 'home.nm-products', values: { eyebrow: 'TOOLS', title: 'ادوات', accent: 'التحضير', products: pick('strawberry-syrup-50ml', 'berry-syrup-50ml', 'nimo-matcha-tin', 'nimo-cup-green'), more_url: '/category/tools' } },
+  { path: 'home.nm-rail', values: { eyebrow: 'EVERYTHING YOU NEED', title: 'كل ما', accent: 'تحتاجه', tone: 'sand', more_label: 'تسوق الان', more_url: '/category/tools',
+    products: pick('verde-tools', 'nimo-matcha-tin', 'salted-caramel-syrup-50ml', 'vanilla-syrup-50ml', 'strawberry-syrup-50ml', 'berry-syrup-50ml', 'nimo-cup-green', 'nimo-cup-classic') } },
+  { path: 'home.nm-moments', values: {
+    eyebrow: 'NIMO MOMENTS', title: 'استلهم لحظاتك', accent: 'مع الماتشا', description: 'ماتشا استثنائي كل يوم.', button: 'تسوق الان', button_url: '/products', hide_mobile: true,
+    images: [media.sifting, media.jarLatte, media.bowl, media.blueCup, media.handCup, media.coconutBowl, media.cake, media.latteGlass].map((image) => ({ image, caption: '' })),
+  } },
+  { path: 'home.nm-story', values: { image: media.field, eyebrow: 'ABOUT NIMO', title: 'نبذه', accent: 'عننا', button: 'اكتشف الان', url: '/products', hide_mobile: true, facts: [],
+    text: 'NIMO MATCHA نختص بتوفير الماتشا اليابانية المختارة بعناية لعشاق الجودة والطعم الأصيل. نحرص على اختيار منتجاتنا من أجود مزارع اليابان، مع التركيز على قطفة الربيع الأولى التي تتميز بلونها الأخضر الزاهي، وقوامها الناعم، وطعمها المتوازن. نقدم تجربة ماتشا تجمع بين الجودة، والنقاء، وسهولة التحضير، لتناسب الاستخدام اليومي' } },
+  { path: 'home.nm-usp', values: {} },
+  { path: 'home.nm-rail', values: { eyebrow: 'PICKED FOR YOU', title: 'منتجات', accent: 'على ذوقك', tone: 'paper', more_label: '',
+    products: pick('organic-ceremonial-matcha-40g', 'vanilla-matcha-40g', 'salted-caramel-syrup-50ml', 'organic-ceremonial-matcha-250g', 'nimo-cup-classic', 'vanilla-syrup-50ml', 'verde-tools', 'strawberry-matcha-40g') } },
 ];
