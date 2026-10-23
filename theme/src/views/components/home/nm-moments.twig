@@ -19,14 +19,14 @@
             {% endif %}
         </div>
     </div>
-    <div class="nm-rail nm-gallery" data-nm-rail data-autoplay="3500">
-        <div class="nm-rail__track nm-gallery__track" data-nm-rail-track>
+    <div class="nm-rail nm-reel" data-nm-rail data-autoplay="3500">
+        <div class="nm-rail__track nm-reel__track" data-nm-rail-track>
             {% for m in imgs %}
                 {% set href = nm.href(m.url)|trim %}
                 {% set to = href != '#' ? href : (component.button_url ?: '') %}
-                {% if to %}<a class="nm-gallery__item" href="{{ to }}">{% else %}<figure class="nm-gallery__item">{% endif %}
+                {% if to %}<a class="nm-reel__item" href="{{ to }}">{% else %}<figure class="nm-reel__item">{% endif %}
                     <img src="{{ m.image }}" alt="{{ m.caption ?: component.title ~ ' ' ~ component.accent }}" loading="lazy" decoding="async" width="450" height="560">
-                    {% if m.caption %}<span class="nm-gallery__cap">{{ m.caption }}</span>{% endif %}
+                    {% if m.caption %}<span class="nm-reel__cap">{{ m.caption }}</span>{% endif %}
                 {% if to %}</a>{% else %}</figure>{% endif %}
             {% endfor %}
         </div>

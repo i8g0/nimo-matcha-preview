@@ -6,7 +6,7 @@
 
 .pv-comments { display: grid; gap: 14px; }
 @media (min-width: 900px) { .pv-comments { grid-template-columns: repeat(3, 1fr); } }
-.pv-empty { color: var(--muted); padding: 20px; background: rgba(255, 255, 255, .5); border: 1px dashed var(--line-strong); }
+.pv-empty { color: var(--muted); padding: 20px; background: var(--surface); border: 1px dashed var(--line-strong); }
 
 .pv-search { position: fixed; inset: 0; z-index: 150; background: rgba(8, 26, 20, .5); backdrop-filter: blur(6px); opacity: 0; transition: opacity .3s; }
 .pv-search.is-open { opacity: 1; }

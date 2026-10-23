@@ -209,7 +209,7 @@ export const home = [
   { path: 'home.nm-rail', values: { eyebrow: 'EVERYTHING YOU NEED', title: 'كل ما', accent: 'تحتاجه', tone: 'sand', more_label: 'تسوق الان', more_url: '/category/tools',
     products: pick('verde-tools', 'nimo-matcha-tin', 'salted-caramel-syrup-50ml', 'vanilla-syrup-50ml', 'strawberry-syrup-50ml', 'berry-syrup-50ml', 'nimo-cup-green', 'nimo-cup-classic') } },
   { path: 'home.nm-moments', values: {
-    eyebrow: 'NIMO MOMENTS', title: 'استلهم لحظاتك', accent: 'مع الماتشا', description: 'ماتشا استثنائي كل يوم.', button: 'تسوق الان', button_url: '/products', hide_mobile: false,
+    eyebrow: 'MATCHA RECIPES', title: 'وصفات', accent: 'بلمسة نيمو', description: 'لاتيه، كيك، سموذي… أفكار لكوبك الجاي.', button: 'جهّز وصفتك', button_url: '/category/matcha', hide_mobile: false,
     images: [media.sifting, media.jarLatte, media.bowl, media.blueCup, media.handCup, media.coconutBowl, media.cake, media.latteGlass].map((image) => ({ image, caption: '' })),
   } },
   { path: 'home.nm-story', values: { image: media.field, eyebrow: 'ABOUT NIMO', title: 'نبذه', accent: 'عننا', button: 'اكتشف الان', url: '/products', hide_mobile: true, facts: [],
