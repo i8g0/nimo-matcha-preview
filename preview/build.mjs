@@ -17,6 +17,8 @@ import * as esbuild from 'esbuild';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const THEME = path.join(ROOT, 'theme');
 const VIEWS = path.join(THEME, 'src', 'views');
+/* a fresh version on every build, so browsers never show yesterday's styles after a deploy */
+const VERSION = process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 8) || Date.now().toString(36);
 const ASSETS = path.join(THEME, 'src', 'assets');
 const PREVIEW = path.join(ROOT, 'preview');
 const DIST = path.join(ROOT, 'dist');
@@ -37,7 +39,7 @@ function sallaTwig(locale) {
   Twig.cache(false);
   const DIGITS = '٠١٢٣٤٥٦٧٨٩';
   const ar = (s) => String(s).replace(/[0-9]/g, (d) => DIGITS[d]);
-  Twig.extendFilter('asset', (name) => `/assets/${name}`);
+  Twig.extendFilter('asset', (name) => `/assets/${name}?v=${VERSION}`);
   Twig.extendFilter('cdn', (url) => url);
   Twig.extendFilter('money', (n) => {
     const v = Number(n) || 0;
@@ -153,8 +155,8 @@ async function build() {
       `<link rel="icon" href="${store.logo}">`,
       '<meta name="robots" content="noindex">',
       `<script>window.__NM_PREVIEW__=${JSON.stringify({ products: catalog, menus, comments, categories })};</script>`,
-      '<script src="/preview/salla-mock.js"></script>',
-      '<link rel="stylesheet" href="/preview/salla-mock.css">',
+      `<script src="/preview/salla-mock.js?v=${VERSION}"></script>`,
+      `<link rel="stylesheet" href="/preview/salla-mock.css?v=${VERSION}">`,
     ].join('\n    '),
     'body:end': '<span class="pv-badge" aria-hidden="true">معاينة · لم يُطبَّق على المتجر</span>',
   };
