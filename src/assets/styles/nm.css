@@ -1132,20 +1132,22 @@ html[data-theme='dark'] .nm-railsec[data-tone='sand'] { background-image: radial
 @media (max-width: 767px) { .nm-story__media .nm-stamp { inset-inline-end: -8px; } .nm-ritual__frame .nm-stamp { top: -34px; } }
 
 /* brand tapes */
-.nm-ribbon { position: relative; overflow: hidden; padding-block: clamp(30px, 4.5vw, 64px); }
-.nm-ribbon__tape { position: relative; z-index: 2; width: 120%; margin-inline-start: -10%; padding-block: 15px; background: var(--orange); color: #fff; transform: rotate(-1.4deg); box-shadow: 0 16px 34px -20px rgba(196, 82, 15, .75); }
+.nm-ribbon { position: relative; overflow: hidden; height: 170px; }
+@media (min-width: 900px) { .nm-ribbon { height: 200px; } }
+/* tapes are placed with physical left/right so they always run past both edges, in every browser */
+.nm-ribbon__tape { position: absolute; z-index: 2; left: -20%; right: -20%; top: 50%; padding-block: 13px; background: var(--orange); color: #fff; translate: 0 -50%; transform: rotate(-5deg); box-shadow: 0 16px 34px -20px rgba(196, 82, 15, .75); }
+.nm-ribbon__tape--b { z-index: 1; background: var(--green); color: var(--cream); transform: rotate(6deg); box-shadow: none; }
+html[data-theme='dark'] .nm-ribbon__tape--b { background: #1E4A3C; }
+.nm-ribbon:not(.nm-ribbon--crossed) .nm-ribbon__tape { transform: rotate(-2deg); }
+@media (min-width: 900px) {
+  .nm-ribbon__tape { padding-block: 15px; transform: rotate(-2.2deg); }
+  .nm-ribbon__tape--b { transform: rotate(2.6deg); }
+}
 /* stitched edges, like the band on the box */
 .nm-ribbon__tape::before, .nm-ribbon__tape::after { content: ''; position: absolute; inset-inline: 0; height: 0; border-top: 1px dashed rgba(255, 255, 255, .5); pointer-events: none; }
 .nm-ribbon__tape::before { top: 5px; }
 .nm-ribbon__tape::after { bottom: 5px; }
-.nm-ribbon__tape--b { display: none; }
-@media (min-width: 900px) {
-  .nm-ribbon--crossed { padding-block: clamp(64px, 6vw, 92px); }
-  .nm-ribbon--crossed .nm-ribbon__tape--a { transform: rotate(-2.2deg); }
-  .nm-ribbon--crossed .nm-ribbon__tape--b { display: block; position: absolute; z-index: 1; top: 50%; inset-inline-start: 0; translate: 0 -50%; background: var(--green); color: var(--cream); transform: rotate(2.6deg); box-shadow: none; }
-}
-html[data-theme='dark'] .nm-ribbon--crossed .nm-ribbon__tape--b { background: #1E4A3C; }
-@media (max-width: 899px) { .nm-ribbon__tape { transform: rotate(-1.8deg); padding-block: 13px; } }
+.nm-ribbon__tape--b::before, .nm-ribbon__tape--b::after { border-color: rgba(247, 242, 234, .35); }
 .nm-ribbon__track { display: flex; align-items: center; gap: 30px; width: max-content; white-space: nowrap; animation: nm-marquee 48s linear infinite; font-size: clamp(14px, 1.4vw, 17px); font-weight: 500; letter-spacing: .01em; }
 [dir='rtl'] .nm-ribbon__track { animation-name: nm-marquee-rtl; }
 .nm-ribbon__tape--b .nm-ribbon__track { animation-direction: reverse; animation-duration: 60s; font-weight: 400; }
