@@ -20,7 +20,9 @@ const boot = () => {
   chrome.themeToggle();
   popup();
   fillCups();
-  motion.reveals();
+  motion.story();
+  motion.progress();
+  motion.perfGuard();
   motion.rails();
   motion.videos();
   motion.timers();
@@ -33,5 +35,5 @@ else boot();
 let late;
 new MutationObserver(() => {
   clearTimeout(late);
-  late = setTimeout(() => { fillCups(); motion.reveals(); motion.rails(); }, 120);
+  late = setTimeout(() => { fillCups(); motion.story(); motion.rails(); }, 120);
 }).observe(document.body, { childList: true, subtree: true });

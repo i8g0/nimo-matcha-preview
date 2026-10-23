@@ -61,6 +61,16 @@
             if (mode === 'auto') mode = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             if (mode === 'dark') d.setAttribute('data-theme', 'dark');
         })();
+        /* lite mode: weak phones and laptops, data saver, or a device that stuttered on an earlier visit
+           get the same design with the decorative motion switched off (motion.js may also switch it on) */
+        (function () {
+            var d = document.documentElement, n = navigator, c = n.connection || {}, lite = false;
+            if (c.saveData || /(^|-)2g$/.test(c.effectiveType || '')) lite = true;
+            if (n.deviceMemory && n.deviceMemory <= 2) lite = true;
+            if (n.hardwareConcurrency && n.hardwareConcurrency <= 2) lite = true;
+            try { if (localStorage.getItem('nm-lite') === '1') lite = true; } catch (e) {}
+            if (lite) d.classList.add('nm-lite');
+        })();
     </script>
 
     {% hook 'head:start' %}
