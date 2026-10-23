@@ -5,15 +5,28 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 let io;
+/* a photo hidden behind its curtain (clip-path) has no visible area, so its parent is watched instead */
+const waiting = new Map();
+const watchTarget = (el) => (el.getAttribute('data-reveal') === 'clip' && el.parentElement) || el;
 export function reveals(root = document) {
-  const items = $$('[data-reveal]:not(.is-in)', root);
+  const items = $$('[data-reveal]:not(.is-in), [data-reveal-group]:not(.is-in)', root);
   if (!('IntersectionObserver' in window) || reduced()) { items.forEach((el) => el.classList.add('is-in')); return; }
   io = io || new IntersectionObserver((entries) => {
     entries.forEach((en) => {
-      if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+      if (!en.isIntersecting) return;
+      (waiting.get(en.target) || [en.target]).forEach((el) => el.classList.add('is-in'));
+      waiting.delete(en.target);
+      io.unobserve(en.target);
     });
   }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-  items.forEach((el) => io.observe(el));
+  items.forEach((el) => {
+    const t = watchTarget(el);
+    const list = waiting.get(t) || [];
+    if (list.includes(el)) return;
+    list.push(el);
+    waiting.set(t, list);
+    io.observe(t);
+  });
 }
 
 /** Rails: arrows (anywhere in the same section) scroll by one viewport of cards; arrows disable at the ends. */
@@ -101,4 +114,70 @@ export function timers(root = document) {
     const timer = setInterval(tick, 1000);
     tick();
   });
+}
+
+
+/* ---------- scroll story ----------
+   Tags the page so sections unfold as you scroll: photos open like a curtain, product cards rise one
+   after another, rails slide in, heading lines draw themselves. Everything is opacity / transform only,
+   so it stays smooth on modest devices. */
+const lite = () => document.documentElement.classList.contains('nm-lite');
+
+export function story(root = document) {
+  $$('.nm-reel, .nm-ritual__media, .nm-story__img, .nm-vcard__film, .nm-spot__life, .nm-banner__link', root)
+    .forEach((el) => { if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', 'clip'); });
+  $$('.nm-grid', root).forEach((grid) => {
+    const cols = (getComputedStyle(grid).gridTemplateColumns || '').split(' ').filter(Boolean).length || 2;
+    $$(':scope > .nm-card, :scope > nm-product-card > .nm-card', grid).forEach((card, i) => {
+      if (card.hasAttribute('data-reveal')) return;
+      card.setAttribute('data-reveal', 'card');
+      card.style.setProperty('--i', i % cols);
+    });
+  });
+  $$('.nm-rail__track:not(.nm-reel__track), .nm-bundle__items', root).forEach((track) => {
+    if (track.hasAttribute('data-reveal-group')) return;
+    track.setAttribute('data-reveal-group', '');
+    [...track.children].forEach((c, i) => c.style.setProperty('--i', Math.min(i, 6)));
+  });
+  reveals(root);
+}
+
+/** A thin orange line under the header shows how far down the page you are. */
+export function progress() {
+  const bar = document.querySelector('[data-nm-progress]');
+  if (!bar || lite() || reduced()) return;
+  if (window.CSS && CSS.supports('animation-timeline: scroll()')) return; /* the browser draws it by itself */
+  let ticking = false;
+  const draw = () => {
+    ticking = false;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = `scaleX(${max > 0 ? Math.min(1, scrollY / max).toFixed(4) : 0})`;
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(draw); } }, { passive: true });
+  draw();
+}
+
+/** Watches the first seconds after load; if this device keeps dropping frames, switch to lite mode
+    for this visit and the next ones. */
+export function perfGuard() {
+  if (lite() || reduced() || document.hidden) return;
+  const start = () => setTimeout(() => {
+    let frames = 0;
+    let slow = 0;
+    let last = performance.now();
+    const tick = (t) => {
+      if (document.hidden) return;
+      if (t - last > 50) slow += 1;
+      last = t;
+      frames += 1;
+      if (frames < 120) { requestAnimationFrame(tick); return; }
+      if (slow / frames > 0.3) {
+        document.documentElement.classList.add('nm-lite');
+        try { localStorage.setItem('nm-lite', '1'); } catch { /* private mode */ }
+      }
+    };
+    requestAnimationFrame(tick);
+  }, 900);
+  if (document.readyState === 'complete') start();
+  else addEventListener('load', start, { once: true });
 }
