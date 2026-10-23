@@ -107,7 +107,8 @@ a.nm-sr:focus { z-index: 999; width: auto; height: auto; clip: auto; padding: 10
   font-size: 11px; font-weight: 500; letter-spacing: .32em; text-transform: uppercase;
   color: var(--t-accent, var(--orange));
 }
-.nm-eyebrow::before { content: ''; width: 28px; height: 1px; background: currentColor; opacity: .7; }
+.nm-eyebrow::before { content: ''; width: 34px; height: 6px; background: linear-gradient(currentColor, currentColor) 0 50% / 26px 1px no-repeat, radial-gradient(circle, currentColor 2.4px, transparent 2.9px) 100% 50% / 6px 6px no-repeat; opacity: .8; }
+[dir='rtl'] .nm-eyebrow::before { background: linear-gradient(currentColor, currentColor) 100% 50% / 26px 1px no-repeat, radial-gradient(circle, currentColor 2.4px, transparent 2.9px) 0 50% / 6px 6px no-repeat; }
 .nm-head { display: flex; flex-direction: column; gap: 14px; margin-bottom: clamp(32px, 5vw, 64px); max-width: 760px; }
 .nm-head--center { align-items: center; text-align: center; margin-inline: auto; }
 .nm-head--center .nm-eyebrow::after { content: ''; width: 28px; height: 1px; background: currentColor; opacity: .7; }
@@ -478,7 +479,8 @@ nm-product-card { display: contents; }
 .nm-flavors__product .nm-card__price { justify-content: flex-start; }
 
 /* ---------- ritual ---------- */
-.nm-ritual__media { position: relative; aspect-ratio: 21 / 9; overflow: hidden; background: var(--sand); margin-bottom: clamp(40px, 6vw, 72px); }
+.nm-ritual__frame { position: relative; margin-bottom: clamp(40px, 6vw, 72px); }
+.nm-ritual__media { position: relative; aspect-ratio: 21 / 9; overflow: hidden; background: var(--sand); }
 @media (max-width: 767px) { .nm-ritual__media { aspect-ratio: 4 / 3; } }
 .nm-ritual__media img, .nm-ritual__media video { width: 100%; height: 100%; object-fit: cover; }
 .nm-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--line); }
@@ -1058,6 +1060,82 @@ html[data-theme='dark'] input, html[data-theme='dark'] select, html[data-theme='
   .nm-flavors__hint i { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, .5); transition: width .4s var(--ease), background .4s; }
   .nm-flavors__hint i.is-on { width: 18px; border-radius: 3px; background: var(--cream); }
 }
+
+
+/* ======================================================================
+   More brand shapes: matcha leaves drawn like the packaging, organic wave edges,
+   floating circles, a rotating Nimo stamp, brand tapes and a soft dot texture
+   ====================================================================== */
+:root {
+  --deco-leaf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 160' fill='none' stroke='%23EB6A1F' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M58 156C56 118 60 74 72 8'/%3E%3Cpath d='M59 124C38 118 26 102 28 86C44 90 56 104 59 124Z'/%3E%3Cpath d='M60 100C81 92 92 76 90 62C75 66 63 82 60 100Z'/%3E%3Cpath d='M63 74C44 64 38 48 41 36C54 42 63 56 63 74Z'/%3E%3Cpath d='M66 50C82 40 88 28 86 16C75 22 68 34 66 50Z'/%3E%3Cpath d='M44 98L58 112M78 76L62 90M50 50L62 64'/%3E%3C/svg%3E");
+  --deco-leaf-cream: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 160' fill='none' stroke='%23F7F2EA' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M58 156C56 118 60 74 72 8'/%3E%3Cpath d='M59 124C38 118 26 102 28 86C44 90 56 104 59 124Z'/%3E%3Cpath d='M60 100C81 92 92 76 90 62C75 66 63 82 60 100Z'/%3E%3Cpath d='M63 74C44 64 38 48 41 36C54 42 63 56 63 74Z'/%3E%3Cpath d='M66 50C82 40 88 28 86 16C75 22 68 34 66 50Z'/%3E%3Cpath d='M44 98L58 112M78 76L62 90M50 50L62 64'/%3E%3C/svg%3E");
+  --wave-top: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 60' preserveAspectRatio='none'%3E%3Cpath d='M0 60V30C150 6 300 0 450 14s300 40 480 34 330-36 510-40V60Z'/%3E%3C/svg%3E");
+  --wave-bottom: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 60' preserveAspectRatio='none'%3E%3Cpath d='M0 0V26C170 50 330 58 500 42s320-38 470-30 320 34 470 20V0Z'/%3E%3C/svg%3E");
+  --wave-h: clamp(20px, 3.2vw, 46px);
+}
+@keyframes nm-sway { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+@keyframes nm-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+
+/* leaves replace some of the dot grids; rings float slowly */
+.nm-deco--0::before { width: 70px; height: 94px; background: var(--deco-leaf) center / contain no-repeat; opacity: .55; transform-origin: 50% 100%; animation: nm-sway 9s ease-in-out infinite; }
+.nm-deco--2::after { width: 64px; height: 86px; background: var(--deco-leaf) center / contain no-repeat; opacity: .5; transform-origin: 50% 100%; animation: nm-sway 11s ease-in-out infinite reverse; }
+.nm-deco--0::after, .nm-deco--2::before { animation: nm-bob 12s ease-in-out infinite; }
+[dir='rtl'] .nm-deco--0::before, [dir='rtl'] .nm-deco--2::after { scale: -1 1; }
+
+/* a small orange planet with its ring beside every decorated heading */
+.nm-deco > .nm-container:first-child { position: relative; }
+.nm-deco > .nm-container:first-child::before { content: ''; position: absolute; z-index: -1; top: -6px; inset-inline-end: 0; width: 64px; height: 40px; background: radial-gradient(circle at 12px 26px, var(--orange) 0 7px, transparent 7.5px), radial-gradient(circle at 40px 14px, transparent 0 9px, var(--orange) 9px 10.2px, transparent 10.8px), radial-gradient(circle at 58px 32px, var(--green) 0 3.5px, transparent 4px); opacity: .6; animation: nm-bob 8s ease-in-out infinite; pointer-events: none; }
+.nm-section--products > .nm-container:first-child::before, .nm-shop > .nm-container:first-child::before { top: auto; bottom: calc(100% + 18px); }
+@media (max-width: 767px) {
+  .nm-deco--0::before { width: 46px; height: 62px; opacity: .45; }
+  .nm-deco--2::after { width: 44px; height: 58px; opacity: .4; }
+  .nm-deco > .nm-container:first-child::before { scale: .75; }
+}
+
+/* organic wave edges on the dark sections, like the shapes on the pouches */
+.nm-videos, .nm-flavors, section.nm-toned[data-tone='night'] {
+  -webkit-mask: var(--wave-top) top / 100% var(--wave-h) no-repeat, linear-gradient(#000 0 0) 0 calc(var(--wave-h) - 1px) / 100% calc(100% - 2 * var(--wave-h) + 2px) no-repeat, var(--wave-bottom) bottom / 100% var(--wave-h) no-repeat;
+  mask: var(--wave-top) top / 100% var(--wave-h) no-repeat, linear-gradient(#000 0 0) 0 calc(var(--wave-h) - 1px) / 100% calc(100% - 2 * var(--wave-h) + 2px) no-repeat, var(--wave-bottom) bottom / 100% var(--wave-h) no-repeat;
+}
+.nm-footer {
+  -webkit-mask: var(--wave-top) top / 100% var(--wave-h) no-repeat, linear-gradient(#000 0 0) 0 calc(var(--wave-h) - 1px) / 100% 100% no-repeat;
+  mask: var(--wave-top) top / 100% var(--wave-h) no-repeat, linear-gradient(#000 0 0) 0 calc(var(--wave-h) - 1px) / 100% 100% no-repeat;
+}
+/* a cream leaf and dot grid inside the dark sections */
+.nm-videos, .nm-flavors { isolation: isolate; }
+.nm-videos::before { content: ''; position: absolute; z-index: -1; top: calc(var(--wave-h) + 26px); inset-inline-start: 3vw; width: 70px; height: 42px; background: radial-gradient(circle, var(--orange-light) 2px, transparent 2.6px) 0 0 / 14px 14px; opacity: .45; pointer-events: none; }
+.nm-flavors::after { content: ''; position: absolute; z-index: 0; bottom: calc(var(--wave-h) + 20px); inset-inline-start: 2vw; width: 90px; height: 120px; background: var(--deco-leaf-cream) center / contain no-repeat; opacity: .16; transform-origin: 50% 100%; animation: nm-sway 10s ease-in-out infinite; pointer-events: none; }
+.nm-footer { position: relative; isolation: isolate; }
+.nm-footer::before { content: ''; position: absolute; z-index: -1; top: calc(var(--wave-h) + 30px); inset-inline-end: 4vw; width: 110px; height: 148px; background: var(--deco-leaf) center / contain no-repeat; opacity: .22; transform-origin: 50% 100%; animation: nm-sway 12s ease-in-out infinite; pointer-events: none; }
+
+@media (max-width: 899px) { .nm-flavors::after { display: none; } }
+
+/* soft dot texture on the sand sections */
+.nm-railsec[data-tone='sand'] { background-image: radial-gradient(circle, rgba(235, 106, 31, .16) 1.3px, transparent 1.8px); background-size: 22px 22px; }
+html[data-theme='dark'] .nm-deco > .nm-container:first-child::before { opacity: .8; }
+html[data-theme='dark'] .nm-railsec[data-tone='sand'] { background-image: radial-gradient(circle, rgba(244, 154, 94, .1) 1.3px, transparent 1.8px); }
+
+/* rotating stamp */
+.nm-stamp { position: absolute; z-index: 3; width: clamp(96px, 11vw, 132px); height: clamp(96px, 11vw, 132px); border-radius: 50%; background: var(--orange); color: #fff; display: grid; place-items: center; box-shadow: 0 18px 36px -18px rgba(196, 82, 15, .7); pointer-events: none; direction: ltr; }
+.nm-stamp > svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: currentColor; font: 500 10.5px 'IBM Plex Sans', sans-serif; letter-spacing: .14em; animation: nm-rotate 26s linear infinite; }
+.nm-stamp::before { content: ''; position: absolute; inset: 22%; border-radius: 50%; border: 1px dashed rgba(255, 255, 255, .55); }
+.nm-stamp i { display: grid; place-items: center; }
+.nm-story__media { position: relative; width: 100%; max-width: 480px; justify-self: center; }
+.nm-story__media .nm-stamp { bottom: 10%; inset-inline-end: -36px; }
+.nm-ritual__frame .nm-stamp { top: -40px; inset-inline-start: 4%; }
+@media (max-width: 767px) { .nm-story__media .nm-stamp { inset-inline-end: -8px; } .nm-ritual__frame .nm-stamp { top: -34px; } }
+
+/* brand tapes */
+.nm-ribbon { position: relative; overflow: hidden; padding-block: clamp(26px, 4vw, 44px); }
+.nm-ribbon__tape { position: relative; z-index: 2; width: 110%; margin-inline-start: -5%; padding-block: 13px; background: var(--orange); color: #fff; transform: rotate(-2.2deg); box-shadow: 0 14px 30px -18px rgba(196, 82, 15, .7); }
+.nm-ribbon--crossed .nm-ribbon__tape--b { position: absolute; z-index: 1; top: 50%; inset-inline-start: 0; translate: 0 -50%; background: var(--green); color: var(--cream); transform: rotate(2.4deg); box-shadow: none; }
+html[data-theme='dark'] .nm-ribbon--crossed .nm-ribbon__tape--b { background: #1E4A3C; }
+.nm-ribbon__track { display: flex; align-items: center; gap: 26px; width: max-content; white-space: nowrap; animation: nm-marquee 48s linear infinite; font-size: clamp(14px, 1.4vw, 17px); font-weight: 500; letter-spacing: .01em; }
+[dir='rtl'] .nm-ribbon__track { animation-name: nm-marquee-rtl; }
+.nm-ribbon__tape--b .nm-ribbon__track { animation-direction: reverse; animation-duration: 60s; font-weight: 400; }
+.nm-ribbon__track i { display: inline-grid; opacity: .85; }
+.nm-ribbon:hover .nm-ribbon__track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .nm-ribbon__track, .nm-stamp svg { animation: none; } }
 
 /* ---------- motion ---------- */
 [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity 1s var(--ease), transform 1.2s var(--ease); transition-delay: calc(var(--i, 0) * 80ms); }

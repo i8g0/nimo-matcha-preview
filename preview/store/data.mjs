@@ -178,6 +178,7 @@ export const home = [
       { image: media.bannerWide, image_mobile: media.bannerMobile, url: '/products' },
     ],
   } },
+  { path: 'home.nm-ribbon', values: {} },
   { path: 'home.nm-shop', values: { eyebrow: 'MATCHA BOXES', title: 'بوكسات', accent: 'الماتشا', description: '', products: pick('nimo-matcha-gift-box', 'matcha-box-3'), more_label: 'كل البوكسات', more_url: '/category/boxes' } },
   { path: 'home.nm-products', values: { eyebrow: 'NIMO OFFERS', title: 'عروض', accent: 'نيمو', products: pick('ceremonial-matcha-120g', 'ceremonial-matcha-80g', 'matcha-40g-vanilla-50ml'), more_url: '/category/offers' } },
   { path: 'home.nm-videos', values: {
@@ -213,6 +214,7 @@ export const home = [
   } },
   { path: 'home.nm-story', values: { image: media.field, eyebrow: 'ABOUT NIMO', title: 'نبذه', accent: 'عننا', button: 'اكتشف الان', url: '/products', hide_mobile: true, facts: [],
     text: 'NIMO MATCHA نختص بتوفير الماتشا اليابانية المختارة بعناية لعشاق الجودة والطعم الأصيل. نحرص على اختيار منتجاتنا من أجود مزارع اليابان، مع التركيز على قطفة الربيع الأولى التي تتميز بلونها الأخضر الزاهي، وقوامها الناعم، وطعمها المتوازن. نقدم تجربة ماتشا تجمع بين الجودة، والنقاء، وسهولة التحضير، لتناسب الاستخدام اليومي' } },
+  { path: 'home.nm-ribbon', values: { crossed: false, items: [{ text: 'نيمو ماتشا' }, { text: 'ماتشا تستاهلها كل يوم' }, { text: 'من اليابان إلى كوبك' }] } },
   { path: 'home.nm-usp', values: {} },
   { path: 'home.nm-rail', values: { eyebrow: 'PICKED FOR YOU', title: 'منتجات', accent: 'على ذوقك', tone: 'paper', more_label: '',
     products: pick('organic-ceremonial-matcha-40g', 'vanilla-matcha-40g', 'salted-caramel-syrup-50ml', 'organic-ceremonial-matcha-250g', 'nimo-cup-classic', 'vanilla-syrup-50ml', 'verde-tools', 'strawberry-matcha-40g') } },

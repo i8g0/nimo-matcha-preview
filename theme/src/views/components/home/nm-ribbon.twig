@@ -1,0 +1,17 @@
+{#
+| component.items[] | text | component.crossed | bool — a second tape crosses the first |
+Brand tapes that slide slowly across the page, like the band on a Nimo box.
+#}
+{% set items = [] %}
+{% for it in component.items|default([]) %}{% if it.text %}{% set items = items|merge([it.text]) %}{% endif %}{% endfor %}
+{% if items|length %}
+<section class="nm-ribbon {{ component.crossed ? 'nm-ribbon--crossed' : '' }}" component-id="{{ componentId }}" aria-label="{{ items|join(' · ') }}">
+    {% for tape in (component.crossed ? ['a', 'b'] : ['a']) %}
+        <div class="nm-ribbon__tape nm-ribbon__tape--{{ tape }}" aria-hidden="true">
+            <div class="nm-ribbon__track">
+                {% for round in 1..6 %}{% for t in items %}<span>{{ t }}</span><i>{% include 'components.nm.icon' with {name: 'leaf', size: 16} %}</i>{% endfor %}{% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+</section>
+{% endif %}
