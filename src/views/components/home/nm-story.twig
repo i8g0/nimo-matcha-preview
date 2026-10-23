@@ -2,8 +2,11 @@
 {% import 'components.nm.macros' as nm %}
 <section class="nm-section nm-toned {{ component.hide_mobile ? 'nm-hide-mobile' : '' }}" data-tone="night" id="about" component-id="{{ componentId }}">
     <div class="nm-container nm-story__grid">
-        <div class="nm-story__img" data-reveal>
-            {% if component.image %}<img src="{{ component.image }}" alt="{{ component.title }} {{ component.accent }}" loading="lazy" decoding="async">{% endif %}
+        <div class="nm-story__media" data-reveal>
+            <div class="nm-story__img">
+                {% if component.image %}<img src="{{ component.image }}" alt="{{ component.title }} {{ component.accent }}" loading="lazy" decoding="async">{% endif %}
+            </div>
+            {% include 'components.nm.stamp' with {id: componentId} %}
         </div>
         <div class="nm-story__body">
             {% include 'components.nm.head' with {c: component} %}

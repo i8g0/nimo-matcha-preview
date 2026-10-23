@@ -1,0 +1,8 @@
+{#- Rotating round stamp in the spirit of the Nimo packaging. Include with {id: unique string}. -#}
+<span class="nm-stamp" aria-hidden="true">
+    <svg viewBox="0 0 120 120" focusable="false">
+        <defs><path id="nm-stamp-{{ id }}" d="M60,60 m-45,0 a45,45 0 1,1 90,0 a45,45 0 1,1 -90,0"/></defs>
+        <text><textPath href="#nm-stamp-{{ id }}" textLength="280" lengthAdjust="spacing">NIMO MATCHA · CEREMONIAL GRADE · JAPAN ·</textPath></text>
+    </svg>
+    <i>{% include 'components.nm.icon' with {name: 'leaf', size: 26} %}</i>
+</span>

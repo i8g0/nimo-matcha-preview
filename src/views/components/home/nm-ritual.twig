@@ -8,12 +8,15 @@
     <div class="nm-container">
         {% include 'components.nm.head' with {c: component, modifier: 'center'} %}
         {% if component.video or component.image %}
-            <div class="nm-ritual__media" data-reveal>
+            <div class="nm-ritual__frame" data-reveal>
+            {% include 'components.nm.stamp' with {id: componentId} %}
+            <div class="nm-ritual__media">
                 {% if component.video %}
                     <video muted playsinline loop preload="none" poster="{{ component.image }}" data-nm-video data-src="{{ component.video }}" aria-label="{{ component.title }}"></video>
                 {% else %}
                     <img src="{{ component.image }}" alt="{{ component.title }} {{ component.accent }}" loading="lazy" decoding="async">
                 {% endif %}
+            </div>
             </div>
         {% endif %}
         <ol class="nm-steps">
