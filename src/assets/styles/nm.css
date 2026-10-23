@@ -203,7 +203,8 @@ a.nm-sr:focus { z-index: 999; width: auto; height: auto; clip: auto; padding: 10
   .nm-header__nav { display: block; order: -1; }
   .nm-header__nav ul { list-style: none; display: flex; gap: 28px; margin: 0; padding: 0; }
   .nm-header__nav li { display: block; }
-  .nm-header__nav a { position: relative; display: block; padding: 8px 0; font-size: 14.5px; color: var(--ink); white-space: nowrap; }
+  .nm-header__nav a { position: relative; display: block; padding: 8px 0; font-size: 14.5px; font-weight: 500; color: var(--orange); white-space: nowrap; transition: color .3s; }
+  .nm-header__nav a:hover { color: var(--orange-deep); }
   .nm-header__nav a::after { content: ''; position: absolute; inset-inline: 0; bottom: 2px; height: 1px; background: var(--orange); transform: scaleX(0); transition: transform .5s var(--ease); }
   .nm-header__nav a:hover::after { transform: scaleX(1); }
 }
@@ -216,7 +217,8 @@ a.nm-sr:focus { z-index: 999; width: auto; height: auto; clip: auto; padding: 10
 /* category bar (phones) */
 .nm-catbar { border-top: 1px solid var(--line); }
 .nm-catbar .nm-tabs { justify-content: flex-start; padding-inline: var(--gutter); gap: 24px; }
-.nm-catbar .nm-tab { padding: 11px 0; font-size: 14px; }
+.nm-catbar .nm-tab { padding: 11px 0; font-size: 14px; color: var(--orange); font-weight: 500; }
+.nm-catbar .nm-tab:hover, .nm-catbar .nm-tab.is-active, .nm-catbar .nm-tab[aria-current='page'] { color: var(--orange-deep); }
 [data-nm-catbar] salla-menu, [data-nm-catbar] ul, [data-nm-catbar] li { display: contents; }
 [data-nm-catbar] a { flex: none; }
 @media (min-width: 1024px) { .nm-catbar { display: none; } }
@@ -1130,11 +1132,21 @@ html[data-theme='dark'] .nm-railsec[data-tone='sand'] { background-image: radial
 @media (max-width: 767px) { .nm-story__media .nm-stamp { inset-inline-end: -8px; } .nm-ritual__frame .nm-stamp { top: -34px; } }
 
 /* brand tapes */
-.nm-ribbon { position: relative; overflow: hidden; padding-block: clamp(26px, 4vw, 44px); }
-.nm-ribbon__tape { position: relative; z-index: 2; width: 110%; margin-inline-start: -5%; padding-block: 13px; background: var(--orange); color: #fff; transform: rotate(-2.2deg); box-shadow: 0 14px 30px -18px rgba(196, 82, 15, .7); }
-.nm-ribbon--crossed .nm-ribbon__tape--b { position: absolute; z-index: 1; top: 50%; inset-inline-start: 0; translate: 0 -50%; background: var(--green); color: var(--cream); transform: rotate(2.4deg); box-shadow: none; }
+.nm-ribbon { position: relative; overflow: hidden; padding-block: clamp(30px, 4.5vw, 64px); }
+.nm-ribbon__tape { position: relative; z-index: 2; width: 120%; margin-inline-start: -10%; padding-block: 15px; background: var(--orange); color: #fff; transform: rotate(-1.4deg); box-shadow: 0 16px 34px -20px rgba(196, 82, 15, .75); }
+/* stitched edges, like the band on the box */
+.nm-ribbon__tape::before, .nm-ribbon__tape::after { content: ''; position: absolute; inset-inline: 0; height: 0; border-top: 1px dashed rgba(255, 255, 255, .5); pointer-events: none; }
+.nm-ribbon__tape::before { top: 5px; }
+.nm-ribbon__tape::after { bottom: 5px; }
+.nm-ribbon__tape--b { display: none; }
+@media (min-width: 900px) {
+  .nm-ribbon--crossed { padding-block: clamp(64px, 6vw, 92px); }
+  .nm-ribbon--crossed .nm-ribbon__tape--a { transform: rotate(-2.2deg); }
+  .nm-ribbon--crossed .nm-ribbon__tape--b { display: block; position: absolute; z-index: 1; top: 50%; inset-inline-start: 0; translate: 0 -50%; background: var(--green); color: var(--cream); transform: rotate(2.6deg); box-shadow: none; }
+}
 html[data-theme='dark'] .nm-ribbon--crossed .nm-ribbon__tape--b { background: #1E4A3C; }
-.nm-ribbon__track { display: flex; align-items: center; gap: 26px; width: max-content; white-space: nowrap; animation: nm-marquee 48s linear infinite; font-size: clamp(14px, 1.4vw, 17px); font-weight: 500; letter-spacing: .01em; }
+@media (max-width: 899px) { .nm-ribbon__tape { transform: rotate(-1.8deg); padding-block: 13px; } }
+.nm-ribbon__track { display: flex; align-items: center; gap: 30px; width: max-content; white-space: nowrap; animation: nm-marquee 48s linear infinite; font-size: clamp(14px, 1.4vw, 17px); font-weight: 500; letter-spacing: .01em; }
 [dir='rtl'] .nm-ribbon__track { animation-name: nm-marquee-rtl; }
 .nm-ribbon__tape--b .nm-ribbon__track { animation-direction: reverse; animation-duration: 60s; font-weight: 400; }
 .nm-ribbon__track i { display: inline-grid; opacity: .85; }
