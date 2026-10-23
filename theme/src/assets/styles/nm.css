@@ -1139,6 +1139,14 @@ html[data-theme='dark'] .nm-railsec[data-tone='sand'] { background-image: radial
 .nm-ribbon__tape--b { z-index: 1; background: var(--green); color: var(--cream); transform: rotate(6deg); box-shadow: none; }
 html[data-theme='dark'] .nm-ribbon__tape--b { background: #1E4A3C; }
 .nm-ribbon:not(.nm-ribbon--crossed) .nm-ribbon__tape { transform: rotate(-2deg); }
+/* phones: two parallel tapes, each fully readable, sliding opposite ways */
+@media (max-width: 899px) {
+  .nm-ribbon--crossed { height: 184px; }
+  .nm-ribbon--crossed .nm-ribbon__tape { transform: rotate(-3deg); }
+  .nm-ribbon--crossed .nm-ribbon__tape--a { top: 34%; }
+  .nm-ribbon--crossed .nm-ribbon__tape--b { top: 69%; }
+  .nm-ribbon:not(.nm-ribbon--crossed) { height: 120px; }
+}
 @media (min-width: 900px) {
   .nm-ribbon__tape { padding-block: 15px; transform: rotate(-2.2deg); }
   .nm-ribbon__tape--b { transform: rotate(2.6deg); }
