@@ -53,7 +53,7 @@
 
                 <div class="nm-buy__price">
                     {{ nm.price(product) }}
-                    {% if off %}<span class="nm-label">{{ trans('nm.save') }} {{ off }}٪</span>{% endif %}
+                    {% if off %}<span class="nm-label">{{ trans('nm.save') }} {{ off }}%</span>{% endif %}
                     {% if product.promotion_title %}<span class="nm-label nm-label--solid">{{ product.promotion_title }}</span>{% endif %}
                     <small>{{ trans('nm.tax_included') }}</small>
                 </div>

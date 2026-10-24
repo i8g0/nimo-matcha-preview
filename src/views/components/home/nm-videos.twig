@@ -34,7 +34,7 @@ Short vertical films; each one sells its product right under it. Films play mute
                                 <span class="nm-card__price">{{ nm.price(p) }}</span>
                             </div>
                             {% if p.is_available %}
-                                <button class="nm-card__add" type="button" {{ nm.add_attrs(p) }} aria-label="{{ trans('nm.add_to_cart') }}: {{ p.name }}">{% include 'components.nm.icon' with {name: 'plus', size: 18} %}{% include 'components.nm.icon' with {name: 'check', size: 18} %}</button>
+                                <button class="nm-addbtn nm-addbtn--sm" type="button" {{ nm.add_attrs(p) }} aria-label="{{ trans('nm.add_to_cart') }}: {{ p.name }}"><span class="nm-addbtn__a">{{ trans('nm.add') }}</span><span class="nm-addbtn__b">{% include 'components.nm.icon' with {name: 'check', size: 14} %}</span></button>
                             {% endif %}
                         </div>
                     {% endif %}
