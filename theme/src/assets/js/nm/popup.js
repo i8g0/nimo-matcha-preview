@@ -34,9 +34,7 @@ async function fillProduct(root) {
   row.innerHTML = `<a href="${esc(p.url)}"><img src="${esc(image)}" alt="" data-nm-fly-src></a>
     <div><a href="${esc(p.url)}"><strong>${esc(p.name)}</strong></a>
       <span class="nm-card__price">${sale ? `<strong class="nm-price nm-price--sale">${store.money(price)}</strong><del class="nm-price-old">${store.money(regular)}</del>` : `<strong class="nm-price">${store.money(price)}</strong>`}</span></div>
-    ${p.is_available === false ? '' : `<button class="nm-card__add" type="button" data-nm-add="${p.id}" data-name="${esc(p.name)}" data-image="${esc(image)}" data-url="${esc(p.url)}" data-price="${price}" aria-label="${esc(p.name)}">
-      <svg class="nm-plus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-      <svg class="nm-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></button>`}`;
+    ${p.is_available === false ? '' : `<button class="nm-addbtn nm-addbtn--sm" type="button" data-nm-add="${p.id}" data-name="${esc(p.name)}" data-image="${esc(image)}" data-url="${esc(p.url)}" data-price="${price}" aria-label="${esc(p.name)}"><span class="nm-addbtn__a">${(window.NM_SETTINGS?.i18n || {}).add || 'أضف'}</span><span class="nm-addbtn__b"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span></button>`}`;
   row.hidden = false;
 }
 

@@ -13,8 +13,8 @@
   const on = (name, cb) => { (listeners[name] = listeners[name] || []).push(cb); };
   const emit = (name, ...args) => (listeners[name] || []).forEach((cb) => { try { cb(...args); } catch (e) { console.error(e); } });
 
-  const DIGITS = '٠١٢٣٤٥٦٧٨٩';
-  const ar = (s) => String(s).replace(/[0-9]/g, (d) => DIGITS[d]).replace(/,/g, '٬').replace(/\./g, '٫');
+  /* English digits everywhere, like the theme */
+  const ar = (s) => String(s);
   const money = (n) => {
     const v = Math.round(Number(n) * 100) / 100;
     const s = v % 1 === 0 ? v.toLocaleString('en-US') : v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -136,7 +136,7 @@
     attributeChangedCallback() { this.render(); }
     render() {
       const price = Number(this.getAttribute('price')) || 0;
-      this.innerHTML = price ? `<span class="pv-tamara">أو ٤ دفعات بقيمة <b>${money(price / 4)}</b> بدون فوائد مع <i>tamara</i></span>` : '';
+      this.innerHTML = price ? `<span class="pv-tamara">أو 4 دفعات بقيمة <b>${money(price / 4)}</b> بدون فوائد مع <i>tamara</i></span>` : '';
     }
   });
 

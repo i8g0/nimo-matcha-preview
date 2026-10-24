@@ -15,14 +15,16 @@ export function ready(cb) {
   else run();
 }
 
-const DIGITS = '٠١٢٣٤٥٦٧٨٩';
-export const arabicDigits = (v) => String(v).replace(/[0-9]/g, (d) => DIGITS[d]);
+/* every number in the store is shown in English digits (0-9); Arabic-Indic input is normalised too */
+const INDIC = '٠١٢٣٤٥٦٧٨٩';
+export const digits = (v) => String(v).replace(/[\u0660-\u0669]/g, (d) => INDIC.indexOf(d)).replace(/\u066B/g, '.').replace(/\u066C/g, ',');
+export const arabicDigits = digits; /* old name kept so nothing else breaks */
 
 export function money(n) {
   const value = Number(n) || 0;
   if (sdk()?.money) return sdk().money(value);
   const s = value % 1 === 0 ? value.toLocaleString('en-US') : value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  return `${arabicDigits(s).replace(/,/g, '٬').replace(/\./g, '٫')} ر.س`;
+  return `${s} ر.س`;
 }
 
 /* Product name/image cache: cart APIs may return only ids, cards know the rest. */

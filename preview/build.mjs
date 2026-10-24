@@ -37,14 +37,12 @@ const copyDir = (from, to) => walk(from).forEach((file) => {
 
 function sallaTwig(locale) {
   Twig.cache(false);
-  const DIGITS = '٠١٢٣٤٥٦٧٨٩';
-  const ar = (s) => String(s).replace(/[0-9]/g, (d) => DIGITS[d]);
   Twig.extendFilter('asset', (name) => `/assets/${name}?v=${VERSION}`);
   Twig.extendFilter('cdn', (url) => url);
   Twig.extendFilter('money', (n) => {
     const v = Number(n) || 0;
     const s = v % 1 === 0 ? v.toLocaleString('en-US') : v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    return `${ar(s).replace(/,/g, '٬').replace(/\./g, '٫')} ر.س`;
+    return `${s} ر.س`;
   });
   Twig.extendFunction('trans', (key) => key.split('.').reduce((o, k) => (o ? o[k] : undefined), locale) ?? key);
   Twig.extendFunction('link', (name) => ({ cart: '/cart', home: '/' }[name] ?? `/${name}`));
@@ -174,7 +172,7 @@ async function build() {
     popup_badge: 'شكرًا لاختيارك نيمو',
     popup_title: 'احصل على العروض المميزة',
     popup_accent: 'اللي تحتاجها',
-    popup_text: 'الحق العرض الحين: بوكس ٣ ماتشا + سيروب بخصم ٣٣٪.',
+    popup_text: 'الحق العرض الحين: بوكس 3 ماتشا + سيروب بخصم 33%.',
     popup_product: [{ value: 1923600463, label: 'بوكس 3 ماتشا وسيروب فانيليا 50 مل' }],
     popup_button: 'تسوّق الآن',
     popup_url: '/category/offers',

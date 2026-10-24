@@ -16,7 +16,7 @@ export const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&a
  * Syrups (ml), cups and tools return 0, so the chip never shows on them.
  */
 export function gramsOf(name) {
-  const n = String(name || '').replace(/[٠-٩]/g, (d) => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+  const n = String(name || '').replace(/[\u0660-\u0669]/g, (d) => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
   if (!/ماتشا|matcha/i.test(n) || /^\s*(سيروب|syrup|كوب|أدوات|ادوات|حافظة|مخفقة)/i.test(n)) return 0;
   const kilo = n.match(/(\d+(?:\.\d+)?)\s*(?:كيلو|كجم|kg)/i);
   if (kilo) return Number(kilo[1]) * 1000;
@@ -72,21 +72,22 @@ export function cardHTML(p) {
       ${second ? `<img src="${esc(second)}" alt="" loading="lazy" decoding="async" width="600" height="750">` : ''}
       <span class="nm-card__badges">
         ${promo ? `<span class="nm-label nm-label--solid">${esc(promo)}</span>` : ''}
-        ${off ? `<span class="nm-label">${t('save', 'وفّر')} ${arabicDigits(off)}٪</span>` : ''}
+        ${off ? `<span class="nm-label">${t('save', 'وفّر')} ${arabicDigits(off)}%</span>` : ''}
         ${available ? '' : `<span class="nm-label nm-label--muted">${t('soldOut', 'نفدت الكمية')}</span>`}
       </span>
     </a>
     <div class="nm-card__foot">
-      ${available ? `<button class="nm-card__add" type="button" data-nm-add="${p.id}" data-name="${name}" data-image="${esc(image)}" data-url="${esc(p.url)}" data-price="${price}" aria-label="${t('addToCart', 'أضف للسلة')}: ${name}">
-        <svg class="nm-plus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-        <svg class="nm-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
-      </button>` : ''}
+
       <div class="nm-card__body">
         ${cat ? `<span class="nm-card__cat">${esc(cat)}</span>` : ''}
         <a class="nm-card__name" href="${esc(p.url)}">${name}</a>
         <span class="nm-card__rule" aria-hidden="true"></span>
         <div class="nm-card__price">${priceHTML}</div>
         <span class="nm-cups" data-nm-cups hidden></span>
+        ${available ? `<button class="nm-addbtn nm-card__buy" type="button" data-nm-add="${p.id}" data-name="${name}" data-image="${esc(image)}" data-url="${esc(p.url)}" data-price="${price}" aria-label="${t('addToCart', 'أضف للسلة')}: ${name}">
+          <span class="nm-addbtn__a"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.3 11.2a2 2 0 0 1-2 1.8H8.3a2 2 0 0 1-2-1.8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>${t('addToCart', 'أضف للسلة')}</span>
+          <span class="nm-addbtn__b"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>${t('addedShort', 'تمت الإضافة')}</span>
+        </button>` : ''}
       </div>
     </div>
   </article>`;

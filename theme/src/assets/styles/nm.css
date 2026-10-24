@@ -12,6 +12,9 @@
   --orange-deep: #C4520F;
   --orange-light: #F49A5E;
   --orange-pale: #FBE3D2;
+  --pink: #E8378D;          /* third brand colour, from the pouch artwork */
+  --pink-deep: #C2206F;
+  --pink-pale: #FCE1EE;
   --ink: #0F2C23;
   --night: #0C251D;
   --deep: #081A14;
@@ -367,7 +370,7 @@ html:not(.js) .nm-w > span, html:not(.js) .nm-scene .nm-scene__copy > * { opacit
 .nm-card__add .nm-check { display: none; }
 .nm-card__add.is-done .nm-plus { display: none; }
 .nm-card__add.is-done .nm-check { display: block; }
-.nm-card__body { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; padding: 32px 8px 0; }
+.nm-card__body { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; padding: 18px 8px 0; }
 .nm-card__cat { font-size: 11.5px; color: var(--muted); letter-spacing: .04em; }
 .nm-card__name { font-size: 16px; font-weight: 500; line-height: 1.6; color: var(--ink); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; transition: color .3s; }
 .nm-card__name:hover { color: var(--orange-deep); }
@@ -1137,7 +1140,13 @@ html[data-theme='dark'] .nm-railsec[data-tone='sand'] { background-image: radial
 /* tapes are placed with physical left/right so they always run past both edges, in every browser */
 .nm-ribbon__tape { position: absolute; z-index: 2; left: -20%; right: -20%; top: 50%; padding-block: 13px; background: var(--orange); color: #fff; translate: 0 -50%; transform: rotate(-5deg); box-shadow: 0 16px 34px -20px rgba(196, 82, 15, .75); }
 .nm-ribbon__tape--b { z-index: 1; background: var(--green); color: var(--cream); transform: rotate(6deg); box-shadow: none; }
-html[data-theme='dark'] .nm-ribbon__tape--b { background: #1E4A3C; }
+/* tape colours (theme editor → colour of each tape) */
+.nm-ribbon__tape.nm-tape--orange { background: var(--orange); color: #fff; }
+.nm-ribbon__tape.nm-tape--pink { background: var(--pink); color: #fff; }
+.nm-ribbon__tape.nm-tape--green { background: var(--green); color: var(--cream); }
+html[data-theme='dark'] .nm-ribbon__tape.nm-tape--green { background: #1E4A3C; }
+.nm-ribbon__tape--a.nm-tape--pink { box-shadow: 0 16px 34px -20px rgba(194, 32, 111, .7); }
+.nm-ribbon__tape.nm-tape--pink::before, .nm-ribbon__tape.nm-tape--pink::after { border-color: rgba(255, 255, 255, .55); }
 .nm-ribbon:not(.nm-ribbon--crossed) .nm-ribbon__tape { transform: rotate(-2deg); }
 /* phones: two parallel tapes, each fully readable, sliding opposite ways */
 @media (max-width: 899px) {
@@ -1158,7 +1167,7 @@ html[data-theme='dark'] .nm-ribbon__tape--b { background: #1E4A3C; }
 .nm-ribbon__tape--b::before, .nm-ribbon__tape--b::after { border-color: rgba(247, 242, 234, .35); }
 .nm-ribbon__track { display: flex; align-items: center; gap: 30px; width: max-content; white-space: nowrap; animation: nm-marquee 48s linear infinite; font-size: clamp(14px, 1.4vw, 17px); font-weight: 500; letter-spacing: .01em; }
 [dir='rtl'] .nm-ribbon__track { animation-name: nm-marquee-rtl; }
-.nm-ribbon__tape--b .nm-ribbon__track { animation-direction: reverse; animation-duration: 60s; font-weight: 400; }
+.nm-ribbon__tape--b .nm-ribbon__track { animation-direction: reverse; animation-duration: 60s; animation-delay: -23s; font-weight: 400; margin-inline-start: -170px; }
 .nm-ribbon__track i { display: inline-grid; opacity: .85; }
 .nm-ribbon:hover .nm-ribbon__track { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) { .nm-ribbon__track, .nm-stamp svg { animation: none; } }
@@ -1236,7 +1245,7 @@ html:not(.js) .nm-head__title .nm-accent { background-size: 100% .28em; }
 
     html:not(.nm-lite) .nm-ribbon__track { animation: nm-marquee 48s linear infinite, nm-tape linear both; animation-timeline: auto, --nm-v; }
     html:not(.nm-lite)[dir='rtl'] .nm-ribbon__track, [dir='rtl'] html:not(.nm-lite) .nm-ribbon__track { animation-name: nm-marquee-rtl, nm-tape; }
-    html:not(.nm-lite) .nm-ribbon__tape--b .nm-ribbon__track { animation: nm-marquee 60s linear infinite reverse, nm-tape-b linear both; animation-timeline: auto, --nm-v; }
+    html:not(.nm-lite) .nm-ribbon__tape--b .nm-ribbon__track { animation: nm-marquee 60s linear -23s infinite reverse, nm-tape-b linear both; animation-timeline: auto, --nm-v; }
     html:not(.nm-lite)[dir='rtl'] .nm-ribbon__tape--b .nm-ribbon__track { animation-name: nm-marquee-rtl, nm-tape-b; }
   }
 }
@@ -1259,6 +1268,28 @@ html.nm-lite .nm-progress { display: none; }
   .nm-head__title .nm-accent { background-size: 100% .28em !important; }
   .nm-eyebrow::before, .nm-eyebrow::after { transform: none !important; }
 }
+
+
+/* labelled add-to-cart button: says what it does, confirms when done */
+.nm-addbtn { position: relative; display: inline-grid; place-items: center; min-height: 42px; padding: 0 18px; border: 1px solid var(--orange); border-radius: var(--pill); background: transparent; color: var(--orange-deep); font-size: 14px; font-weight: 500; line-height: 1; white-space: nowrap; overflow: hidden; transition: background .3s, color .3s, border-color .3s, transform .3s var(--ease); }
+.nm-addbtn > span { grid-area: 1 / 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: opacity .3s, translate .45s var(--ease); }
+.nm-addbtn__b { opacity: 0; translate: 0 100%; }
+.nm-addbtn:hover { background: var(--orange); color: #fff; }
+.nm-addbtn:active { transform: scale(.97); }
+.nm-addbtn.is-busy { pointer-events: none; color: transparent; }
+.nm-addbtn.is-busy::after { content: ''; position: absolute; inset: 0; margin: auto; width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--orange); border-inline-end-color: transparent; animation: nm-spin .7s linear infinite; }
+.nm-addbtn.is-done { background: var(--green); border-color: var(--green); color: #fff; }
+.nm-addbtn.is-done .nm-addbtn__a { opacity: 0; translate: 0 -100%; }
+.nm-addbtn.is-done .nm-addbtn__b { opacity: 1; translate: 0 0; }
+.nm-card__foot { flex: 1; display: flex; flex-direction: column; }
+.nm-card__body { flex: 1; }
+.nm-card__buy { width: 100%; margin-top: auto; }
+.nm-card__body > :nth-last-child(2) { margin-bottom: 10px; }
+.nm-addbtn--sm { min-height: 36px; padding: 0 16px; font-size: 13px; background: var(--orange); border-color: var(--orange); color: #fff; }
+.nm-addbtn--sm:hover { background: var(--orange-deep); border-color: var(--orange-deep); }
+@media (max-width: 599px) { .nm-card__buy { min-height: 38px; font-size: 13px; padding: 0 10px; gap: 6px; } .nm-card__buy svg { width: 14px; height: 14px; } }
+html[data-theme='dark'] .nm-addbtn:not(.nm-addbtn--sm):not(.is-done) { color: var(--orange-light); border-color: rgba(244, 154, 94, .6); }
+html[data-theme='dark'] .nm-addbtn:not(.nm-addbtn--sm):hover { background: var(--orange); color: #fff; }
 
 /* ---------- motion ---------- */
 [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity 1s var(--ease), transform 1.2s var(--ease); transition-delay: calc(var(--i, 0) * 80ms); }

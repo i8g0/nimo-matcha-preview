@@ -18,7 +18,7 @@
                 <a class="nm-spot__product" href="{{ p.url }}" aria-label="{{ p.name }}">
                     <img src="{{ p.image.url }}" alt="{{ p.name }}" loading="lazy" decoding="async" width="600" height="750" data-nm-fly-src>
                 </a>
-                {% if off %}<span class="nm-spot__seal">{{ trans('nm.save') }}<br>{{ off }}٪</span>{% endif %}
+                {% if off %}<span class="nm-spot__seal">{{ trans('nm.save') }}<br>{{ off }}%</span>{% endif %}
             </div>
             <div class="nm-spot__info">
                 {% include 'components.nm.head' with {c: component} %}
@@ -36,10 +36,10 @@
                     <div class="nm-timer" data-nm-timer="{{ component.ends_at }}" hidden>
                         <span class="nm-timer__label">{{ component.timer_label }}</span>
                         <div class="nm-timer__boxes" aria-live="off">
-                            <span class="nm-timer__box"><b data-d>٠٠</b><small>{{ trans('nm.days') }}</small></span>
-                            <span class="nm-timer__box"><b data-h>٠٠</b><small>{{ trans('nm.hours') }}</small></span>
-                            <span class="nm-timer__box"><b data-m>٠٠</b><small>{{ trans('nm.minutes') }}</small></span>
-                            <span class="nm-timer__box"><b data-s>٠٠</b><small>{{ trans('nm.seconds') }}</small></span>
+                            <span class="nm-timer__box"><b data-d>00</b><small>{{ trans('nm.days') }}</small></span>
+                            <span class="nm-timer__box"><b data-h>00</b><small>{{ trans('nm.hours') }}</small></span>
+                            <span class="nm-timer__box"><b data-m>00</b><small>{{ trans('nm.minutes') }}</small></span>
+                            <span class="nm-timer__box"><b data-s>00</b><small>{{ trans('nm.seconds') }}</small></span>
                         </div>
                     </div>
                 {% endif %}
