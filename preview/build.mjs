@@ -214,12 +214,20 @@ async function build() {
     return { path: `components.${entry.path}`, ctx: componentContext(def, entry.values, i) };
   });
   render('pages.index', { page: { title: store.name, slug: 'index' }, __home }, 'index.html');
-  const __showcase = showcase.map((entry, i) => {
+  /* showcase: every section with a numbered label and an index at the top (the popup stays off here) */
+  Twig.twig({ id: 'pv.label', data: '<div class="pv-label" id="s-{{ n }}"><div class="nm-container"><span class="pv-label__n">{{ n }}</span><div><b>{{ name }}</b><small>{{ note }}</small></div><a href="#pv-top" aria-label="الفهرس">↑</a></div></div>' });
+  Twig.twig({ id: 'pv.index', data: '<section class="pv-index" id="pv-top"><div class="nm-container"><span class="nm-eyebrow">NIMO MATCHA THEME</span><h1>كل أقسام <span>ثيم نيمو</span></h1><p>{{ count }} قسمًا يضيفها مدير المتجر من محرّر الثيم في سلة، ويغيّر نصوصها وصورها ومنتجاتها بدون كود. اضغط على أي قسم للانتقال له.</p><ol>{% for it in items %}<li><a href="#s-{{ loop.index }}"><i>{{ loop.index }}</i>{{ it.name }}</a></li>{% endfor %}</ol><div class="pv-index__extra"><b>ومعها في كل المتجر:</b> وضع فاتح وداكن، زر واتساب عائم، زر الرجوع للأعلى، سلة جانبية مع شريط الشحن المجاني، نافذة عروض منبثقة، حركة خفيفة تراعي الأجهزة الضعيفة، وفي صفحة المنتج: سعر الكوب الواحد، مدة التوصيل، تنبيه الكمية القليلة و«شاهدتها مؤخرًا».</div></div></section>' });
+  const showTheme = { ...theme, settings: { ...theme.settings, get: (k, f) => (k === 'popup_enabled' ? false : theme.settings.get(k, f)) } };
+  const __showcase = [{ path: 'pv.index', ctx: { items: showcase.map((e) => e.label), count: showcase.length } }];
+  showcase.forEach((entry, i) => {
     const def = twilight.components.find((c) => c.path === entry.path);
     if (!def) throw new Error(`Unknown component ${entry.path}`);
-    return { path: `components.${entry.path}`, ctx: componentContext(def, entry.values, i) };
+    __showcase.push({ path: 'pv.label', ctx: { n: i + 1, ...entry.label } });
+    __showcase.push({ path: `components.${entry.path}`, ctx: componentContext(def, entry.values, i) });
   });
-  render('pages.index', { page: { title: 'أقسام اختيارية', slug: 'index' }, __home: __showcase }, 'components.html');
+  const showcaseCtx = { page: { title: 'كل أقسام الثيم', slug: 'index' }, __home: __showcase, theme: showTheme };
+  render('pages.index', showcaseCtx, 'showcase.html');
+  render('pages.index', showcaseCtx, 'components.html');
 
   products.forEach((product) => {
     render('pages.product.single', { page: { title: product.name, slug: 'product.single' }, product }, `product/${product.slug}.html`);
@@ -236,7 +244,40 @@ async function build() {
   }, 'cart.html');
 
   fs.writeFileSync(path.join(DIST, '404.html'), fs.readFileSync(path.join(DIST, 'index.html')));
+  if (process.env.VERCEL || process.argv.includes('--local-media')) await localMedia();
   console.log(`✓ built ${count} templates → ${products.length + Object.keys(categories).length + 3} pages in ${Date.now() - started}ms`);
+}
+
+/* ---------- local media ----------
+   On Vercel the store's photos and films are downloaded once at build time and served from the preview
+   itself (dist/media), so every page shows its pictures even when the store's CDN is slow or blocked.
+   A file that cannot be fetched keeps its original address. */
+async function localMedia() {
+  const pages = walk(DIST).filter((f) => f.endsWith('.html'));
+  const re = /https:\/\/cdn\.(?:files\.salla\.network|salla\.sa)\/[^"'\s)<>]+?\.(?:webp|jpe?g|png|mp4)/g;
+  const urls = new Set();
+  pages.forEach((f) => (fs.readFileSync(f, 'utf8').match(re) || []).forEach((u) => urls.add(u)));
+  const dir = path.join(DIST, 'media', 'store');
+  fs.mkdirSync(dir, { recursive: true });
+  const map = new Map();
+  const list = [...urls];
+  const crypto = await import('node:crypto');
+  const one = async (u) => {
+    const name = `${crypto.createHash('sha1').update(u).digest('hex').slice(0, 16)}${path.extname(u)}`;
+    try {
+      const res = await fetch(u, { signal: AbortSignal.timeout(30000) });
+      if (!res.ok) return;
+      fs.writeFileSync(path.join(dir, name), Buffer.from(await res.arrayBuffer()));
+      map.set(u, `/media/store/${name}`);
+    } catch { /* keep the CDN address */ }
+  };
+  for (let i = 0; i < list.length; i += 8) await Promise.all(list.slice(i, i + 8).map(one));
+  if (!map.size) { console.log('local media: none fetched, CDN addresses kept'); return; }
+  pages.forEach((f) => {
+    const html = fs.readFileSync(f, 'utf8').replace(re, (u) => map.get(u) || u);
+    fs.writeFileSync(f, html);
+  });
+  console.log(`local media: ${map.size}/${list.length} files served from the preview`);
 }
 
 /* ---------- dev server ---------- */

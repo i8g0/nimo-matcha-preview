@@ -220,26 +220,57 @@ export const home = [
     products: pick('organic-ceremonial-matcha-40g', 'vanilla-matcha-40g', 'salted-caramel-syrup-50ml', 'organic-ceremonial-matcha-250g', 'nimo-cup-classic', 'vanilla-syrup-50ml', 'verde-tools', 'strawberry-matcha-40g') } },
 ];
 
-/* Optional sections (not on the live home page): a gallery the manager can browse at /components
-   before adding any of them from Salla's theme editor. */
+/* The showcase page (/showcase): every Nimo section, filled with real photos and products, one after
+   another with a numbered label, to walk a client through what the theme can do. */
 const inAWeek = new Date(Date.now() + 6 * 864e5 + 5 * 36e5).toISOString().slice(0, 10);
+const homeValues = (path, n = 0) => home.filter((h) => h.path === path)[n].values;
+const L = (name, note) => ({ name, note });
 export const showcase = [
-  { path: 'home.nm-videos', values: home.find((h) => h.path === 'home.nm-videos').values },
-  { path: 'home.nm-countdown', values: { ends_at: inAWeek, image: media.mangoPops, url: '/category/offers', product: [by('matcha-box-3')] } },
-  { path: 'home.nm-stats', values: {} },
-  { path: 'home.nm-split', values: { image: media.bedTray, url: '/category/boxes' } },
-  { path: 'home.nm-benefits', values: { image: media.jarLatte } },
-  { path: 'home.nm-compare', values: { url: '/category/matcha' } },
-  { path: 'home.nm-lookbook', values: { image: media.darkStone, image_mobile: media.pinkDip,
-    spots: [{ x: 34, y: 58, product: [by('ceremonial-matcha-80g')] }, { x: 64, y: 38, product: [by('vanilla-syrup-50ml')] }, { x: 78, y: 70, product: [by('nimo-cup-green')] }] } },
-  { path: 'home.nm-coupon', values: { url: '/products', note: 'صالح لأول طلب فقط' } },
-  { path: 'home.nm-marquee', values: { eyebrow: 'NIMO MOMENTS', title: 'لحظات', accent: 'خضراء',
-    images: [media.pinkDip, media.mangoPops, media.vanillaLatte, media.blueCup, media.handCup, media.cake, media.bowl, media.latteGlass].map((image) => ({ image })) } },
-  { path: 'home.nm-timeline', values: { steps: [
-    { label: 'الربيع', title: 'القطفة الأولى', text: 'أوراق صغيرة تُقطف يدويًا من مزارع اليابان.', image: media.field },
-    { label: 'الظل', title: 'زراعة مظللة', text: 'تُظلَّل الشجيرات قبل القطف فيزيد اللون والنعومة.' },
-    { label: 'الطحن', title: 'طحن بالحجر', text: 'تُطحن الأوراق ببطء حتى تصير بودرة ناعمة جدًا.', image: media.sifting },
-    { label: 'نيمو', title: 'توصلك طازجة', text: 'نغلّفها بعناية ونوصلها لباب بيتك.' },
+  { path: 'home.nm-hero', label: L('البنر الرئيسي', 'شرائح بنرات بتصميم للكمبيوتر وتصميم للجوال، تظهر كاملة بدون قص.'), values: homeValues('home.nm-hero') },
+  { path: 'home.nm-scenes', label: L('المشاهد السينمائية (اختياري)', 'مشاهد بملء الشاشة تتكشّف واحد بعد الثاني مع التمرير، بصورة أو فيديو.'), values: { slides: [
+    { tone: 'dark', image: media.pinkDip, image_mobile: media.jarLatte, eyebrow: 'CEREMONIAL GRADE · JAPAN', title: 'ماتشا يابانية', accent: 'تُحضَّر في دقيقة', button: 'تسوّق الماتشا', url: '/category/matcha' },
+    { tone: 'dark', image: media.darkStone, image_mobile: media.pinkDip, video_mobile: `${VIDEOS}82f24973-78d1-44c4-b184-20c8dd2941b3-video.mp4`, eyebrow: 'STRAWBERRY · ICED LATTE', title: 'نكهات تحبها', accent: 'في كل رشفة', button: 'اكتشف النكهات', url: '/category/matcha' },
+    { tone: 'dark', image: media.bannerWide, image_mobile: media.bedTray, eyebrow: 'THE NIMO BOX', title: 'هدية تُفرح', accent: 'محبّي الماتشا', button: 'شوف البوكس', url: '/category/boxes' },
   ] } },
-  { path: 'home.nm-trust', values: {} },
+  { path: 'home.nm-ribbon', label: L('شريط الهوية المتحرك', 'شريطين متقاطعين بعبارات نيمو، وألوانهم تختارها (برتقالي، وردي، أخضر).'), values: {} },
+  { path: 'home.nm-categories', label: L('دوائر التصنيفات', 'اختصارات سريعة للأقسام، تنسحب بالإصبع في الجوال.'), values: { items: [
+    { title: 'العروض', image: by('ceremonial-matcha-80g').image.url, url: '/category/offers' },
+    { title: 'البوكسات', image: by('nimo-matcha-gift-box').image.url, url: '/category/boxes' },
+    { title: 'الماتشا', image: by('organic-ceremonial-matcha-40g').image.url, url: '/category/matcha' },
+    { title: 'النكهات', image: by('mango-matcha-40g').image.url, url: '/category/matcha' },
+    { title: 'السيروب', image: by('vanilla-syrup-50ml').image.url, url: '/category/tools' },
+    { title: 'الأدوات', image: by('verde-tools').image.url, url: '/category/tools' },
+  ] } },
+  { path: 'home.nm-spotlight', label: L('المنتج الأكثر طلبًا + عداد', 'منتج واحد بصورة كبيرة ومحتوياته، مع عداد عرض يختفي تلقائيًا عند انتهاء التاريخ.'), values: { product: [by('nimo-matcha-gift-box')], image: media.bedTray, ends_at: inAWeek } },
+  { path: 'home.nm-shop', label: L('المتجر بتبويبات', 'كل المنتجات في مكان واحد، والتبويبات تتكوّن تلقائيًا من التصنيفات.'), values: { products: pick('nimo-matcha-gift-box', 'matcha-box-3', 'ceremonial-matcha-80g', 'ceremonial-matcha-120g', 'mango-matcha-40g', 'strawberry-matcha-40g', 'vanilla-matcha-40g', 'vanilla-syrup-50ml', 'nimo-matcha-tin', 'nimo-cup-green'), more_url: '/products' } },
+  { path: 'home.nm-products', label: L('شبكة منتجات', 'مجموعة منتجات بعنوان، مثل «عروض نيمو». تُستخدم أكثر من مرة.'), values: homeValues('home.nm-products') },
+  { path: 'home.nm-videos', label: L('التسوق بالفيديوهات', 'فيديوهات عمودية صامتة، وفوق كل فيديو منتجه مع زر الإضافة للسلة.'), values: homeValues('home.nm-videos') },
+  { path: 'home.nm-flavors', label: L('مختار النكهات', 'العميل يختار النكهة فيتغيّر لون القسم والصورة والمنتج.'), values: homeValues('home.nm-flavors') },
+  { path: 'home.nm-countdown', label: L('عرض لفترة محدودة', 'عداد تنازلي حي، والقسم كله يختفي لما ينتهي العرض.'), values: { ends_at: inAWeek, image: media.mangoPops, url: '/category/offers', product: [by('matcha-box-3')] } },
+  { path: 'home.nm-moments', label: L('معرض لحظات', 'صور لايف ستايل في معرض يتحرك مع التمرير.'), values: homeValues('home.nm-moments') },
+  { path: 'home.nm-ritual', label: L('طريقة التحضير', 'خطوات التحضير بأرقام بارزة، مع صورة أو فيديو.'), values: homeValues('home.nm-ritual') },
+  { path: 'home.nm-bundle', label: L('كمّل كوبك', 'العميل يختار من المنتجات ويضيفها كلها للسلة بضغطة واحدة.'), values: homeValues('home.nm-bundle') },
+  { path: 'home.nm-lookbook', label: L('تسوّق من الصورة', 'نقاط على الصورة، كل نقطة تفتح منتجها مع زر الإضافة للسلة.'), values: { image: media.pinkDip, image_mobile: media.jarLatte,
+    spots: [{ x: 70, y: 52, product: [by('ceremonial-matcha-80g')] }, { x: 34, y: 45, product: [by('organic-ceremonial-matcha-40g')] }] } },
+  { path: 'home.nm-rail', label: L('شريط منتجات أفقي', 'منتجات تنسحب أفقيًا، بخلفية تختار لونها.'), values: homeValues('home.nm-rail') },
+  { path: 'home.nm-split', label: L('صورة ونص', 'صورة بشكل من هوية نيمو (قوس، دائرة، مستطيل) مع نص ونقاط وزر.'), values: { image: media.bedTray, url: '/category/boxes' } },
+  { path: 'home.nm-stats', label: L('أرقام نيمو', 'أرقام تعدّ من الصفر لما تظهر على الشاشة.'), values: {} },
+  { path: 'home.nm-benefits', label: L('فوائد الماتشا', 'فوائد بأيقونات حول صورة في المنتصف.'), values: { image: media.jarLatte } },
+  { path: 'home.nm-compare', label: L('جدول مقارنة', 'مقارنة بين الدرجات أو الأحجام، مع تمييز الاختيار المقترح.'), values: { url: '/category/matcha' } },
+  { path: 'home.nm-coupon', label: L('كوبون خصم', 'تذكرة فيها كود الخصم، ينسخه العميل بضغطة.'), values: { url: '/products', note: 'صالح لأول طلب فقط' } },
+  { path: 'home.nm-banner', label: L('بنر صورة', 'بنر عرض جاهز من المصمم، بصورة للكمبيوتر وصورة للجوال.'), values: { image: media.bannerWide, image_mobile: media.bannerMobile, url: '/products' } },
+  { path: 'home.nm-marquee', label: L('شريط صور متحرك', 'صور تتحرك ببطء بشكل مستمر، وتتوقف عند مرور الماوس.'), values: { eyebrow: 'NIMO MOMENTS', title: 'لحظات', accent: 'خضراء',
+    images: [media.pinkDip, media.mangoPops, media.vanillaLatte, media.blueCup, media.handCup, media.cake, media.bowl, media.latteGlass, media.mangoLatte].map((image) => ({ image })) } },
+  { path: 'home.nm-reviews', label: L('آراء العملاء', 'آراء حقيقية من تقييمات المتجر، مع التقييم العام.'), values: { reviews } },
+  { path: 'home.nm-timeline', label: L('رحلة نيمو', 'خطوات زمنية تظهر واحدة بعد الثانية مع التمرير.'), values: { steps: [
+    { label: 'الربيع', title: 'القطفة الأولى', text: 'أوراق صغيرة تُقطف يدويًا من مزارع اليابان.', image: media.field },
+    { label: 'الظل', title: 'زراعة مظللة', text: 'تُظلَّل الشجيرات قبل القطف فيزيد اللون والنعومة.', image: media.handCup },
+    { label: 'الطحن', title: 'طحن بالحجر', text: 'تُطحن الأوراق ببطء حتى تصير بودرة ناعمة جدًا.', image: media.pinkDip },
+    { label: 'نيمو', title: 'توصلك طازجة', text: 'نغلّفها بعناية ونوصلها لباب بيتك.', image: media.bedTray },
+  ] } },
+  { path: 'home.nm-story', label: L('قصة نيمو', 'صورة ونص عن البراند مع أرقام قصيرة.'), values: { ...homeValues('home.nm-story'), hide_mobile: false, facts: [{ value: '100%', label: 'ماتشا يابانية' }, { value: '2 جم', label: 'لكل كوب' }, { value: '+40', label: 'كوب في البوكس' }] } },
+  { path: 'home.nm-usp', label: L('مميزات المتجر', 'مزايا المتجر بأيقونات.'), values: {} },
+  { path: 'home.nm-trust', label: L('ضمانات ووسائل الدفع', 'شريط يطمّن العميل، ووسائل الدفع تظهر تلقائيًا من سلة.'), values: {} },
+  { path: 'home.nm-faq', label: L('الأسئلة الشائعة', 'أسئلة وأجوبة تنفتح بالضغط.'), values: {} },
+  { path: 'home.nm-cta', label: L('دعوة للتواصل', 'صندوق بلون الهوية مع زر واتساب.'), values: {} },
 ];

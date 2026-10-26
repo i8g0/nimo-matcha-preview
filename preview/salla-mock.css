@@ -47,3 +47,22 @@
 .s-payments-list-item:has(.pv-pay-tabby) { background: #3BFFC1 !important; border-color: #3BFFC1 !important; }
 .pv-pay-tabby { color: #1d1d1d; font-weight: 800; }
 .pv-pay-tamara { font-weight: 800; background: linear-gradient(90deg, #d27b5c, #c45a9a, #7f6ad8); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* showcase page (preview only): index and numbered labels between the sections */
+.pv-index { padding: calc(var(--sec) * .6) 0 calc(var(--sec) * .4); background: var(--sand); }
+.pv-index h1 { margin-top: 14px; font-size: clamp(34px, 5vw, 64px); font-weight: 300; line-height: 1.2; color: var(--ink); }
+.pv-index h1 span { color: var(--orange); font-weight: 500; }
+.pv-index p { margin-top: 14px; max-width: 62ch; color: var(--muted); font-size: 16.5px; }
+.pv-index ol { list-style: none; margin: 30px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; }
+.pv-index ol a { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: var(--paper); border: 1px solid var(--line); font-size: 14px; color: var(--ink); transition: border-color .3s, color .3s; }
+.pv-index ol a:hover { border-color: var(--orange); color: var(--orange-deep); }
+.pv-index ol i { flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--orange); color: #fff; font-style: normal; font-size: 12px; font-weight: 600; }
+.pv-index__extra { margin-top: 22px; padding: 16px 18px; border-radius: 16px; border: 1px dashed var(--line-strong); font-size: 14px; color: var(--muted); line-height: 1.9; }
+.pv-index__extra b { color: var(--ink); }
+.pv-label { position: relative; z-index: 5; padding: 18px 0; background: var(--paper); border-top: 1px dashed var(--line-strong); scroll-margin-top: calc(var(--header-h) + 10px); }
+.pv-label .nm-container { display: flex; align-items: center; gap: 14px; }
+.pv-label__n { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: var(--paper); font-weight: 600; font-size: 15px; }
+.pv-label b { display: block; font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.5; }
+.pv-label small { display: block; font-size: 13px; color: var(--muted); line-height: 1.6; }
+.pv-label a { margin-inline-start: auto; flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line-strong); color: var(--muted); font-size: 15px; }
+.pv-label a:hover { border-color: var(--orange); color: var(--orange); }
