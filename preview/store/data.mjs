@@ -204,7 +204,7 @@ export const home = [
     images: [media.pinkDip, media.darkStone, media.mangoPops, media.bedTray, media.mangoLatte, media.vanillaLatte].map((image) => ({ image, caption: '' })),
   } },
   { path: 'home.nm-products', values: { eyebrow: 'TOOLS', title: 'ادوات', accent: 'التحضير', products: pick('strawberry-syrup-50ml', 'berry-syrup-50ml', 'nimo-matcha-tin', 'nimo-cup-green'), more_url: '/category/tools' } },
-  { path: 'home.nm-ritual', values: { image: media.sifting, url: '/category/tools' } },
+  { path: 'home.nm-ritual', values: { image: media.pinkDip, url: '/category/tools' } },
   { path: 'home.nm-bundle', values: { products: pick('ceremonial-matcha-80g', 'vanilla-syrup-50ml', 'nimo-cup-green', 'nimo-matcha-tin') } },
   { path: 'home.nm-rail', values: { eyebrow: 'EVERYTHING YOU NEED', title: 'كل ما', accent: 'تحتاجه', tone: 'sand', more_label: 'تسوق الان', more_url: '/category/tools',
     products: pick('verde-tools', 'nimo-matcha-tin', 'salted-caramel-syrup-50ml', 'vanilla-syrup-50ml', 'strawberry-syrup-50ml', 'berry-syrup-50ml', 'nimo-cup-green', 'nimo-cup-classic') } },
