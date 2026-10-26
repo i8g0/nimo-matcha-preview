@@ -112,7 +112,7 @@ async function build() {
   const twilight = JSON.parse(fs.readFileSync(path.join(THEME, 'twilight.json'), 'utf8'));
   const locale = JSON.parse(fs.readFileSync(path.join(THEME, 'src', 'locales', 'ar.json'), 'utf8'));
   const dataUrl = `${pathToFileURL(path.join(PREVIEW, 'store', 'data.mjs')).href}?t=${Date.now()}`;
-  const { store, products, home, menus, comments, categories } = await import(dataUrl);
+  const { store, products, home, showcase, menus, comments, categories } = await import(dataUrl);
 
   fs.rmSync(DIST, { recursive: true, force: true });
   fs.mkdirSync(path.join(DIST, 'assets'), { recursive: true });
@@ -166,6 +166,7 @@ async function build() {
   const PREVIEW_SETTINGS = {
     /* the live store has no announcement bar */
     announcement_1: '', announcement_2: '', announcement_3: '',
+    whatsapp: 'https://wa.me/',
     footer_about: 'نأخذك في رحلة إلى عالم الماتشا اليابانية، من خلال منتجات مختارة بعناية تجمع بين الجودة العالية والمذاق الأصيل، لنمنحك تجربة تحضير سهلة ومتكاملة في كل كوب.',
     popup_enabled: true,
     popup_image: 'https://cdn.files.salla.network/other/1190649360/8fd78ea4-ffda-4b1c-85b4-80f0eedc12f0-original.webp',
@@ -213,6 +214,12 @@ async function build() {
     return { path: `components.${entry.path}`, ctx: componentContext(def, entry.values, i) };
   });
   render('pages.index', { page: { title: store.name, slug: 'index' }, __home }, 'index.html');
+  const __showcase = showcase.map((entry, i) => {
+    const def = twilight.components.find((c) => c.path === entry.path);
+    if (!def) throw new Error(`Unknown component ${entry.path}`);
+    return { path: `components.${entry.path}`, ctx: componentContext(def, entry.values, i) };
+  });
+  render('pages.index', { page: { title: 'أقسام اختيارية', slug: 'index' }, __home: __showcase }, 'components.html');
 
   products.forEach((product) => {
     render('pages.product.single', { page: { title: product.name, slug: 'product.single' }, product }, `product/${product.slug}.html`);

@@ -219,3 +219,27 @@ export const home = [
   { path: 'home.nm-rail', values: { eyebrow: 'PICKED FOR YOU', title: 'منتجات', accent: 'على ذوقك', tone: 'paper', more_label: '',
     products: pick('organic-ceremonial-matcha-40g', 'vanilla-matcha-40g', 'salted-caramel-syrup-50ml', 'organic-ceremonial-matcha-250g', 'nimo-cup-classic', 'vanilla-syrup-50ml', 'verde-tools', 'strawberry-matcha-40g') } },
 ];
+
+/* Optional sections (not on the live home page): a gallery the manager can browse at /components
+   before adding any of them from Salla's theme editor. */
+const inAWeek = new Date(Date.now() + 6 * 864e5 + 5 * 36e5).toISOString().slice(0, 10);
+export const showcase = [
+  { path: 'home.nm-videos', values: home.find((h) => h.path === 'home.nm-videos').values },
+  { path: 'home.nm-countdown', values: { ends_at: inAWeek, image: media.mangoPops, url: '/category/offers', product: [by('matcha-box-3')] } },
+  { path: 'home.nm-stats', values: {} },
+  { path: 'home.nm-split', values: { image: media.bedTray, url: '/category/boxes' } },
+  { path: 'home.nm-benefits', values: { image: media.jarLatte } },
+  { path: 'home.nm-compare', values: { url: '/category/matcha' } },
+  { path: 'home.nm-lookbook', values: { image: media.darkStone, image_mobile: media.pinkDip,
+    spots: [{ x: 34, y: 58, product: [by('ceremonial-matcha-80g')] }, { x: 64, y: 38, product: [by('vanilla-syrup-50ml')] }, { x: 78, y: 70, product: [by('nimo-cup-green')] }] } },
+  { path: 'home.nm-coupon', values: { url: '/products', note: 'صالح لأول طلب فقط' } },
+  { path: 'home.nm-marquee', values: { eyebrow: 'NIMO MOMENTS', title: 'لحظات', accent: 'خضراء',
+    images: [media.pinkDip, media.mangoPops, media.vanillaLatte, media.blueCup, media.handCup, media.cake, media.bowl, media.latteGlass].map((image) => ({ image })) } },
+  { path: 'home.nm-timeline', values: { steps: [
+    { label: 'الربيع', title: 'القطفة الأولى', text: 'أوراق صغيرة تُقطف يدويًا من مزارع اليابان.', image: media.field },
+    { label: 'الظل', title: 'زراعة مظللة', text: 'تُظلَّل الشجيرات قبل القطف فيزيد اللون والنعومة.' },
+    { label: 'الطحن', title: 'طحن بالحجر', text: 'تُطحن الأوراق ببطء حتى تصير بودرة ناعمة جدًا.', image: media.sifting },
+    { label: 'نيمو', title: 'توصلك طازجة', text: 'نغلّفها بعناية ونوصلها لباب بيتك.' },
+  ] } },
+  { path: 'home.nm-trust', values: {} },
+];

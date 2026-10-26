@@ -31,11 +31,12 @@ const collection = (id, label, item_label, fields, value, min = 1, max = 12) => 
   fields: fields.map((f) => ({ ...f, id: `${id}.${f.id}`, key: key() })),
   value: value.map((v) => Object.fromEntries(Object.entries(v).map(([k, val]) => [`${id}.${k}`, val]))),
 });
-const note = (value) => ({ type: 'static', format: 'description', id: `note-${key().slice(0, 8)}`, value: `<div>${value}</div>` });
+const note = (value) => ({ type: 'static', format: 'description', id: `note-${crypto.createHash('sha1').update(value).digest('hex').slice(0, 8)}`, value: `<div>${value}</div>` });
 const component = (path, ar, en, icon, fields) => ({ key: key(), title: { ar, en }, icon, path, fields });
 
 /* The brand palette, named the way the merchant thinks about it. Used by every "tone" dropdown. */
-const TONES = [['كريمي (فاتح)', 'paper'], ['رملي', 'sand'], ['أخضر الليل (داكن)', 'night'], ['برتقالي نيمو', 'orange'], ['ماتشا فاتح', 'leaf']];
+const TONES = [['أبيض', 'paper'], ['رملي فاتح', 'sand'], ['أخضر الليل (داكن)', 'night'], ['برتقالي نيمو', 'orange'], ['وردي نيمو', 'pink'], ['ماتشا فاتح', 'leaf']];
+const ICONS = [['شاحنة', 'truck'], ['ورقة شاي', 'leaf'], ['هدية', 'gift'], ['بطاقة', 'card'], ['درع', 'shield'], ['كوب', 'cup'], ['نجمة', 'star'], ['واتساب', 'whatsapp'], ['طاقة', 'bolt'], ['قلب', 'heart'], ['تركيز', 'focus'], ['لمعة', 'sparkle'], ['ساعة', 'clock'], ['صندوق', 'box'], ['استرجاع', 'return']];
 const ACCENTS = [['ماتشا', 'matcha'], ['مانجو', 'mango'], ['فانيليا', 'vanilla'], ['فراولة / توت', 'berry'], ['كراميل', 'caramel']];
 const tone = (id, label, value) => manual(id, label, TONES, value);
 const head = (eyebrow, title, accent) => [text('eyebrow', 'سطر صغير فوق العنوان', eyebrow), text('title', 'العنوان', title), text('accent', 'الكلمة الملوّنة في العنوان', accent)];
@@ -165,8 +166,9 @@ const components = [
     text('more_label', 'نص رابط عرض الكل', 'عرض الكل'), link('more_url', 'رابط عرض الكل'),
   ]),
   component('home.nm-videos', 'التسوق بالفيديوهات', 'Shop by video', 'sicon-video', [
-    note('فيديوهات قصيرة عمودية (mp4) وتحت كل فيديو منتجه مع زر الإضافة للسلة. الفيديو يشتغل صامتًا لما يظهر على الشاشة.'),
+    note('فيديوهات قصيرة عمودية (mp4، 9:16). فوق كل فيديو بطاقة منتجه (صورة، اسم، سعر وزر سلة) فيضيفه العميل وهو يشاهد. الفيديو يشتغل صامتًا لما يظهر على الشاشة، وفيه زر إيقاف مؤقت.'),
     ...head('WATCH & SHOP', 'حضّرها بطريقتك…', 'واستمتع بنكهة نيمو ماتشا'),
+    { ...tone('tone', 'لون الخلفية', 'night') },
     collection('items', 'الفيديوهات', 'فيديو', [url('video', 'رابط الفيديو mp4'), image('image', 'غلاف الفيديو (اختياري)'), products('product', 'المنتج', 1, 0, false)], [], 1, 20),
   ]),
   component('home.nm-rail', 'شريط منتجات أفقي', 'Product rail', 'sicon-list', [
@@ -219,6 +221,104 @@ const components = [
     text('title', 'العنوان', 'محتار وش تختار؟'), area('text', 'النص', 'كلّمنا على واتساب ونرشّح لك الأنسب لذوقك.'),
     text('button', 'نص الزر', 'كلّمنا على واتساب'), url('button_url', 'رابط الزر', 'https://wa.me/'),
   ]),
+  /* ---------- optional sections: add any of them from the theme editor when needed ---------- */
+  component('home.nm-countdown', 'عرض لفترة محدودة (عداد)', 'Limited-time offer', 'sicon-alarm', [
+    note('عرض بعداد تنازلي حي. لما ينتهي التاريخ يختفي القسم كله تلقائيًا، فما يبقى عرض منتهي في الصفحة.'),
+    tone('tone', 'لون الخلفية', 'pink'),
+    text('eyebrow', 'سطر صغير فوق العنوان', 'لفترة محدودة'),
+    text('title', 'العنوان', 'خصم 25%'), text('accent', 'الجزء العريض من العنوان', 'على بوكسات الماتشا'),
+    area('text', 'النص', 'العرض ساري حتى نهاية الأسبوع أو حتى نفاد الكمية.'),
+    date('ends_at', 'نهاية العرض', 'يختفي القسم بعد هذا التاريخ'),
+    image('image', 'صورة (اختياري)', 'مربعة، مثال 900×900'),
+    text('button', 'نص الزر', 'تسوّق العرض'), link('url', 'رابط الزر'),
+    products('product', 'منتج يُضاف للسلة مباشرة (اختياري)', 1, 0, false),
+  ]),
+  component('home.nm-stats', 'أرقام نيمو (عدّاد)', 'Brand numbers', 'sicon-chart', [
+    note('أرقام تعدّ من الصفر لما تظهر على الشاشة. اكتب الرقم بالأرقام فقط (مثال 1200 أو 4.9).'),
+    tone('tone', 'لون الخلفية', 'paper'),
+    ...head('NIMO IN NUMBERS', 'نيمو', 'بالأرقام'),
+    collection('items', 'الأرقام', 'رقم', [text('value', 'الرقم'), text('prefix', 'قبل الرقم (مثال +)'), text('suffix', 'بعد الرقم (مثال % أو ألف)'), text('label', 'الوصف')], [
+      { value: '4.9', prefix: '', suffix: '/5', label: 'متوسط تقييم عملائنا' }, { value: '100', prefix: '', suffix: '%', label: 'ماتشا يابانية' },
+      { value: '20', prefix: '+', suffix: '', label: 'كوب من كل 40 جرام' }, { value: '2', prefix: '', suffix: ' جم', label: 'لكل كوب' },
+    ], 2, 6),
+  ]),
+  component('home.nm-compare', 'جدول مقارنة', 'Comparison table', 'sicon-list', [
+    note('قارن بين درجات الماتشا أو الأحجام أو البوكسات. اكتب ✓ أو نعم لعلامة صح، و ✗ أو لا لشرطة.'),
+    ...head('COMPARE', 'أي ماتشا', 'تناسبك؟'),
+    text('col_a', 'عنوان العمود الأول (المميّز)', 'احتفالية فاخرة'), text('col_b', 'عنوان العمود الثاني', 'عضوية'), text('col_c', 'عنوان العمود الثالث (اختياري)'),
+    toggle('highlight', 'تمييز العمود الأول كاختيار مقترح', true), text('badge', 'شارة العمود المميّز', 'الأكثر طلبًا'),
+    collection('rows', 'الصفوف', 'صف', [text('label', 'البند'), text('a', 'العمود الأول'), text('b', 'العمود الثاني'), text('c', 'العمود الثالث')], [
+      { label: 'اللون', a: 'أخضر زاهي', b: 'أخضر' }, { label: 'الطعم', a: 'ناعم بدون مرارة', b: 'متوازن' },
+      { label: 'تُشرب بالماء', a: '✓', b: '✓' }, { label: 'لاتيه وآيس لاتيه', a: '✓', b: '✓' }, { label: 'للحلويات والطبخ', a: '✗', b: '✓' },
+    ], 2, 12),
+    text('button', 'نص الزر (اختياري)', 'تسوّق الماتشا'), link('url', 'رابط الزر'),
+  ]),
+  component('home.nm-coupon', 'كوبون خصم', 'Coupon', 'sicon-discount-calculator', [
+    note('تذكرة فيها كود الخصم. العميل يضغط عليها فينسخ الكود. أنشئ الكوبون نفسه من «التسويق ← كوبونات» في سلة.'),
+    tone('tone', 'لون الخلفية', 'orange'),
+    text('eyebrow', 'سطر صغير', 'هدية لطلبك الأول'), text('title', 'العنوان', 'خصم 10%'), text('accent', 'الجزء العريض', 'على كل المنتجات'),
+    area('text', 'النص', 'انسخ الكود واستخدمه في صفحة الدفع.'),
+    text('code', 'الكود', 'NIMO10'), text('note', 'ملاحظة تحت الكود (مثال: ينتهي 30 نوفمبر)'),
+    text('button', 'نص الرابط (اختياري)', 'ابدأ التسوق'), link('url', 'الرابط'),
+  ]),
+  component('home.nm-split', 'صورة ونص', 'Image with text', 'sicon-image', [
+    note('صورة بشكل من هوية نيمو (قوس مثل نافذة الكيس، دائرة، أو مستطيل) بجانب نص ونقاط وزر. استخدمه للتعريف بمنتج أو فكرة.'),
+    image('image', 'الصورة', 'عمودية، مثال 800×1000'),
+    manual('shape', 'شكل الصورة', [['قوس', 'arch'], ['دائرة', 'circle'], ['مستطيل بحواف ناعمة', 'rect']], 'arch'),
+    manual('image_side', 'مكان الصورة', [['يمين', 'start'], ['يسار', 'end']], 'start'),
+    tone('tone', 'لون الخلفية', 'paper'),
+    ...head('NIMO GIFT BOX', 'هدية', 'تُفرح'),
+    area('text', 'النص', 'بوكس نيمو فيه كل شي يحتاجه محب الماتشا: ماتشا احتفالية، سيروب، وكوب، مغلّف وجاهز للإهداء.'),
+    collection('points', 'نقاط (اختياري)', 'نقطة', [text('text', 'النقطة')], [{ text: 'تغليف هدية جاهز' }, { text: 'كرت إهداء باسمك' }, { text: 'يوصل لكل مدن المملكة' }], 0, 6),
+    text('button', 'نص الزر', 'شوف البوكس'), link('url', 'رابط الزر'),
+  ]),
+  component('home.nm-benefits', 'فوائد الماتشا', 'Benefits', 'sicon-heart', [
+    tone('tone', 'لون الخلفية', 'leaf'),
+    ...head('WHY MATCHA', 'ليش', 'الماتشا؟'),
+    area('description', 'سطر تحت العنوان', 'كوب واحد يعطيك أكثر من مجرد مشروب.'),
+    image('image', 'صورة في المنتصف (اختياري)', 'مربعة'),
+    collection('items', 'الفوائد', 'فائدة', [manual('icon', 'الأيقونة', ICONS, 'leaf'), text('title', 'العنوان'), area('text', 'الشرح')], [
+      { icon: 'bolt', title: 'طاقة هادئة', text: 'كافيين يدوم بدون توتر أو هبوط مفاجئ.' },
+      { icon: 'focus', title: 'تركيز أعلى', text: 'تحتوي على L-ثيانين اللي يساعد على الصفاء.' },
+      { icon: 'leaf', title: 'غنية بمضادات الأكسدة', text: 'تشرب الورقة كاملة مطحونة، مو منقوعها بس.' },
+      { icon: 'heart', title: 'بديل لطيف للقهوة', text: 'مذاق ناعم يناسب الصبح وبعد الظهر.' },
+    ], 2, 8),
+  ]),
+  component('home.nm-marquee', 'شريط صور متحرك', 'Photo strip', 'sicon-image-carousel', [
+    note('صور تتحرك ببطء بشكل مستمر (صور عملائكم، المشروبات، البوكس). يتوقف عند مرور الماوس، ويثبت في الأجهزة الضعيفة.'),
+    text('eyebrow', 'سطر صغير (اختياري)'), text('title', 'العنوان (اختياري)'), text('accent', 'الكلمة الملوّنة (اختياري)'),
+    collection('images', 'الصور', 'صورة', [image('image', 'الصورة'), text('caption', 'وصف قصير للصورة'), link('url', 'رابط (اختياري)')], [{}, {}, {}, {}], 3, 20),
+    manual('speed', 'السرعة', [['بطيء', 'slow'], ['عادي', 'normal'], ['سريع', 'fast']], 'normal'),
+    manual('height', 'ارتفاع الصور', [['صغير', 'small'], ['متوسط', 'medium'], ['كبير', 'large']], 'medium'),
+  ]),
+  component('home.nm-timeline', 'رحلة نيمو (خطوات زمنية)', 'Journey timeline', 'sicon-list-play', [
+    tone('tone', 'لون الخلفية', 'sand'),
+    ...head('FROM FARM TO CUP', 'من المزرعة', 'إلى كوبك'),
+    area('description', 'سطر تحت العنوان'),
+    collection('steps', 'الخطوات', 'خطوة', [text('label', 'التسمية (سنة أو رقم الخطوة)'), text('title', 'العنوان'), area('text', 'الشرح'), image('image', 'صورة (اختياري)')], [
+      { label: 'الربيع', title: 'القطفة الأولى', text: 'أوراق صغيرة تُقطف يدويًا من مزارع اليابان.' },
+      { label: 'الظل', title: 'زراعة مظللة', text: 'تُظلَّل الشجيرات قبل القطف فيزيد اللون والنعومة.' },
+      { label: 'الطحن', title: 'طحن بالحجر', text: 'تُطحن الأوراق ببطء حتى تصير بودرة ناعمة جدًا.' },
+      { label: 'نيمو', title: 'توصلك طازجة', text: 'نغلّفها بعناية ونوصلها لباب بيتك.' },
+    ], 2, 10),
+  ]),
+  component('home.nm-trust', 'ضمانات ووسائل الدفع', 'Trust strip', 'sicon-shield', [
+    note('شريط يطمّن العميل قبل الشراء. وسائل الدفع تظهر تلقائيًا من إعدادات الدفع في سلة.'),
+    tone('tone', 'لون الخلفية', 'paper'),
+    text('title', 'العنوان (اختياري)'),
+    collection('items', 'الضمانات', 'ضمان', [manual('icon', 'الأيقونة', ICONS, 'shield'), text('title', 'العنوان'), text('text', 'سطر قصير')], [
+      { icon: 'shield', title: 'دفع آمن', text: 'مدى، أبل باي، وبطاقات' }, { icon: 'truck', title: 'شحن سريع', text: 'لكل مدن المملكة' },
+      { icon: 'card', title: 'قسّطها', text: 'مع تمارا وتابي' }, { icon: 'whatsapp', title: 'دعم مباشر', text: 'نرد عليك على واتساب' },
+    ], 1, 6),
+    toggle('show_payments', 'إظهار شعارات وسائل الدفع', true),
+    text('payments_label', 'عنوان وسائل الدفع', 'وسائل الدفع المتاحة'),
+  ]),
+  component('home.nm-lookbook', 'تسوّق من الصورة', 'Shop the photo', 'sicon-image', [
+    note('صورة لايف ستايل عليها نقاط. العميل يضغط على النقطة فيظهر المنتج مع زر الإضافة للسلة. مكان النقطة بالنسبة المئوية: من اليمين (أفقي) ومن الأعلى (عمودي).'),
+    ...head('SHOP THE LOOK', 'تسوّق', 'من الصورة'),
+    image('image', 'صورة الكمبيوتر', 'أفقية، مثال 1600×900'), image('image_mobile', 'صورة الجوال (اختياري)', 'عمودية، مثال 900×1100'),
+    collection('spots', 'النقاط', 'نقطة', [number('x', 'المسافة من اليمين %', 50, 0, 100), number('y', 'المسافة من الأعلى %', 50, 0, 100), products('product', 'المنتج', 1)], [{ x: 30, y: 55 }, { x: 62, y: 40 }], 1, 8),
+  ]),
 ];
 
 const settings = [
@@ -235,8 +335,16 @@ const settings = [
   products('upsell_products', 'منتجات «كمّل كوبك» داخل السلة', 4, 0, false),
   text('upsell_title', 'عنوان اقتراحات السلة', 'كمّل كوبك'),
   toggle('enable_sound', 'نغمة خفيفة عند الإضافة للسلة', true),
+  text('delivery_note', 'سطر مدة التوصيل في صفحة المنتج (اتركه فارغًا لإخفائه)', 'يوصلك خلال 2 إلى 5 أيام عمل'),
+  number('low_stock_threshold', 'تنبيه «باقي قطع قليلة» إذا الكمية أقل من أو تساوي', 5, 0, 100, 'صفر يلغي التنبيه'),
+  toggle('show_product_trust', 'شارات الثقة تحت زر الشراء (شحن سريع، دفع آمن…)', true),
+  toggle('show_recently_viewed', 'قسم «شاهدتها مؤخرًا» في صفحة المنتج', true),
   { type: 'static', format: 'title', id: 'nm-look', value: 'المظهر' },
   { ...manual('color_mode', 'الوضع الافتراضي للمتجر', [['فاتح', 'light'], ['داكن', 'dark'], ['حسب جهاز العميل', 'auto']], 'light'), value: 'light' },
+  { ...manual('motion_level', 'الحركة في المتجر', [['كاملة (حركة مع التمرير)', 'full'], ['هادئة (أخف على الأجهزة)', 'calm'], ['بدون حركة', 'still']], 'full'), value: 'full' },
+  toggle('show_scroll_progress', 'خط تقدّم القراءة تحت الهيدر', true),
+  toggle('floating_whatsapp', 'زر واتساب عائم في كل الصفحات (يستخدم رابط واتساب من الفوتر)', true),
+  toggle('back_to_top', 'زر الرجوع لأعلى الصفحة', true),
   { type: 'static', format: 'title', id: 'nm-popup', value: 'النافذة المنبثقة (عرض)' },
   toggle('popup_enabled', 'إظهار نافذة العرض', false, 'تظهر بعد ثوانٍ من دخول العميل، ولا تظهر في السلة'),
   image('popup_image', 'صورة العرض', 'عمودية أو مربعة، مثال 700×900'),
@@ -254,6 +362,21 @@ const settings = [
   url('whatsapp', 'رابط واتساب', 'https://wa.me/'),
 ];
 
+/* Stable keys: the same component or field keeps the same key on every run, so the merchant's saved
+   content stays attached after an update. */
+const stable = (seed) => {
+  const h = crypto.createHash('sha1').update(`nimo:${seed}`).digest('hex');
+  return `${h.slice(0, 8)}-${h.slice(8, 12)}-4${h.slice(13, 16)}-a${h.slice(17, 20)}-${h.slice(20, 32)}`;
+};
+const rekey = (field, scope) => {
+  if (field.key) field.key = stable(`${scope}/${field.id}`);
+  (Array.isArray(field.options) ? field.options : []).forEach((o) => { if (o.key) o.key = stable(`${scope}/${field.id}/${o.value}`); });
+  (Array.isArray(field.selected) ? field.selected : []).forEach((o) => { if (o.key) o.key = stable(`${scope}/${field.id}/${o.value}`); });
+  (field.fields || []).forEach((f) => rekey(f, scope));
+};
+components.forEach((c) => { c.key = stable(c.path); c.fields.forEach((f) => rekey(f, c.path)); });
+settings.forEach((f) => rekey(f, 'settings'));
+
 const file = new URL('../theme/twilight.json', import.meta.url);
 const current = JSON.parse(fs.readFileSync(file, 'utf8'));
 const ourIds = new Set(settings.map((s) => s.id));
@@ -262,7 +385,7 @@ const twilight = {
   ...current,
   name: { ar: 'نيمو ماتشا', en: 'Nimo Matcha' },
   description: { ar: 'ثيم نيمو ماتشا: فخم، سريع، وسهل الشراء', en: 'Nimo Matcha theme: premium, fast and easy to buy from' },
-  repository: 'https://github.com/i8g0/nimo-matcha-preview',
+  repository: 'https://github.com/i8g0/nimo-matcha-theme',
   author_email: current.author_email === 'support@salla.sa' ? '' : current.author_email,
   settings: [...settings, ...current.settings.filter((s) => !ourIds.has(s.id) && !oldIds.has(s.id))],
   components: [...components, ...current.components.filter((c) => !c.path.startsWith('home.nm-') && !c.path.startsWith('home.ej-'))],
